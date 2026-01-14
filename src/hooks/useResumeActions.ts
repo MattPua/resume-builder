@@ -118,10 +118,6 @@ export const useResumeActions = ({
 		URL.revokeObjectURL(url);
 	};
 
-	const handlePrint = () => {
-		window.print();
-	};
-
 	const handleImportJSON = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.accept = ".json,application/json";
@@ -184,7 +180,6 @@ export const useResumeActions = ({
 		handleExportJSON,
 		handleExportMarkdown,
 		handleExportText,
-		handlePrint,
 		handleImportJSON,
 		handleImportMarkdown,
 		handleImportMarkdownText: (markdown: string) => {

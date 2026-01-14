@@ -6,7 +6,6 @@ import {
 	FileText,
 	Loader2,
 	MoreVertical,
-	Printer,
 	RotateCcw,
 	Upload,
 } from "lucide-react";
@@ -36,7 +35,6 @@ interface ActionsMenuProps {
 	onExportMarkdown: () => void;
 	onExportText: () => void;
 	onExportPDF: () => void;
-	onPrint: () => void;
 	onClearAll: () => void;
 	onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onToggleAllSections: () => void;
@@ -53,7 +51,6 @@ export const ActionsMenu = ({
 	onExportMarkdown,
 	onExportText,
 	onExportPDF,
-	onPrint,
 	onClearAll,
 	onFileChange,
 	onToggleAllSections,
@@ -159,10 +156,6 @@ export const ActionsMenu = ({
 							<DropdownMenuItem onClick={onExportText} className="cursor-pointer">
 								<FileText className="mr-2 size-4" />
 								Export to Text
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={onPrint} className="cursor-pointer">
-								<Printer className="mr-2 size-4" />
-								Print
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						

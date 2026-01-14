@@ -11,7 +11,6 @@ interface AppControlsHeaderProps {
 	handleExportMarkdown: () => void;
 	handleExportText: () => void;
 	handleExportPDF: () => void;
-	handlePrint: () => void;
 	handleClearAll: () => void;
 	handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleToggleAllSections: () => void;
@@ -28,7 +27,6 @@ export const AppControlsHeader = ({
 	handleExportMarkdown,
 	handleExportText,
 	handleExportPDF,
-	handlePrint,
 	handleClearAll,
 	handleFileChange,
 	handleToggleAllSections,
@@ -55,7 +53,6 @@ export const AppControlsHeader = ({
 					onExportMarkdown={handleExportMarkdown}
 					onExportText={handleExportText}
 					onExportPDF={handleExportPDF}
-					onPrint={handlePrint}
 					onClearAll={handleClearAll}
 					onFileChange={handleFileChange}
 					onToggleAllSections={handleToggleAllSections}

@@ -291,6 +291,12 @@ code {
     /* Reset backgrounds and borders for print */
     .no-print-background, .bg-gray-50, .dark .bg-gray-900, .bg-white, .dark .bg-gray-800 {
       background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    * {
+      box-shadow: none !important;
     }
 
     .no-print-border {
@@ -319,11 +325,11 @@ code {
       width: 100% !important;
       box-shadow: none !important;
       border: none !important;
+      background: white !important;
     }
 
-    /* Ensure specific layout for preview */
     .resume-preview {
-      @apply p-0;
+      padding: 0 !important;
     }
 
     .resume-preview section {
@@ -338,6 +344,12 @@ code {
     @page {
       size: A4;
       margin: 15mm;
+    }
+
+    .resume-preview-root {
+      padding: 0 !important;
+      width: 100% !important;
+      max-width: none !important;
     }
   }
 }

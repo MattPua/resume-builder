@@ -148,7 +148,6 @@ export const ResumeBuilder = () => {
 		handleExportJSON,
 		handleExportMarkdown,
 		handleExportText,
-		handlePrint,
 		handleImportJSON,
 		handleImportMarkdown,
 		handleImportMarkdownText,
@@ -285,7 +284,6 @@ export const ResumeBuilder = () => {
 							handleExportMarkdown={handleExportMarkdown}
 							handleExportText={handleExportText}
 							handleExportPDF={handleExportPDF}
-							handlePrint={handlePrint}
 							handleClearAll={handleClearAll}
 							handleFileChange={handleFileChange}
 							handleToggleAllSections={handleToggleAllSections}
