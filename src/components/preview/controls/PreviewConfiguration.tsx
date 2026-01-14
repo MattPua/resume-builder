@@ -24,6 +24,8 @@ interface PreviewConfigurationProps {
 	onTextColorChange: (color: string) => void;
 	fontFamily: string;
 	onFontFamilyChange: (font: string) => void;
+	onFontHover: (font: string) => void;
+	onFontHoverEnd: () => void;
 	fonts: Font[];
 }
 
@@ -34,6 +36,8 @@ export const PreviewConfiguration = ({
 	onTextColorChange,
 	fontFamily,
 	onFontFamilyChange,
+	onFontHover,
+	onFontHoverEnd,
 	fonts,
 }: PreviewConfigurationProps) => {
 	return (
@@ -91,11 +95,17 @@ export const PreviewConfiguration = ({
 						<p>Select Font</p>
 					</TooltipContent>
 				</Tooltip>
-				<DropdownMenuContent align="start" className="w-48">
+				<DropdownMenuContent
+					align="start"
+					className="w-48"
+					onMouseLeave={onFontHoverEnd}
+				>
 					{fonts.map((font) => (
 						<DropdownMenuItem
 							key={font.name}
 							onClick={() => onFontFamilyChange(font.value)}
+							onMouseEnter={() => onFontHover(font.value)}
+							onFocus={() => onFontHover(font.value)}
 							className={fontFamily === font.value ? "bg-accent" : ""}
 							style={{ fontFamily: font.value }}
 						>

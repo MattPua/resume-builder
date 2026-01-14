@@ -21,6 +21,7 @@ export const PreviewPane = ({
 	const previewContainerRef = useRef<HTMLDivElement>(null);
 	const [scale, setScale] = useState(1);
 	const [zoomLevel, setZoomLevel] = useState(1);
+	const [previewFontFamily, setPreviewFontFamily] = useState<string | null>(null);
 
 	useEffect(() => {
 		const updateScale = () => {
@@ -63,7 +64,12 @@ export const PreviewPane = ({
 								updateResumeData({ sectionHeaderTextColor: color })
 							}
 							fontFamily={resumeData.fontFamily || fonts[0].value}
-							onFontFamilyChange={(font) => updateResumeData({ fontFamily: font })}
+							onFontFamilyChange={(font) => {
+								setPreviewFontFamily(null);
+								updateResumeData({ fontFamily: font });
+							}}
+							onFontHover={(font) => setPreviewFontFamily(font)}
+							onFontHoverEnd={() => setPreviewFontFamily(null)}
 							fonts={fonts}
 						/>
 					</div>
@@ -111,7 +117,13 @@ export const PreviewPane = ({
 									top: 0,
 								}}
 							>
-								<ResumePreview data={resumeData} previewRef={previewRef} />
+								<ResumePreview
+									data={{
+										...resumeData,
+										fontFamily: previewFontFamily || resumeData.fontFamily,
+									}}
+									previewRef={previewRef}
+								/>
 							</div>
 						</div>
 					</div>

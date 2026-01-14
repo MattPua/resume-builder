@@ -38,16 +38,68 @@ const DEFAULT_SECTION_ORDER: (
 
 const FONTS = [
 	{
-		name: "Sans Serif",
+		name: "Inter",
+		value: "'Inter Variable', sans-serif",
+	},
+	{
+		name: "Roboto Flex",
+		value: "'Roboto Flex Variable', sans-serif",
+	},
+	{
+		name: "Open Sans",
+		value: "'Open Sans Variable', sans-serif",
+	},
+	{
+		name: "Montserrat",
+		value: "'Montserrat Variable', sans-serif",
+	},
+	{
+		name: "IBM Plex Sans",
+		value: "'IBM Plex Sans Variable', sans-serif",
+	},
+	{
+		name: "Manrope",
+		value: "'Manrope Variable', sans-serif",
+	},
+	{
+		name: "Playfair Display",
+		value: "'Playfair Display Variable', serif",
+	},
+	{
+		name: "EB Garamond",
+		value: "'EB Garamond Variable', serif",
+	},
+	{
+		name: "Lora",
+		value: "'Lora Variable', serif",
+	},
+	{
+		name: "Source Serif 4",
+		value: "'Source Serif 4 Variable', serif",
+	},
+	{
+		name: "Crimson Pro",
+		value: "'Crimson Pro Variable', serif",
+	},
+	{
+		name: "Fraunces",
+		value: "'Fraunces Variable', serif",
+	},
+	{
+		name: "JetBrains Mono",
+		value: "'JetBrains Mono Variable', monospace",
+	},
+	{
+		name: "System Sans",
 		value:
 			"ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
 	},
 	{
-		name: "Serif",
+		name: "System Serif",
 		value: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif",
 	},
 	{
-		name: "Mono",
+		name: "System Mono",
 		value:
 			"ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
 	},

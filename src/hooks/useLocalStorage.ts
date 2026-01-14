@@ -69,6 +69,7 @@ const defaultResumeData: ResumeData = {
   sectionOrder: ["experience", "background", "sideProjects", "personal"],
   sectionHeaderBackgroundColor: "#3b82f6",
   sectionHeaderTextColor: "#ffffff",
+  fontFamily: "'Inter Variable', sans-serif",
 }
 
 const sampleResumeData: ResumeData = {
@@ -142,6 +143,7 @@ const sampleResumeData: ResumeData = {
   sectionOrder: ["experience", "background", "sideProjects", "personal"],
   sectionHeaderBackgroundColor: "#3b82f6",
   sectionHeaderTextColor: "#ffffff",
+  fontFamily: "'Inter Variable', sans-serif",
 }
 
 export const useLocalStorage = () => {
