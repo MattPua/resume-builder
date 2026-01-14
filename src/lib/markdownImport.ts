@@ -1,5 +1,13 @@
 import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry } from "../types/resume";
 
+const parseMarkdownLink = (text: string): { text: string; url: string } => {
+  const match = text.match(/\[([^\]]+)\]\(([^)]+)\)/);
+  if (match) {
+    return { text: match[1], url: match[2] };
+  }
+  return { text, url: "" };
+};
+
 export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData> => {
   const lines = markdown.split("\n");
   const data: Partial<ResumeData> = {
@@ -30,20 +38,23 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
     }
 
     // Parse Contact Info (Email | Phone | Website | GitHub)
-    if (!currentSection && line.includes(" | ")) {
-      const parts = line.split("|").map(p => p.trim());
-      for (const part of parts) {
-        if (part.includes("@") && !data.email) {
-          data.email = part;
-        } else if ((part.includes("github.com") || part.toLowerCase().includes("github")) && !data.github) {
-          data.github = part;
-        } else if ((part.includes("http") || part.includes("www")) && !data.website) {
-          data.website = part;
-        } else if (/[0-9]/.test(part) && !data.phone) {
-          data.phone = part;
+    if (!currentSection && (line.includes(" | ") || line.includes("@") || line.includes("http") || line.includes("www") || /[0-9]{3,}/.test(line))) {
+      // If it looks like contact info but isn't a header
+      if (!line.startsWith("#")) {
+        const parts = line.includes(" | ") ? line.split("|").map(p => p.trim()) : [line];
+        for (const part of parts) {
+          if (part.includes("@") && !data.email) {
+            data.email = part;
+          } else if ((part.includes("github.com") || part.toLowerCase().includes("github")) && !data.github) {
+            data.github = part;
+          } else if ((part.includes("http") || part.includes("www")) && !data.website) {
+            data.website = part;
+          } else if (/[0-9]/.test(part) && !data.phone && part.length >= 7) {
+            data.phone = part;
+          }
         }
+        if (line.includes(" | ")) continue; // If it was a multi-part line, we're done with it
       }
-      continue;
     }
 
     // Parse Sections (## Section Name)
@@ -51,16 +62,16 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
       const title = line.replace("## ", "").trim();
       const lowerTitle = title.toLowerCase();
 
-      if (lowerTitle.includes("experience")) {
+      if (lowerTitle.includes("experience") || lowerTitle.includes("work") || lowerTitle.includes("employment")) {
         currentSection = "experience";
         currentItem = null;
-      } else if (lowerTitle.includes("education") || lowerTitle.includes("skills") || lowerTitle.includes("background")) {
+      } else if (lowerTitle.includes("education") || lowerTitle.includes("skills") || lowerTitle.includes("background") || lowerTitle.includes("academic")) {
         currentSection = "background";
         currentItem = null;
-      } else if (lowerTitle.includes("side projects")) {
+      } else if (lowerTitle.includes("side projects") || lowerTitle.includes("projects")) {
         currentSection = "sideProjects";
         currentItem = null;
-      } else if (lowerTitle.includes("personal")) {
+      } else if (lowerTitle.includes("personal") || lowerTitle.includes("about") || lowerTitle.includes("interests")) {
         currentSection = "personal";
         currentItem = null;
         data.personal = { bulletPoints: "" };
@@ -76,10 +87,13 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
       const titleLine = line.replace("### ", "").trim();
       
       if (currentSection === "experience" && data.experience) {
-        const [title, company] = titleLine.split("@").map(s => s.trim());
+        const [rawTitle, rawCompany] = titleLine.split("@").map(s => s.trim());
+        const { text: company, url: companyUrl } = parseMarkdownLink(rawCompany || "");
+        
         const newItem: ExperienceEntry = { 
-          title: title || "", 
+          title: rawTitle || "", 
           company: company || "", 
+          companyUrl,
           startDate: "", 
           endDate: "", 
           bulletPoints: "",
@@ -88,10 +102,13 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
         data.experience.push(newItem);
         currentItem = newItem;
       } else if (currentSection === "background" && data.education) {
-        const [degree, institution] = titleLine.split("@").map(s => s.trim());
+        const [rawDegree, rawInstitution] = titleLine.split("@").map(s => s.trim());
+        const { text: institution, url: institutionUrl } = parseMarkdownLink(rawInstitution || "");
+
         const newItem: EducationEntry = { 
-          degree: degree || "", 
+          degree: rawDegree || "", 
           institution: institution || "", 
+          institutionUrl,
           startDate: "", 
           endDate: "", 
           bulletPoints: "",
@@ -100,8 +117,10 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
         data.education.push(newItem);
         currentItem = newItem;
       } else if (currentSection === "sideProjects" && data.sideProjects) {
+        const { text: title, url: titleUrl } = parseMarkdownLink(titleLine);
         const newItem: SideProjectEntry = { 
-          title: titleLine, 
+          title, 
+          titleUrl,
           description: "",
           startDate: "", 
           endDate: "", 
@@ -117,34 +136,45 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
     // Parse Dates (StartDate — EndDate)
     if (currentItem && (line.includes(" — ") || line.includes(" - "))) {
       const separator = line.includes(" — ") ? " — " : " - ";
-      const [start, end] = line.split(separator).map(s => s.trim());
-      // Only treat as dates if it looks like dates (e.g. contains numbers or month names)
-      if (/[0-9]/.test(start) || /[0-9]/.test(end)) {
-        currentItem.startDate = start;
-        currentItem.endDate = end || "";
-        continue;
+      const parts = line.split(separator).map(s => s.trim());
+      if (parts.length >= 1) {
+        const start = parts[0];
+        const end = parts[1] || "";
+        // Only treat as dates if it looks like dates (e.g. contains numbers or month names or 'Now'/'Present')
+        const isDate = (s: string) => /[0-9]/.test(s) || /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|now|present/i.test(s);
+        if (isDate(start) || isDate(end)) {
+          currentItem.startDate = start;
+          currentItem.endDate = end;
+          continue;
+        }
       }
     }
 
     // Parse Skills in Background Section
-    if (currentSection === "background" && line.startsWith("**Skills:**")) {
-      data.skills = line.replace("**Skills:**", "").trim();
+    if (currentSection === "background" && line.toLowerCase().includes("skills:")) {
+      const skillsContent = line.replace(/\*\*Skills:\*\*/i, "").replace(/Skills:/i, "").trim();
+      data.skills = skillsContent;
       continue;
     }
 
-    // Parse Personal Section or Bullet Points
+    // Parse Personal Section or Bullet Points or Side Project Description
     if (currentSection === "personal" && data.personal) {
       data.personal.bulletPoints += (data.personal.bulletPoints ? "\n" : "") + line;
     } else if (currentItem) {
       if (line.startsWith("- ") || line.startsWith("* ")) {
         currentItem.bulletPoints += (currentItem.bulletPoints ? "\n" : "") + line;
       } else if (line) {
-        currentItem.bulletPoints += (currentItem.bulletPoints ? "\n" : "") + line;
+        // For Side Projects, if no bullet points yet, it might be the description
+        if (currentSection === "sideProjects" && "description" in currentItem && !currentItem.bulletPoints && !currentItem.description) {
+          currentItem.description = line;
+        } else {
+          currentItem.bulletPoints += (currentItem.bulletPoints ? "\n" : "") + line;
+        }
       }
     }
   }
 
-  // Cleanup bullet points (remove leading/trailing newlines)
+  // Cleanup strings (remove leading/trailing newlines)
   if (data.experience) {
     for (const item of data.experience) {
       item.bulletPoints = item.bulletPoints.trim();
@@ -158,6 +188,7 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
   if (data.sideProjects) {
     for (const item of data.sideProjects) {
       item.bulletPoints = item.bulletPoints.trim();
+      item.description = item.description.trim();
     }
   }
   if (data.personal) {

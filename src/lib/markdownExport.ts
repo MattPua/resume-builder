@@ -26,7 +26,10 @@ export const convertToMarkdown = (data: ResumeData): string => {
       if (visibleItems.length > 0) {
         lines.push(`## ${data.sectionTitles?.experience || "Experience"}`);
         visibleItems.forEach((item: ExperienceEntry) => {
-          lines.push(`### ${item.title}${item.company ? ` @ ${item.company}` : ""}`);
+          const companyDisplay = item.companyUrl 
+            ? `[${item.company}](${item.companyUrl})` 
+            : item.company;
+          lines.push(`### ${item.title}${companyDisplay ? ` @ ${companyDisplay}` : ""}`);
           lines.push(`${item.startDate} — ${item.endDate}`);
           if (item.bulletPoints) {
             lines.push("");
@@ -46,7 +49,10 @@ export const convertToMarkdown = (data: ResumeData): string => {
         
         if (hasEducation) {
           data.education.filter(item => item.visible !== false).forEach((item: EducationEntry) => {
-            lines.push(`### ${item.degree}${item.institution ? ` @ ${item.institution}` : ""}`);
+            const institutionDisplay = item.institutionUrl 
+              ? `[${item.institution}](${item.institutionUrl})` 
+              : item.institution;
+            lines.push(`### ${item.degree}${institutionDisplay ? ` @ ${institutionDisplay}` : ""}`);
             lines.push(`${item.startDate} — ${item.endDate}`);
             if (item.bulletPoints) {
               lines.push("");
@@ -68,8 +74,15 @@ export const convertToMarkdown = (data: ResumeData): string => {
       if (visibleItems.length > 0) {
         lines.push(`## ${data.sectionTitles?.sideProjects || "Side Projects"}`);
         visibleItems.forEach((item: SideProjectEntry) => {
-          lines.push(`### ${item.title}`);
+          const titleDisplay = item.titleUrl 
+            ? `[${item.title}](${item.titleUrl})` 
+            : item.title;
+          lines.push(`### ${titleDisplay}`);
           lines.push(`${item.startDate} — ${item.endDate}`);
+          if (item.description) {
+            lines.push("");
+            lines.push(item.description);
+          }
           if (item.bulletPoints) {
             lines.push("");
             lines.push(item.bulletPoints);
