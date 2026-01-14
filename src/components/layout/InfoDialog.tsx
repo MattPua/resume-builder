@@ -31,7 +31,7 @@ export const InfoDialog = () => {
 					</DialogTitle>
 					<DialogDescription className="pt-4 space-y-4 text-gray-600 dark:text-gray-400">
 						<p>
-							This Resume Builder is designed to be <strong>100% private and secure</strong>.
+							<strong>Your Resume Builder</strong> is designed to be <strong>100% private and secure</strong>.
 							All your data stays right in your browser.
 						</p>
 						<div className="grid gap-4 pt-2">

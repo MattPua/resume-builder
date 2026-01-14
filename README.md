@@ -1,6 +1,6 @@
-# 📄 Private & Free Resume Builder
+# 📄 Your Resume Builder - Private & Free
 
-A professional, privacy-first resume builder that runs 100% in your browser. Focus on your content while we handle the professional layout. No more fighting with MS Word formatting or Canva templates.
+A professional, privacy-first resume builder that runs 100% in your browser. Focus on your content while we handle the professional layout with Your Resume Builder. No more fighting with MS Word formatting or Canva templates.
 
 ## ✨ Features
 

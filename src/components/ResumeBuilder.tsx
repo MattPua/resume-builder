@@ -268,9 +268,9 @@ export const ResumeBuilder = () => {
 
 					{/* Hidden SEO Content */}
 					<div className="sr-only">
-						<h2>Professional Resume Builder Features</h2>
+						<h2>Your Resume Builder Features</h2>
 						<ul>
-							<li>Focus on content, we handle the layout automatically</li>
+							<li>Focus on content, we handle the layout automatically with Your Resume Builder</li>
 							<li>No more fighting with MS Word or Canva templates</li>
 							<li>Create professional resumes with ease</li>
 							<li>Export to high-quality PDF format</li>

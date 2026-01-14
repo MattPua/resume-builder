@@ -1,7 +1,7 @@
 {
-  "short_name": "Resume Builder",
-  "name": "Free Resume Builder | 100% Private & Local",
-  "description": "Create professional resumes with total privacy. 100% local, secure, and free.",
+  "short_name": "Your Resume",
+  "name": "Your Resume Builder | 100% Private & Local",
+  "description": "Create professional resumes with total privacy using Your Resume Builder. 100% local, secure, and free.",
   "icons": [
     {
       "src": "favicon.ico",

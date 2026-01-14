@@ -11,11 +11,11 @@ export const SiteHeader = () => {
 				<div className="flex items-center gap-3">
 					<img
 						src={logo}
-						alt="Free Resume Builder Logo"
+						alt="Your Resume Builder Logo"
 						className="size-12 object-contain dark:invert"
 					/>
 					<h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-						Free Resume Builder
+						Your Resume Builder
 					</h1>
 				</div>
 				<div className="flex items-center gap-2">
