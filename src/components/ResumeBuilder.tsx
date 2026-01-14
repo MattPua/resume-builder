@@ -24,6 +24,7 @@ import { AppControlsHeader } from "./layout/AppControlsHeader";
 import { AppNavigation } from "./layout/AppNavigation";
 import { ScrollToTopButton } from "./layout/ScrollToTopButton";
 import { SiteHeader } from "./layout/SiteHeader";
+import { SiteFooter } from "./layout/SiteFooter";
 import { PreviewPane } from "./preview/PreviewPane";
 import { SectionList } from "./SectionList";
 import { HeaderSection } from "./sections/HeaderSection";
@@ -279,6 +280,7 @@ export const ResumeBuilder = () => {
 						}}
 					/>
 				</main>
+				<SiteFooter />
 				<input
 					type="file"
 					ref={fileInputRef}
@@ -392,14 +394,16 @@ export const ResumeBuilder = () => {
 							</section>
 						</div>
 					</main>
-
-					<ScrollToTopButton isVisible={showScrollTop} onClick={scrollToTop} />
-					<ImportMarkdownDialog
-						open={isImportMarkdownOpen}
-						onOpenChange={setIsImportMarkdownOpen}
-						onImport={handleImportMarkdownText}
-					/>
 				</div>
+
+				<SiteFooter />
+
+				<ScrollToTopButton isVisible={showScrollTop} onClick={scrollToTop} />
+				<ImportMarkdownDialog
+					open={isImportMarkdownOpen}
+					onOpenChange={setIsImportMarkdownOpen}
+					onImport={handleImportMarkdownText}
+				/>
 			</div>
 		</ErrorBoundary>
 	);
