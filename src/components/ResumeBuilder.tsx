@@ -205,9 +205,8 @@ export const ResumeBuilder = () => {
 					onScrollToSection={scrollToSection}
 				/>
 
-				<div className="flex-1 lg:pl-20 px-4 py-8">
+				<main className="flex-1 lg:pl-20 px-4 py-8">
 					<AppHeader
-						resumeData={resumeData}
 						fileInputRef={fileInputRef}
 						allSectionsCollapsed={allSectionsCollapsed}
 						handleImportJSON={handleImportJSON}
@@ -219,7 +218,7 @@ export const ResumeBuilder = () => {
 					/>
 
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-						<div className="space-y-6">
+						<section className="space-y-6" aria-label="Resume Editor">
 							<HeaderSection
 								resumeData={resumeData}
 								updateResumeData={updateResumeData}
@@ -251,16 +250,33 @@ export const ResumeBuilder = () => {
 									/>
 								</SortableContext>
 							</DndContext>
-						</div>
+						</section>
 
-						<PreviewPane
-							resumeData={resumeData}
-							updateResumeData={updateResumeData}
-							previewRef={previewRef}
-							fonts={FONTS}
-						/>
+						<section aria-label="Resume Preview">
+							<PreviewPane
+								resumeData={resumeData}
+								updateResumeData={updateResumeData}
+								previewRef={previewRef}
+								fonts={FONTS}
+							/>
+						</section>
 					</div>
-				</div>
+
+					{/* Hidden SEO Content */}
+					<div className="sr-only">
+						<h2>Professional Resume Builder Features</h2>
+						<ul>
+							<li>Focus on content, we handle the layout automatically</li>
+							<li>No more fighting with MS Word or Canva templates</li>
+							<li>Create professional resumes with ease</li>
+							<li>Export to high-quality PDF format</li>
+							<li>Privacy-focused: all data stays in your browser</li>
+							<li>Customizable sections: Experience, Education, Skills, and more</li>
+							<li>Drag and drop section reordering</li>
+							<li>Modern templates and typography control</li>
+						</ul>
+					</div>
+				</main>
 
 				<ScrollToTopButton isVisible={showScrollTop} onClick={scrollToTop} />
 			</div>

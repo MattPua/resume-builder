@@ -2,13 +2,11 @@ import { ShieldCheck } from "lucide-react";
 import { ThemeToggle } from "../ThemeToggle";
 import { ActionsMenu } from "../ActionsMenu";
 import { InfoDialog } from "./InfoDialog";
-import { ResumeData } from "../../types/resume";
 
 interface AppHeaderProps {
-	resumeData: ResumeData;
 	fileInputRef: React.RefObject<HTMLInputElement | null>;
 	allSectionsCollapsed: boolean;
-	handleImportJSON: (data: any) => void;
+	handleImportJSON: () => void;
 	handleExportJSON: () => void;
 	handleExportPDF: () => void;
 	handleClearAll: () => void;
@@ -17,7 +15,6 @@ interface AppHeaderProps {
 }
 
 export const AppHeader = ({
-	resumeData,
 	fileInputRef,
 	allSectionsCollapsed,
 	handleImportJSON,
@@ -28,17 +25,20 @@ export const AppHeader = ({
 	handleToggleAllSections,
 }: AppHeaderProps) => {
 	return (
-		<div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+		<header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
 			<div className="flex flex-col gap-1">
 				<div className="flex items-center gap-4">
 					<h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-						Resume Builder
+						Free Resume Builder
 					</h1>
 					<div className="flex items-center gap-2">
 						<ThemeToggle />
 						<InfoDialog />
 					</div>
 				</div>
+				<p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+					Focus on your content, we'll handle the professional layout.
+				</p>
 				<p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
 					<ShieldCheck className="size-3.5 text-green-600 dark:text-green-500" />
 					<span>
@@ -57,6 +57,6 @@ export const AppHeader = ({
 				onToggleAllSections={handleToggleAllSections}
 				allSectionsCollapsed={allSectionsCollapsed}
 			/>
-		</div>
+		</header>
 	);
 };

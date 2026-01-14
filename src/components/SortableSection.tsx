@@ -32,7 +32,7 @@ export const SortableSection = ({
 	};
 
 	return (
-		<div ref={setNodeRef} style={style} id={`section-${id}`}>
+		<section ref={setNodeRef} style={style} id={`section-${id}`}>
 			<Collapsible
 				open={isOpen}
 				onOpenChange={onOpenChange}
@@ -40,6 +40,6 @@ export const SortableSection = ({
 			>
 				<div className="p-6">{children({ attributes, listeners })}</div>
 			</Collapsible>
-		</div>
+		</section>
 	);
 };

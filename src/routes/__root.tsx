@@ -20,7 +20,7 @@ export const Route = createRootRoute({
 			},
 			{
 				name: "description",
-				content: "Create a professional resume with total privacy. 100% local, nothing is uploaded, and all data stays in your browser. Free, fast, and secure with high-quality PDF export.",
+				content: "Create a professional resume with total privacy. Focus on your content while we handle the professional layout. 100% local, nothing is uploaded, and all data stays in your browser. Free, fast, and secure with high-quality PDF export.",
 			},
 			{
 				name: "keywords",
@@ -84,10 +84,36 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		"name": "Private & Free Resume Builder",
+		"description": "Create a professional resume with total privacy. 100% local, secure, and free. No data ever leaves your browser.",
+		"applicationCategory": "DesignApplication",
+		"operatingSystem": "All",
+		"offers": {
+			"@type": "Offer",
+			"price": "0",
+			"priceCurrency": "USD"
+		},
+		"featureList": [
+			"100% Private & Local",
+			"High-quality PDF Export",
+			"Multi-page Support",
+			"Auto-saving in Browser",
+			"Backup & Transfer via JSON",
+			"No Account Required"
+		]
+	};
+
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+				/>
 			</head>
 			<body>
 				<ThemeProvider defaultTheme="dark" storageKey="resume-builder-theme">

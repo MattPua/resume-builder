@@ -37,6 +37,15 @@ export const InfoDialog = () => {
 						<div className="grid gap-4 pt-2">
 							<div className="space-y-1">
 								<h4 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+									✨ Content First
+								</h4>
+								<p className="text-sm">
+									Focus on your content while we handle the professional layout.
+									No more fighting with MS Word formatting or Canva templates.
+								</p>
+							</div>
+							<div className="space-y-1">
+								<h4 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
 									🔒 Total Privacy
 								</h4>
 								<p className="text-sm">
