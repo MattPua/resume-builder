@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import { TextInput } from './TextInput'
 import { SectionInput } from './SectionInput'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import type { EducationEntry } from '../types/resume'
 
 interface EducationEntryEditorProps {
@@ -43,31 +44,44 @@ export const EducationEntryEditor = ({
             Education #{index + 1}
           </h4>
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleFieldChange('visible', entry.visible === false);
-              }}
-              className="p-1.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
-              title={entry.visible !== false ? "Hide in preview" : "Show in preview"}
-            >
-              {entry.visible !== false ? (
-                <Eye className="h-4 w-4" />
-              ) : (
-                <EyeOff className="h-4 w-4" />
-              )}
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                onDelete(index)
-              }}
-              className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
-              aria-label="Delete education entry"
-            >
-              <Trash2 className="size-4" />
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFieldChange('visible', entry.visible === false);
+                  }}
+                  className="p-1.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
+                >
+                  {entry.visible !== false ? (
+                    <Eye className="h-4 w-4" />
+                  ) : (
+                    <EyeOff className="h-4 w-4" />
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{entry.visible !== false ? "Hide in preview" : "Show in preview"}</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onDelete(index)
+                  }}
+                  className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                  aria-label="Delete education entry"
+                >
+                  <Trash2 className="size-4" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Delete entry</p>
+              </TooltipContent>
+            </Tooltip>
             <ChevronDown
               className={`h-4 w-4 text-gray-500 transition-transform ${
                 isOpen ? "transform rotate-180" : ""
@@ -119,23 +133,29 @@ export const EducationEntryEditor = ({
                 placeholder="- Relevant coursework or achievements\n- Another point"
               />
               <div className="flex items-center justify-center">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const currentBulletPoints = bulletPointsRef.current?.value ?? "";
-                    const currentDraft = draftRef.current?.value ?? "";
-                    onChange(index, {
-                      ...entry,
-                      bulletPoints: currentDraft,
-                      bulletPointsDraft: currentBulletPoints,
-                    });
-                  }}
-                  title="Swap bullet points and draft"
-                >
-                  <ArrowUpDown className="size-4" />
-                </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const currentBulletPoints = bulletPointsRef.current?.value ?? "";
+                        const currentDraft = draftRef.current?.value ?? "";
+                        onChange(index, {
+                          ...entry,
+                          bulletPoints: currentDraft,
+                          bulletPointsDraft: currentBulletPoints,
+                        });
+                      }}
+                    >
+                      <ArrowUpDown className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Swap bullet points and draft</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
               <SectionInput
                 ref={draftRef}

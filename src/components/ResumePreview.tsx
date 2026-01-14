@@ -1,3 +1,4 @@
+import { FileText, Sparkles, Layout } from 'lucide-react'
 import type { ResumeData } from '../types/resume'
 import { BackgroundPreview } from './preview/BackgroundPreview'
 import { ExperiencePreview } from './preview/ExperiencePreview'
@@ -43,7 +44,7 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
     (showPersonal && data.personal?.bulletPoints && data.personal.bulletPoints.trim() !== "") ||
     (showSkills && data.skills && data.skills.trim() !== "")
 
-  const backgroundColor = data.sectionHeaderBackgroundColor || "#1e40af"
+  const backgroundColor = data.sectionHeaderBackgroundColor || "#3b82f6"
 
   const renderSection = (sectionId: string) => {
     if (sectionId === "experience") {
@@ -107,8 +108,26 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
       </div>
 
       {!hasContent && (
-        <div className="text-center text-gray-400 py-12">
-          <p>Start adding content to see your resume preview</p>
+        <div className="flex flex-col items-center justify-center py-32 px-4 text-center animate-in fade-in zoom-in duration-500 h-full min-h-[600px]">
+          <div className="relative mb-6">
+            <div className="absolute -inset-4 rounded-full bg-primary/5 animate-pulse" />
+            <div className="relative bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+              <FileText className="size-16 text-primary/20" />
+            </div>
+            <div className="absolute -top-2 -right-2 bg-yellow-100 p-2 rounded-full shadow-sm">
+              <Sparkles className="size-5 text-yellow-600 animate-bounce" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+            Your Resume Awaits
+          </h3>
+          <p className="text-gray-500 max-w-sm mx-auto text-lg leading-relaxed">
+            Fill out the details in the editor to see your professional resume take shape in real-time.
+          </p>
+          <div className="mt-12 flex items-center gap-2.5 text-xs font-bold text-primary/40 uppercase tracking-[0.2em]">
+            <div className="size-1.5 rounded-full bg-primary/40 animate-pulse" />
+            Live Preview Active
+          </div>
         </div>
       )}
     </div>

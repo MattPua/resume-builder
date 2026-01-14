@@ -8,21 +8,32 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "../ui/dialog";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "../ui/tooltip";
 
 export const InfoDialog = () => {
 	return (
 		<Dialog>
-			<DialogTrigger asChild>
-				<Button
-					variant="ghost"
-					size="icon"
-					className="rounded-full size-10"
-					title="How it works & Privacy"
-				>
-					<Info className="size-5" />
-					<span className="sr-only">How it works & Privacy</span>
-				</Button>
-			</DialogTrigger>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<DialogTrigger asChild>
+						<Button
+							variant="ghost"
+							size="icon"
+							className="rounded-full size-10"
+						>
+							<Info className="size-5" />
+							<span className="sr-only">How it works & Privacy</span>
+						</Button>
+					</DialogTrigger>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>How it works & Privacy</p>
+				</TooltipContent>
+			</Tooltip>
 			<DialogContent className="sm:max-w-[500px]">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
@@ -82,10 +93,10 @@ export const InfoDialog = () => {
 							</div>
 							<div className="space-y-1">
 								<h4 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-									✨ Completely Free
+									✨ Free & Open Source
 								</h4>
 								<p className="text-sm">
-									No accounts, no subscriptions, no ads. Just a simple tool to
+									No accounts, no subscriptions, no ads. Just a simple, open source tool to
 									help you build a professional resume.
 								</p>
 							</div>

@@ -4,6 +4,11 @@ import { Checkbox } from "../ui/checkbox";
 import { CollapsibleTrigger } from "../ui/collapsible";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "../ui/tooltip";
 
 interface SectionHeaderProps {
 	title: string;
@@ -114,30 +119,34 @@ export const SectionHeader = ({
 		}
 
 		return (
-			<button
-				type="button"
-				onClick={(e) => {
-					e.stopPropagation();
-					visibilityProps.onToggle();
-				}}
-				onKeyDown={(e) => {
-					if (e.key === "Enter" || e.key === " ") {
-						e.preventDefault();
-						e.stopPropagation();
-						visibilityProps.onToggle();
-					}
-				}}
-				className="p-1.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
-				title={
-					visibilityProps.isVisible ? "Hide in preview" : "Show in preview"
-				}
-			>
-				{visibilityProps.isVisible ? (
-					<Eye className="h-4 w-4" />
-				) : (
-					<EyeOff className="h-4 w-4" />
-				)}
-			</button>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<button
+						type="button"
+						onClick={(e) => {
+							e.stopPropagation();
+							visibilityProps.onToggle();
+						}}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								e.preventDefault();
+								e.stopPropagation();
+								visibilityProps.onToggle();
+							}
+						}}
+						className="p-1.5 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
+					>
+						{visibilityProps.isVisible ? (
+							<Eye className="h-4 w-4" />
+						) : (
+							<EyeOff className="h-4 w-4" />
+						)}
+					</button>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>{visibilityProps.isVisible ? "Hide in preview" : "Show in preview"}</p>
+				</TooltipContent>
+			</Tooltip>
 		);
 	};
 
@@ -166,17 +175,25 @@ export const SectionHeader = ({
 						style={{ width: `${Math.max(editValue.length * 8, 100)}px` }}
 					/>
 				) : (
-					<h2
-						className={`text-lg font-semibold text-gray-900 dark:text-white leading-tight ${
-							onTitleChange ? "cursor-text hover:underline" : ""
-						}`}
-						onClick={handleTitleClick}
-						onKeyDown={handleTitleKeyDown}
-						tabIndex={onTitleChange ? 0 : undefined}
-						title={onTitleChange ? "Click to edit title" : undefined}
-					>
-						{title}
-					</h2>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<h2
+								className={`text-lg font-semibold text-gray-900 dark:text-white leading-tight ${
+									onTitleChange ? "cursor-text hover:underline" : ""
+								}`}
+								onClick={handleTitleClick}
+								onKeyDown={handleTitleKeyDown}
+								tabIndex={onTitleChange ? 0 : undefined}
+							>
+								{title}
+							</h2>
+						</TooltipTrigger>
+						{onTitleChange && (
+							<TooltipContent>
+								<p>Click to edit title</p>
+							</TooltipContent>
+						)}
+					</Tooltip>
 				)}
 			</div>
 			<div className="flex items-center gap-2">

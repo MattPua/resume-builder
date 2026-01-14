@@ -15,6 +15,11 @@ import {
 	DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "./ui/tooltip";
 
 interface ActionsMenuProps {
 	fileInputRef: React.RefObject<HTMLInputElement | null>;
@@ -58,33 +63,43 @@ export const ActionsMenu = ({
 				Export PDF
 			</Button>
 			<div className="flex items-center -space-x-px">
-				<Button
-					onClick={onToggleAllSections}
-					variant="outline"
-					size="sm"
-					className="rounded-r-none h-9 relative z-10"
-					aria-label={
-						allSectionsCollapsed ? "Expand all sections" : "Collapse all sections"
-					}
-					title={
-						allSectionsCollapsed ? "Expand all sections" : "Collapse all sections"
-					}
-				>
-					<ChevronsUpDown className="size-4" />
-					{allSectionsCollapsed ? "Expand All" : "Collapse All"}
-				</Button>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
+				<Tooltip>
+					<TooltipTrigger asChild>
 						<Button
+							onClick={onToggleAllSections}
 							variant="outline"
-							size="icon"
-							className="rounded-l-none h-9 relative z-10 w-9"
-							aria-label="Actions menu"
-							title="Actions menu"
+							size="sm"
+							className="rounded-r-none h-9 relative z-10"
+							aria-label={
+								allSectionsCollapsed ? "Expand all sections" : "Collapse all sections"
+							}
 						>
-							<MoreVertical className="size-4" />
+							<ChevronsUpDown className="size-4" />
+							{allSectionsCollapsed ? "Expand All" : "Collapse All"}
 						</Button>
-					</DropdownMenuTrigger>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>{allSectionsCollapsed ? "Expand all sections" : "Collapse all sections"}</p>
+					</TooltipContent>
+				</Tooltip>
+				<DropdownMenu>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<DropdownMenuTrigger asChild>
+								<Button
+									variant="outline"
+									size="icon"
+									className="rounded-l-none h-9 relative z-10 w-9"
+									aria-label="Actions menu"
+								>
+									<MoreVertical className="size-4" />
+								</Button>
+							</DropdownMenuTrigger>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Actions menu</p>
+						</TooltipContent>
+					</Tooltip>
 					<DropdownMenuContent align="end" className="w-48">
 					<DropdownMenuItem onClick={onImportJSON} className="cursor-pointer">
 						<Upload className="mr-2 size-4" />

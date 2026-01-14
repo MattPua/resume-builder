@@ -13,6 +13,11 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "../ui/tooltip";
 
 interface AppNavigationProps {
 	activeSection: string;
@@ -44,15 +49,21 @@ export const AppNavigation = ({
 			{/* Desktop Section Navigation */}
 			<div className="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 flex-col gap-2 z-50">
 				<div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-xl border border-gray-200 dark:border-gray-700 p-2 flex flex-col gap-2">
-					<Button
-						variant={activeSection === "header" ? "default" : "ghost"}
-						size="icon"
-						onClick={() => onScrollToSection("header")}
-						className="rounded-full size-10 transition-all duration-200"
-						title="Header & Contact"
-					>
-						<Contact className="size-5" />
-					</Button>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button
+								variant={activeSection === "header" ? "default" : "ghost"}
+								size="icon"
+								onClick={() => onScrollToSection("header")}
+								className="rounded-full size-10 transition-all duration-200"
+							>
+								<Contact className="size-5" />
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent side="right">
+							<p>Header & Contact</p>
+						</TooltipContent>
+					</Tooltip>
 					{sectionOrder.map((sectionId) => {
 						const Icon = SECTION_ICONS[sectionId as keyof typeof SECTION_ICONS];
 						const title =
@@ -60,16 +71,21 @@ export const AppNavigation = ({
 						const isActive = activeSection === sectionId;
 
 						return (
-							<Button
-								key={sectionId}
-								variant={isActive ? "default" : "ghost"}
-								size="icon"
-								onClick={() => onScrollToSection(sectionId)}
-								className="rounded-full size-10 transition-all duration-200"
-								title={title}
-							>
-								<Icon className="size-5" />
-							</Button>
+							<Tooltip key={sectionId}>
+								<TooltipTrigger asChild>
+									<Button
+										variant={isActive ? "default" : "ghost"}
+										size="icon"
+										onClick={() => onScrollToSection(sectionId)}
+										className="rounded-full size-10 transition-all duration-200"
+									>
+										<Icon className="size-5" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent side="right">
+									<p>{title}</p>
+								</TooltipContent>
+							</Tooltip>
 						);
 					})}
 				</div>

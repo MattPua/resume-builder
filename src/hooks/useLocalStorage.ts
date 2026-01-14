@@ -67,10 +67,83 @@ const defaultResumeData: ResumeData = {
     skills: true,
   },
   sectionOrder: ["experience", "background", "sideProjects", "personal"],
+  sectionHeaderBackgroundColor: "#3b82f6",
+}
+
+const sampleResumeData: ResumeData = {
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+  phone: '+1 (555) 000-0000',
+  website: 'https://johndoe.com',
+  github: 'https://github.com/johndoe',
+  experience: [
+    {
+      title: 'Senior Software Engineer',
+      company: 'Tech Corp',
+      companyUrl: 'https://techcorp.com',
+      startDate: '2020',
+      endDate: 'Now',
+      bulletPoints: '- Led a team of 5 developers to build a high-scale e-commerce platform\n- Reduced system latency by 40% through code optimization and caching strategies\n- Mentored junior developers and improved team productivity by 25%',
+      visible: true,
+    },
+    {
+      title: 'Software Engineer',
+      company: 'Startup Inc',
+      companyUrl: 'https://startupinc.io',
+      startDate: '2018',
+      endDate: '2020',
+      bulletPoints: '- Built and maintained the company\'s main web application using React and Node.js\n- Implemented real-time features using WebSockets\n- Collaborated with UX designers to improve user engagement by 15%',
+      visible: true,
+    },
+  ],
+  education: [
+    {
+      degree: 'B.S. in Computer Science',
+      institution: 'University of Technology',
+      institutionUrl: 'https://utech.edu',
+      startDate: '2014',
+      endDate: '2018',
+      bulletPoints: '- Specialized in Distributed Systems and Machine Learning\n- Graduated with Honors',
+      visible: true,
+    },
+  ],
+  sideProjects: [
+    {
+      title: 'Open Source Project',
+      titleUrl: 'https://github.com/johndoe/project',
+      startDate: '2021',
+      endDate: 'Now',
+      description: 'A popular open-source tool for developers.',
+      bulletPoints: '- Fixed critical bugs and implemented new features\n- Improved project documentation for better onboarding',
+      visible: true,
+    },
+  ],
+  personal: {
+    bulletPoints: '- Passionate about clean code and software architecture\n- Enjoys mentoring and sharing knowledge with the community\n- Avid traveler and landscape photographer',
+    visible: true,
+  },
+  skills: 'JavaScript, TypeScript, React, Node.js, Tailwind CSS, PostgreSQL, Docker, AWS',
+  sectionsVisible: {
+    header: true,
+    experience: true,
+    education: true,
+    sideProjects: true,
+    personal: true,
+    skills: true,
+  },
+  sectionTitles: {
+    experience: 'Professional Experience',
+    education: 'Education',
+    sideProjects: 'Projects',
+    personal: 'About Me',
+    background: 'Education & Skills',
+  },
+  sectionOrder: ["experience", "background", "sideProjects", "personal"],
+  sectionHeaderBackgroundColor: "#3b82f6",
 }
 
 export const useLocalStorage = () => {
-  const [resumeData, setResumeData] = useState<ResumeData>(defaultResumeData)
+  const [resumeData, setResumeData] = useState<ResumeData>(sampleResumeData)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -154,10 +227,10 @@ export const useLocalStorage = () => {
             })(),
             sectionsVisible: parsed.sectionsVisible || defaultResumeData.sectionsVisible,
             sectionOrder: (() => {
-              const migratedOrder = migrateSectionOrder(parsed.sectionOrder) || defaultResumeData.sectionOrder;
+              const migratedOrder = migrateSectionOrder(parsed.sectionOrder) || ["experience", "background", "sideProjects", "personal"];
               // Ensure "personal" is in the section order if it's missing
               if (!migratedOrder.includes("personal")) {
-                return [...migratedOrder, "personal"];
+                return [...migratedOrder, "personal"] as ("experience" | "background" | "sideProjects" | "personal")[];
               }
               return migratedOrder;
             })(),
@@ -200,10 +273,10 @@ export const useLocalStorage = () => {
     setResumeData(defaultResumeData)
     try {
       if (typeof window !== 'undefined') {
-        localStorage.removeItem(STORAGE_KEY)
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultResumeData))
       }
     } catch (error) {
-      console.error('Failed to clear resume data from localStorage:', error)
+      console.error('Failed to reset resume data in localStorage:', error)
     }
   }
 
@@ -253,12 +326,12 @@ export const useLocalStorage = () => {
       })(),
       sectionsVisible: data.sectionsVisible || defaultResumeData.sectionsVisible,
       sectionOrder: (() => {
-        const migrated = migrateSectionOrder(data.sectionOrder) || defaultResumeData.sectionOrder;
+        const migratedOrder = migrateSectionOrder(data.sectionOrder) || ["experience", "background", "sideProjects", "personal"];
         // Ensure "personal" is in the section order if it's missing
-        if (!migrated.includes("personal")) {
-          return [...migrated, "personal"];
+        if (!migratedOrder.includes("personal")) {
+          return [...migratedOrder, "personal"] as ("experience" | "background" | "sideProjects" | "personal")[];
         }
-        return migrated;
+        return migratedOrder;
       })(),
     }
     setResumeData(migrated)

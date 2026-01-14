@@ -1,5 +1,10 @@
 import { ArrowUp } from "lucide-react";
 import { Button } from "../ui/button";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "../ui/tooltip";
 
 interface ScrollToTopButtonProps {
 	isVisible: boolean;
@@ -13,13 +18,19 @@ export const ScrollToTopButton = ({
 	if (!isVisible) return null;
 
 	return (
-		<Button
-			onClick={onClick}
-			className="fixed bottom-8 right-8 rounded-full shadow-lg z-50 size-12 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
-			size="icon"
-			title="Scroll to top"
-		>
-			<ArrowUp className="size-6" />
-		</Button>
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<Button
+					onClick={onClick}
+					className="fixed bottom-8 right-8 rounded-full shadow-lg z-50 size-12 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
+					size="icon"
+				>
+					<ArrowUp className="size-6" />
+				</Button>
+			</TooltipTrigger>
+			<TooltipContent side="left">
+				<p>Scroll to top</p>
+			</TooltipContent>
+		</Tooltip>
 	);
 };

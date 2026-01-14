@@ -13,6 +13,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useResumeActions } from "../hooks/useResumeActions";
@@ -24,6 +25,7 @@ import { AppControlsHeader } from "./layout/AppControlsHeader";
 import { AppNavigation } from "./layout/AppNavigation";
 import { ScrollToTopButton } from "./layout/ScrollToTopButton";
 import { PreviewPane } from "./preview/PreviewPane";
+import logo from "./ui/logo.png";
 
 const DEFAULT_SECTION_ORDER: (
 	| "experience"
@@ -171,8 +173,26 @@ export const ResumeBuilder = () => {
 
 	if (isLoading) {
 		return (
-			<div className="flex items-center justify-center min-h-screen">
-				<p className="text-gray-500">Loading...</p>
+			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+				<div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-700">
+					<div className="relative">
+						<div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
+						<img
+							src={logo}
+							alt="Your Resume Builder Logo"
+							className="size-20 object-contain relative z-10 dark:invert"
+						/>
+					</div>
+					<div className="flex flex-col items-center gap-2">
+						<h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+							Your Resume Builder
+						</h1>
+						<div className="flex items-center gap-2 text-primary/60 dark:text-primary/40">
+							<Loader2 className="size-4 animate-spin" />
+							<span className="text-sm font-medium">Preparing your workspace...</span>
+						</div>
+					</div>
+				</div>
 			</div>
 		);
 	}

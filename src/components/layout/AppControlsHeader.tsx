@@ -30,10 +30,7 @@ export const AppControlsHeader = ({
 				</p>
 				<p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
 					<ShieldCheck className="size-3.5 text-green-600 dark:text-green-500" />
-					<span>
-						100% Local & Private • Nothing is uploaded • All data stays in your
-						browser • Completely Free
-					</span>
+					<span>100% Private & Local • Open Source • Free</span>
 				</p>
 			</div>
 			<div className="w-full lg:w-auto pt-4 lg:pt-0 border-t lg:border-t-0 border-gray-100 dark:border-gray-700">

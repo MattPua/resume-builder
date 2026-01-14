@@ -5,6 +5,11 @@ import { ErrorBoundary } from "../ErrorBoundary";
 import { Button } from "../ui/button";
 import { SectionInput } from "../SectionInput";
 import { CollapsibleContent } from "../ui/collapsible";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "../ui/tooltip";
 import { SectionHeader } from "./SectionHeader";
 
 interface PersonalSectionProps {
@@ -89,29 +94,35 @@ export const PersonalSection = ({
 							placeholder="- Description or achievement\n- Another point"
 						/>
 						<div className="flex items-center justify-center">
-							<Button
-								type="button"
-								variant="outline"
-								size="sm"
-								onClick={() => {
-									// Read current values directly from textarea elements
-									// Use nullish coalescing to preserve empty strings
-									const currentBulletPoints = bulletPointsRef.current?.value ?? "";
-									const currentDraft = draftRef.current?.value ?? "";
-									
-									// Update state with swapped values
-									updateResumeData({
-										personal: {
-											...personal,
-											bulletPoints: currentDraft,
-											bulletPointsDraft: currentBulletPoints,
-										},
-									});
-								}}
-								title="Swap bullet points and draft"
-							>
-								<ArrowUpDown className="size-4" />
-							</Button>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={() => {
+											// Read current values directly from textarea elements
+											// Use nullish coalescing to preserve empty strings
+											const currentBulletPoints = bulletPointsRef.current?.value ?? "";
+											const currentDraft = draftRef.current?.value ?? "";
+											
+											// Update state with swapped values
+											updateResumeData({
+												personal: {
+													...personal,
+													bulletPoints: currentDraft,
+													bulletPointsDraft: currentBulletPoints,
+												},
+											});
+										}}
+									>
+										<ArrowUpDown className="size-4" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Swap bullet points and draft</p>
+								</TooltipContent>
+							</Tooltip>
 						</div>
 						<SectionInput
 							ref={draftRef}

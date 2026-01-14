@@ -2,6 +2,11 @@ import { Github } from "lucide-react";
 import { ThemeToggle } from "../ThemeToggle";
 import { InfoDialog } from "./InfoDialog";
 import { Button } from "../ui/button";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "../ui/tooltip";
 import logo from "../ui/logo.png";
 
 export const SiteHeader = () => {
@@ -21,22 +26,28 @@ export const SiteHeader = () => {
 				<div className="flex items-center gap-2">
 					<ThemeToggle />
 					<InfoDialog />
-					<Button
-						variant="ghost"
-						size="icon"
-						className="rounded-full size-10 hover:bg-gray-100 dark:hover:bg-gray-700"
-						asChild
-					>
-						<a
-							href="https://github.com/MattPua/resume-builder"
-							target="_blank"
-							rel="noopener noreferrer"
-							title="View on GitHub"
-						>
-							<Github className="size-5" />
-							<span className="sr-only">GitHub Repository</span>
-						</a>
-					</Button>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button
+								variant="ghost"
+								size="icon"
+								className="rounded-full size-10 hover:bg-gray-100 dark:hover:bg-gray-700"
+								asChild
+							>
+								<a
+									href="https://github.com/MattPua/resume-builder"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<Github className="size-5" />
+									<span className="sr-only">GitHub Repository</span>
+								</a>
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>View on GitHub</p>
+						</TooltipContent>
+					</Tooltip>
 				</div>
 			</div>
 		</header>

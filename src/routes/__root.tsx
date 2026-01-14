@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { ThemeProvider } from "../components/ThemeProvider";
+import { TooltipProvider } from "../components/ui/tooltip";
 
 import appCss from "../styles.css?url";
 
@@ -16,19 +17,19 @@ export const Route = createRootRoute({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "Your Resume Builder | Private & Free | 100% Local & Secure",
+				title: "Your Resume Builder | Open Source & Private | 100% Local & Secure",
 			},
 			{
 				name: "description",
-				content: "Create a professional resume with total privacy using Your Resume Builder. Focus on your content while we handle the professional layout. 100% local, nothing is uploaded, and all data stays in your browser. Free, fast, and secure with high-quality PDF export.",
+				content: "Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local tool where nothing is uploaded and all data stays in your browser. Free, fast, and secure with high-quality PDF export.",
 			},
 			{
 				name: "keywords",
-				content: "Your Resume Builder, private resume builder, local resume creator, secure CV maker, free resume builder, no upload resume, professional resume, PDF resume, markdown resume",
+				content: "Your Resume Builder, open source resume builder, private resume builder, local resume creator, secure CV maker, free resume builder, no upload resume, professional resume, PDF resume, markdown resume",
 			},
 			{
 				property: "og:title",
-				content: "Your Resume Builder | Private & Free",
+				content: "Your Resume Builder | Open Source & Private",
 			},
 			{
 				property: "og:description",
@@ -88,7 +89,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		"@context": "https://schema.org",
 		"@type": "WebApplication",
 		"name": "Your Resume Builder",
-		"description": "Create a professional resume with total privacy using Your Resume Builder. 100% local, secure, and free. No data ever leaves your browser.",
+		"description": "Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local, secure, and free tool. No data ever leaves your browser.",
 		"applicationCategory": "DesignApplication",
 		"operatingSystem": "All",
 		"offers": {
@@ -97,6 +98,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			"priceCurrency": "USD"
 		},
 		"featureList": [
+			"Open Source",
 			"100% Private & Local",
 			"High-quality PDF Export",
 			"Multi-page Support",
@@ -116,20 +118,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				/>
 			</head>
 			<body>
-				<ThemeProvider defaultTheme="dark" storageKey="resume-builder-theme">
-					{children}
-					<TanStackDevtools
-						config={{
-							position: "bottom-right",
-						}}
-						plugins={[
-							{
-								name: "Tanstack Router",
-								render: <TanStackRouterDevtoolsPanel />,
-							},
-						]}
-					/>
-					<Scripts />
+				<ThemeProvider defaultTheme="light" storageKey="resume-builder-theme">
+					<TooltipProvider>
+						{children}
+						<TanStackDevtools
+							config={{
+								position: "bottom-right",
+							}}
+							plugins={[
+								{
+									name: "Tanstack Router",
+									render: <TanStackRouterDevtoolsPanel />,
+								},
+							]}
+						/>
+						<Scripts />
+					</TooltipProvider>
 				</ThemeProvider>
 			</body>
 		</html>
