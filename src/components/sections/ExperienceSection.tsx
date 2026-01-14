@@ -18,9 +18,11 @@ import { useState, useEffect } from "react";
 import type { ExperienceEntry, ResumeData } from "../../types/resume";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { SortableExperienceEntry } from "../SortableExperienceEntry";
+import { EmptySectionState } from "../EmptySectionState";
 import { Button } from "../ui/button";
 import { CollapsibleContent } from "../ui/collapsible";
 import { SectionHeader } from "./SectionHeader";
+import { Briefcase } from "lucide-react";
 
 interface ExperienceSectionProps {
 	resumeData: ResumeData;
@@ -126,28 +128,28 @@ export const ExperienceSection = ({
 				/>
 			<CollapsibleContent>
 				<div className="flex flex-col gap-3">
-					<div className="flex items-center justify-between">
-						<Button
-							onClick={() => {
-								const newEntry: ExperienceEntry = {
-									title: "",
-									company: "",
-									startDate: "",
-									endDate: "",
-									bulletPoints: "",
-									visible: true,
-								};
-								updateResumeData({
-									experience: [newEntry, ...resumeData.experience],
-								});
-							}}
-							size="sm"
-							variant="default"
-						>
-							<Plus className="size-4" />
-							Add Experience
-						</Button>
-						{resumeData.experience.length > 0 && (
+					{resumeData.experience.length > 0 && (
+						<div className="flex items-center justify-between">
+							<Button
+								onClick={() => {
+									const newEntry: ExperienceEntry = {
+										title: "",
+										company: "",
+										startDate: "",
+										endDate: "",
+										bulletPoints: "",
+										visible: true,
+									};
+									updateResumeData({
+										experience: [newEntry, ...resumeData.experience],
+									});
+								}}
+								size="sm"
+								variant="default"
+							>
+								<Plus className="size-4" />
+								Add Experience
+							</Button>
 							<Button
 								onClick={() => {
 									const newState = !allExpanded;
@@ -164,12 +166,28 @@ export const ExperienceSection = ({
 								<ChevronsUpDown className="size-3 mr-1" />
 								{allExpanded ? "Collapse All" : "Expand All"}
 							</Button>
-						)}
-				</div>
+						</div>
+					)}
 					{resumeData.experience.length === 0 ? (
-						<p className="text-sm text-gray-500 dark:text-gray-400">
-							No experience entries. Click "Add Experience" to get started.
-						</p>
+						<EmptySectionState
+							icon={Briefcase}
+							title="No experience yet"
+							description="Showcase your professional journey by adding your previous roles and achievements."
+							onClick={() => {
+								const newEntry: ExperienceEntry = {
+									title: "",
+									company: "",
+									startDate: "",
+									endDate: "",
+									bulletPoints: "",
+									visible: true,
+								};
+								updateResumeData({
+									experience: [newEntry, ...resumeData.experience],
+								});
+							}}
+							buttonText="Add Experience"
+						/>
 					) : (
 						<>
 							<DndContext

@@ -3,17 +3,34 @@ import type { ResumeData } from "../../types/resume";
 interface HeaderPreviewProps {
 	data: ResumeData;
 	backgroundColor?: string;
+	layoutMode?: "compact" | "default" | "comfortable";
 }
 
-export const HeaderPreview = ({ data, backgroundColor }: HeaderPreviewProps) => {
+export const HeaderPreview = ({
+	data,
+	backgroundColor,
+	layoutMode = "default",
+}: HeaderPreviewProps) => {
 	const linkColor = backgroundColor || "#0891b2";
 
+	const spacingMap = {
+		compact: "mb-0.5 pb-1",
+		default: "mb-1 pb-1.5",
+		comfortable: "mb-1.5 pb-2",
+	}[layoutMode];
+
+	const titleSizeMap = {
+		compact: "text-3xl",
+		default: "text-4xl",
+		comfortable: "text-5xl",
+	}[layoutMode];
+
 	return (
-		<section className="mb-1 pb-1.5">
+		<section className={`${spacingMap}`}>
 			<div className="grid gap-4" style={{ gridTemplateColumns: "1fr 2fr" }}>
 				<div>
 					<h1
-						className="text-3xl font-bold text-gray-900"
+						className={`${titleSizeMap} font-bold text-gray-900`}
 						style={{ color: "#111827" }}
 					>
 						{data.name || ""}

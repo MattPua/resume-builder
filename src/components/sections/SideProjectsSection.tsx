@@ -13,11 +13,12 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { ChevronsUpDown, Plus } from "lucide-react";
+import { ChevronsUpDown, Plus, Folder } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ResumeData, SideProjectEntry } from "../../types/resume";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { SortableSideProjectEntry } from "../SortableSideProjectEntry";
+import { EmptySectionState } from "../EmptySectionState";
 import { Button } from "../ui/button";
 import { CollapsibleContent } from "../ui/collapsible";
 import { SectionHeader } from "./SectionHeader";
@@ -137,28 +138,28 @@ export const SideProjectsSection = ({
 				/>
 			<CollapsibleContent>
 					<div className="flex flex-col gap-3">
-						<div className="flex items-center justify-between">
-							<Button
-								onClick={() => {
-									const newEntry: SideProjectEntry = {
-										title: "",
-										description: "",
-										startDate: "",
-										endDate: "",
-										bulletPoints: "",
-										visible: true,
-									};
-									updateResumeData({
-										sideProjects: [newEntry, ...resumeData.sideProjects],
-									});
-								}}
-								size="sm"
-								variant="default"
-							>
-								<Plus className="size-4" />
-								Add Side Project
-							</Button>
-							{resumeData.sideProjects.length > 0 && (
+						{resumeData.sideProjects.length > 0 && (
+							<div className="flex items-center justify-between">
+								<Button
+									onClick={() => {
+										const newEntry: SideProjectEntry = {
+											title: "",
+											description: "",
+											startDate: "",
+											endDate: "",
+											bulletPoints: "",
+											visible: true,
+										};
+										updateResumeData({
+											sideProjects: [newEntry, ...resumeData.sideProjects],
+										});
+									}}
+									size="sm"
+									variant="default"
+								>
+									<Plus className="size-4" />
+									Add Side Project
+								</Button>
 								<Button
 									onClick={() => {
 										const newState = !allExpanded;
@@ -175,13 +176,28 @@ export const SideProjectsSection = ({
 									<ChevronsUpDown className="size-3 mr-1" />
 									{allExpanded ? "Collapse All" : "Expand All"}
 								</Button>
-							)}
 							</div>
+						)}
 						{resumeData.sideProjects.length === 0 ? (
-							<p className="text-sm text-gray-500 dark:text-gray-400">
-								No side project entries. Click "Add Side Project" to get
-								started.
-							</p>
+							<EmptySectionState
+								icon={Folder}
+								title="No side projects"
+								description="Highlight your personal projects, open-source contributions, or apps you've built."
+								onClick={() => {
+									const newEntry: SideProjectEntry = {
+										title: "",
+										description: "",
+										startDate: "",
+										endDate: "",
+										bulletPoints: "",
+										visible: true,
+									};
+									updateResumeData({
+										sideProjects: [newEntry, ...resumeData.sideProjects],
+									});
+								}}
+								buttonText="Add Side Project"
+							/>
 						) : (
 							<>
 							<DndContext

@@ -1,7 +1,8 @@
-import { ChevronsUpDown, Eye, EyeOff, Plus } from "lucide-react";
+import { ChevronsUpDown, Eye, EyeOff, Plus, GraduationCap } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { EducationEntry, ResumeData } from "../../types/resume";
 import { EducationEntryEditor } from "../EducationEntryEditor";
+import { EmptySectionState } from "../EmptySectionState";
 import { Button } from "../ui/button";
 
 interface BackgroundEducationSubsectionProps {
@@ -66,8 +67,51 @@ export const BackgroundEducationSubsection = ({
 				</div>
 			</div>
 			<div className="flex flex-col gap-3">
-				<div className="flex items-center justify-between">
-					<Button
+				{resumeData.education.length > 0 && (
+					<div className="flex items-center justify-between">
+						<Button
+							onClick={() => {
+								const newEntry: EducationEntry = {
+									degree: "",
+									institution: "",
+									startDate: "",
+									endDate: "",
+									bulletPoints: "",
+									visible: true,
+								};
+								updateResumeData({
+									education: [newEntry, ...resumeData.education],
+								});
+							}}
+							size="sm"
+							variant="default"
+						>
+							<Plus className="size-4" />
+							Add Education
+						</Button>
+						<Button
+							onClick={() => {
+								const newState = !allExpanded;
+								const newStates: Record<number, boolean> = {};
+								resumeData.education.forEach((_, index) => {
+									newStates[index] = newState;
+								});
+								setEntryOpenStates(newStates);
+							}}
+							size="sm"
+							variant="outline"
+							className="text-xs"
+						>
+							<ChevronsUpDown className="size-3 mr-1" />
+							{allExpanded ? "Collapse All" : "Expand All"}
+						</Button>
+					</div>
+				)}
+				{resumeData.education.length === 0 ? (
+					<EmptySectionState
+						icon={GraduationCap}
+						title="No education added"
+						description="Add your degrees, certifications, and academic background to your resume."
 						onClick={() => {
 							const newEntry: EducationEntry = {
 								degree: "",
@@ -81,35 +125,8 @@ export const BackgroundEducationSubsection = ({
 								education: [newEntry, ...resumeData.education],
 							});
 						}}
-						size="sm"
-						variant="default"
-					>
-						<Plus className="size-4" />
-						Add Education
-					</Button>
-					{resumeData.education.length > 0 && (
-							<Button
-								onClick={() => {
-								const newState = !allExpanded;
-								const newStates: Record<number, boolean> = {};
-								resumeData.education.forEach((_, index) => {
-									newStates[index] = newState;
-								});
-								setEntryOpenStates(newStates);
-								}}
-								size="sm"
-								variant="outline"
-								className="text-xs"
-							>
-								<ChevronsUpDown className="size-3 mr-1" />
-								{allExpanded ? "Collapse All" : "Expand All"}
-							</Button>
-					)}
-						</div>
-				{resumeData.education.length === 0 ? (
-					<p className="text-sm text-gray-500 dark:text-gray-400">
-						No education entries. Click "Add Education" to get started.
-					</p>
+						buttonText="Add Education"
+					/>
 				) : (
 					<>
 						<div className="flex flex-col gap-3">

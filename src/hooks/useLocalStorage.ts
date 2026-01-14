@@ -72,6 +72,7 @@ const defaultResumeData: ResumeData = {
   sectionHeaderBackgroundColor: "#3b82f6",
   sectionHeaderTextColor: "#ffffff",
   fontFamily: "'Inter Variable', sans-serif",
+  layoutMode: "default",
 }
 
 const sampleResumeData: ResumeData = {
@@ -153,12 +154,13 @@ const sampleResumeData: ResumeData = {
     sideProjects: 'Projects',
     volunteering: 'Volunteering',
     personal: 'About Me',
-    background: 'Education & Skills',
+    background: 'Background',
   },
   sectionOrder: ["experience", "background", "sideProjects", "volunteering", "personal"],
   sectionHeaderBackgroundColor: "#3b82f6",
   sectionHeaderTextColor: "#ffffff",
   fontFamily: "'Inter Variable', sans-serif",
+  layoutMode: "default",
 }
 
 export const useLocalStorage = () => {
@@ -183,6 +185,7 @@ export const useLocalStorage = () => {
             experience: [],
             education: [],
             sideProjects: [],
+            volunteering: [],
             personal: {
               bulletPoints: '',
               visible: true,

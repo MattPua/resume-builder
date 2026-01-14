@@ -8,6 +8,7 @@ interface PersonalPreviewProps {
 	title?: string;
 	backgroundColor?: string;
 	textColor?: string;
+	layoutMode?: "compact" | "default" | "comfortable";
 }
 
 export const PersonalPreview = ({
@@ -15,12 +16,18 @@ export const PersonalPreview = ({
 	title = "Personal",
 	backgroundColor,
 	textColor,
+	layoutMode = "default",
 }: PersonalPreviewProps) => {
 	if (!personal) return null;
 	if (!personal.bulletPoints || personal.bulletPoints.trim() === "") return null;
 
 	return (
-		<SectionPreview title={title} backgroundColor={backgroundColor} textColor={textColor}>
+		<SectionPreview
+			title={title}
+			backgroundColor={backgroundColor}
+			textColor={textColor}
+			layoutMode={layoutMode}
+		>
 			<div className="prose prose-sm max-w-none">
 				<ReactMarkdown remarkPlugins={[remarkGfm]}>
 					{personal.bulletPoints}

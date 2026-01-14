@@ -47,7 +47,7 @@ export const convertToPlainText = (data: ResumeData): string => {
       const hasSkills = data.sectionsVisible?.skills !== false && data.skills;
 
       if (hasEducation || hasSkills) {
-        const title = data.sectionTitles?.background || "EDUCATION & SKILLS";
+        const title = data.sectionTitles?.background || "BACKGROUND";
         lines.push(title.toUpperCase());
         lines.push("-".repeat(title.length));
         

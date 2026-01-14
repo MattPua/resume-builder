@@ -13,11 +13,12 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { ChevronsUpDown, Plus } from "lucide-react";
+import { ChevronsUpDown, Plus, HeartHandshake } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { VolunteeringEntry, ResumeData } from "../../types/resume";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { SortableVolunteeringEntry } from "../SortableVolunteeringEntry";
+import { EmptySectionState } from "../EmptySectionState";
 import { Button } from "../ui/button";
 import { CollapsibleContent } from "../ui/collapsible";
 import { SectionHeader } from "./SectionHeader";
@@ -126,28 +127,28 @@ export const VolunteeringSection = ({
 				/>
 				<CollapsibleContent>
 					<div className="flex flex-col gap-3">
-						<div className="flex items-center justify-between">
-							<Button
-								onClick={() => {
-									const newEntry: VolunteeringEntry = {
-										role: "",
-										organization: "",
-										startDate: "",
-										endDate: "",
-										bulletPoints: "",
-										visible: true,
-									};
-									updateResumeData({
-										volunteering: [newEntry, ...resumeData.volunteering],
-									});
-								}}
-								size="sm"
-								variant="default"
-							>
-								<Plus className="size-4" />
-								Add Volunteering
-							</Button>
-							{resumeData.volunteering.length > 0 && (
+						{resumeData.volunteering.length > 0 && (
+							<div className="flex items-center justify-between">
+								<Button
+									onClick={() => {
+										const newEntry: VolunteeringEntry = {
+											role: "",
+											organization: "",
+											startDate: "",
+											endDate: "",
+											bulletPoints: "",
+											visible: true,
+										};
+										updateResumeData({
+											volunteering: [newEntry, ...resumeData.volunteering],
+										});
+									}}
+									size="sm"
+									variant="default"
+								>
+									<Plus className="size-4" />
+									Add Volunteering
+								</Button>
 								<Button
 									onClick={() => {
 										const newState = !allExpanded;
@@ -164,12 +165,28 @@ export const VolunteeringSection = ({
 									<ChevronsUpDown className="size-3 mr-1" />
 									{allExpanded ? "Collapse All" : "Expand All"}
 								</Button>
-							)}
-						</div>
+							</div>
+						)}
 						{resumeData.volunteering.length === 0 ? (
-							<p className="text-sm text-gray-500 dark:text-gray-400">
-								No volunteering entries. Click "Add Volunteering" to get started.
-							</p>
+							<EmptySectionState
+								icon={HeartHandshake}
+								title="No volunteering"
+								description="Share your community involvement and volunteer work to show a well-rounded profile."
+								onClick={() => {
+									const newEntry: VolunteeringEntry = {
+										role: "",
+										organization: "",
+										startDate: "",
+										endDate: "",
+										bulletPoints: "",
+										visible: true,
+									};
+									updateResumeData({
+										volunteering: [newEntry, ...resumeData.volunteering],
+									});
+								}}
+								buttonText="Add Volunteering"
+							/>
 						) : (
 							<>
 								<DndContext

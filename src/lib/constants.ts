@@ -19,12 +19,12 @@ Your task is to convert the contents of the provided **PDF resume** into a **cle
   - Phone number
   - Personal website (if available)
   - GitHub or LinkedIn (if available)
-- Use "##" for major sections (e.g., Professional Experience, Education & Skills, Projects, About Me)
+- Use "##" for major sections (e.g., Professional Experience, Background, Projects, About Me)
 - Use "###" for roles, degrees, or projects
 - Format date ranges as "YYYY — YYYY" or "YYYY — Now"
 - Use bullet points ("-") for responsibilities, achievements, and descriptions
 - Keep bullet points concise and action-oriented
-- Merge related sections if the PDF combines them (e.g., Education and Skills)
+- Merge related sections if the PDF combines them (e.g., Background)
 - If a section does not exist in the PDF, omit it entirely
 
 ## Canonical Layout Example
@@ -49,7 +49,7 @@ john.doe@example.com | +1 (555) 000-0000 | https://johndoe.com | https://github.
 - Implemented real-time features using WebSockets
 - Collaborated with UX designers to improve user engagement by 15%
 
-## Education & Skills
+## Background
 ### B.S. in Computer Science @ University of Technology
 2014 — 2018
 

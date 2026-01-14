@@ -63,6 +63,8 @@ export const PreviewPane = ({
 							onTextColorChange={(color) =>
 								updateResumeData({ sectionHeaderTextColor: color })
 							}
+							layoutMode={resumeData.layoutMode || "default"}
+							onLayoutModeChange={(mode) => updateResumeData({ layoutMode: mode })}
 							fontFamily={resumeData.fontFamily || fonts[0].value}
 							onFontFamilyChange={(font) => {
 								setPreviewFontFamily(null);

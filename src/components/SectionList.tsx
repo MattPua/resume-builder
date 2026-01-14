@@ -41,11 +41,13 @@ export const SectionList = ({
 		<div className="space-y-4">
 			{sectionOrder.map((sectionId) => {
 				if (sectionId === "experience") {
+					const isVisible = resumeData.sectionsVisible?.experience !== false;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isExperienceOpen}
+							isVisible={isVisible}
 							onOpenChange={setIsExperienceOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -62,11 +64,15 @@ export const SectionList = ({
 					);
 				}
 				if (sectionId === "background") {
+					const isVisible =
+						resumeData.sectionsVisible?.education !== false ||
+						resumeData.sectionsVisible?.skills !== false;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isBackgroundOpen}
+							isVisible={isVisible}
 							onOpenChange={setIsBackgroundOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -83,11 +89,13 @@ export const SectionList = ({
 					);
 				}
 				if (sectionId === "sideProjects") {
+					const isVisible = resumeData.sectionsVisible?.sideProjects !== false;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isSideProjectsOpen}
+							isVisible={isVisible}
 							onOpenChange={setIsSideProjectsOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -104,11 +112,13 @@ export const SectionList = ({
 					);
 				}
 				if (sectionId === "volunteering") {
+					const isVisible = resumeData.sectionsVisible?.volunteering !== false;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isVolunteeringOpen}
+							isVisible={isVisible}
 							onOpenChange={setIsVolunteeringOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -125,11 +135,13 @@ export const SectionList = ({
 					);
 				}
 				if (sectionId === "personal") {
+					const isVisible = resumeData.sectionsVisible?.personal !== false;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isPersonalOpen}
+							isVisible={isVisible}
 							onOpenChange={setIsPersonalOpen}
 						>
 							{({ attributes, listeners }) => (

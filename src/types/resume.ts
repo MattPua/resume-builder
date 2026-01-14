@@ -82,8 +82,15 @@ export interface ResumeData {
 		skills?: string;
 		background?: string;
 	};
-	sectionOrder?: ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[];
+	sectionOrder?: (
+		| "experience"
+		| "background"
+		| "sideProjects"
+		| "volunteering"
+		| "personal"
+	)[];
 	sectionHeaderBackgroundColor?: string;
 	sectionHeaderTextColor?: string;
 	fontFamily?: string;
+	layoutMode?: "compact" | "default" | "comfortable";
 }

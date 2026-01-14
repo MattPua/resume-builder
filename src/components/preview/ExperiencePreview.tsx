@@ -8,16 +8,23 @@ interface ExperiencePreviewProps {
   title?: string
   backgroundColor?: string
   textColor?: string
+  layoutMode?: "compact" | "default" | "comfortable"
 }
 
-export const ExperiencePreview = ({ entries, title = "Experience", backgroundColor, textColor }: ExperiencePreviewProps) => {
+export const ExperiencePreview = ({ entries, title = "Experience", backgroundColor, textColor, layoutMode = "default" }: ExperiencePreviewProps) => {
   if (entries.length === 0) return null
 
+  const spacingMap = {
+    compact: 'gap-1',
+    default: 'gap-2',
+    comfortable: 'gap-3'
+  }[layoutMode];
+
   return (
-    <SectionPreview title={title} backgroundColor={backgroundColor} textColor={textColor}>
-      <div>
+    <SectionPreview title={title} backgroundColor={backgroundColor} textColor={textColor} layoutMode={layoutMode}>
+      <div className={`flex flex-col ${spacingMap}`}>
         {entries.map((entry, index) => (
-          <div key={index} className="mb-0">
+          <div key={`${entry.company}-${entry.title}-${index}`}>
                 <div className="mb-0">
                   <div className="flex items-baseline justify-between gap-4">
                     <div>

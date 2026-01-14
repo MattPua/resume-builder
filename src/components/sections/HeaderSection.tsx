@@ -39,7 +39,11 @@ export const HeaderSection = ({
 			<Collapsible
 				open={isOpen}
 				onOpenChange={onOpenChange}
-				className="bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm"
+				className={`rounded-lg border shadow-sm transition-all duration-200 ${
+					isVisible
+						? "bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700"
+						: "bg-gray-50/50 dark:bg-gray-900/30 border-primary/30 border-dashed opacity-75"
+				}`}
 				id="section-header"
 			>
 				<div className="p-6">

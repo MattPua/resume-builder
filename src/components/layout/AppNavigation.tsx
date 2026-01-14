@@ -36,7 +36,7 @@ const SECTION_ICONS = {
 
 const SECTION_TITLES = {
 	experience: "Experience",
-	background: "Education & Skills",
+	background: "Background",
 	sideProjects: "Side Projects",
 	volunteering: "Volunteering",
 	personal: "Personal",

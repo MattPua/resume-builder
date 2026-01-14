@@ -45,7 +45,7 @@ export const convertToMarkdown = (data: ResumeData): string => {
       const hasSkills = data.sectionsVisible?.skills !== false && data.skills;
 
       if (hasEducation || hasSkills) {
-        lines.push(`## ${data.sectionTitles?.background || "Education & Skills"}`);
+        lines.push(`## ${data.sectionTitles?.background || "Background"}`);
         
         if (hasEducation) {
           data.education.filter(item => item.visible !== false).forEach((item: EducationEntry) => {

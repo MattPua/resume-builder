@@ -53,40 +53,86 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
 
   const backgroundColor = data.sectionHeaderBackgroundColor || "#3b82f6"
   const textColor = data.sectionHeaderTextColor || "#ffffff"
+  const layoutMode = data.layoutMode || "default"
+
+  const spacingMap = {
+    compact: {
+      section: 'mb-1',
+      header: 'mb-1 pb-1',
+      content: 'gap-1',
+      item: 'mb-0.5'
+    },
+    default: {
+      section: 'mb-1',
+      header: 'mb-1 pb-1.5',
+      content: 'gap-2',
+      item: 'mb-1'
+    },
+    comfortable: {
+      section: 'mb-1.5',
+      header: 'mb-1.5 pb-2',
+      content: 'gap-3',
+      item: 'mb-1.5'
+    }
+  }[layoutMode]
 
   const renderSection = (sectionId: string) => {
     if (sectionId === "experience") {
       return (
-        <div key="experience" data-pdf-section="experience">
-          <ExperiencePreview entries={visibleExperience} title={data.sectionTitles?.experience} backgroundColor={backgroundColor} textColor={textColor} />
+        <div key="experience" data-pdf-section="experience" className={spacingMap.section}>
+          <ExperiencePreview
+            entries={visibleExperience}
+            title={data.sectionTitles?.experience}
+            backgroundColor={backgroundColor}
+            textColor={textColor}
+            layoutMode={layoutMode}
+          />
         </div>
       )
     }
     if (sectionId === "sideProjects") {
       return (
-        <div key="sideProjects" data-pdf-section="sideProjects">
-          <SideProjectsPreview entries={visibleSideProjects} title={data.sectionTitles?.sideProjects} backgroundColor={backgroundColor} textColor={textColor} />
+        <div key="sideProjects" data-pdf-section="sideProjects" className={spacingMap.section}>
+          <SideProjectsPreview
+            entries={visibleSideProjects}
+            title={data.sectionTitles?.sideProjects}
+            backgroundColor={backgroundColor}
+            textColor={textColor}
+            layoutMode={layoutMode}
+          />
         </div>
       )
     }
     if (sectionId === "volunteering") {
       return (
-        <div key="volunteering" data-pdf-section="volunteering">
-          <VolunteeringPreview entries={visibleVolunteering} title={data.sectionTitles?.volunteering} backgroundColor={backgroundColor} textColor={textColor} />
+        <div key="volunteering" data-pdf-section="volunteering" className={spacingMap.section}>
+          <VolunteeringPreview
+            entries={visibleVolunteering}
+            title={data.sectionTitles?.volunteering}
+            backgroundColor={backgroundColor}
+            textColor={textColor}
+            layoutMode={layoutMode}
+          />
         </div>
       )
     }
     if (sectionId === "personal") {
       if (!showPersonal) return null
       return (
-        <div key="personal" data-pdf-section="personal">
-          <PersonalPreview personal={data.personal} title={data.sectionTitles?.personal} backgroundColor={backgroundColor} textColor={textColor} />
+        <div key="personal" data-pdf-section="personal" className={spacingMap.section}>
+          <PersonalPreview
+            personal={data.personal}
+            title={data.sectionTitles?.personal}
+            backgroundColor={backgroundColor}
+            textColor={textColor}
+            layoutMode={layoutMode}
+          />
         </div>
       )
     }
     if (sectionId === "background") {
       return (
-        <div key="background" data-pdf-section="background">
+        <div key="background" data-pdf-section="background" className={spacingMap.section}>
           <BackgroundPreview
             education={visibleEducation}
             skills={data.skills}
@@ -94,6 +140,7 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
             title={data.sectionTitles?.background}
             backgroundColor={backgroundColor}
             textColor={textColor}
+            layoutMode={layoutMode}
           />
         </div>
       )
@@ -104,7 +151,7 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
   return (
     <div
       ref={previewRef}
-      className="resume-preview resume-preview-root bg-white text-gray-900 p-8"
+      className={`resume-preview resume-preview-root bg-white text-gray-900 ${layoutMode === 'compact' ? 'p-6' : layoutMode === 'comfortable' ? 'p-10' : 'p-8'}`}
       style={{
         width: '794px',
         minHeight: '1123px',
@@ -114,34 +161,34 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
       }}
     >
       {hasHeader && (
-        <div data-pdf-header>
-          <HeaderPreview data={data} backgroundColor={backgroundColor} />
+        <div data-pdf-header className={spacingMap.header}>
+          <HeaderPreview data={data} backgroundColor={backgroundColor} layoutMode={layoutMode} />
         </div>
       )}
 
-      <div data-pdf-sections-container className="bg-white">
+      <div data-pdf-sections-container className={`bg-white flex flex-col ${spacingMap.content}`}>
         {sectionOrder.map((sectionId) => renderSection(sectionId))}
       </div>
 
       {!hasContent && (
-        <div className="flex flex-col items-center justify-center py-32 px-4 text-center animate-in fade-in zoom-in duration-500 h-full min-h-[600px]">
-          <div className="relative mb-6">
-            <div className="absolute -inset-4 rounded-full bg-primary/5 animate-pulse" />
-            <div className="relative bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-              <FileText className="size-16 text-primary/20" />
+        <div className="flex flex-col items-center justify-center py-48 px-4 text-center animate-in fade-in zoom-in duration-500 h-full min-h-[700px]">
+          <div className="relative mb-10">
+            <div className="absolute -inset-8 rounded-full bg-primary/5 animate-pulse scale-110" />
+            <div className="relative bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
+              <FileText className="size-24 text-primary/20" />
             </div>
-            <div className="absolute -top-2 -right-2 bg-yellow-100 p-2 rounded-full shadow-sm">
-              <Sparkles className="size-5 text-yellow-600 animate-bounce" />
+            <div className="absolute -top-3 -right-3 bg-yellow-100 p-3 rounded-full shadow-md">
+              <Sparkles className="size-8 text-yellow-600 animate-bounce" />
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+          <h3 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
             Your Resume Awaits
           </h3>
-          <p className="text-gray-500 max-w-sm mx-auto text-lg leading-relaxed">
+          <p className="text-gray-500 max-w-md mx-auto text-xl leading-relaxed">
             Fill out the details in the editor to see your professional resume take shape in real-time.
           </p>
-          <div className="mt-12 flex items-center gap-2.5 text-xs font-bold text-primary/40 uppercase tracking-[0.2em]">
-            <div className="size-1.5 rounded-full bg-primary/40 animate-pulse" />
+          <div className="mt-16 flex items-center gap-3 text-sm font-bold text-primary/60 uppercase tracking-[0.3em]">
+            <div className="size-2 rounded-full bg-primary/60 animate-pulse" />
             Live Preview Active
           </div>
         </div>

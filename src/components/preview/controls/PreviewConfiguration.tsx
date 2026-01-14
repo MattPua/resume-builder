@@ -1,4 +1,4 @@
-import { Type } from "lucide-react";
+import { Type, Layout } from "lucide-react";
 import { Button } from "../../ui/button";
 import {
 	DropdownMenu,
@@ -26,6 +26,8 @@ interface PreviewConfigurationProps {
 	onFontFamilyChange: (font: string) => void;
 	onFontHover: (font: string) => void;
 	onFontHoverEnd: () => void;
+	layoutMode: "compact" | "default" | "comfortable";
+	onLayoutModeChange: (mode: "compact" | "default" | "comfortable") => void;
 	fonts: Font[];
 }
 
@@ -38,8 +40,16 @@ export const PreviewConfiguration = ({
 	onFontFamilyChange,
 	onFontHover,
 	onFontHoverEnd,
+	layoutMode,
+	onLayoutModeChange,
 	fonts,
 }: PreviewConfigurationProps) => {
+	const layoutModes: ("compact" | "default" | "comfortable")[] = [
+		"compact",
+		"default",
+		"comfortable",
+	];
+
 	return (
 		<div className="flex items-center gap-1.5">
 			<Tooltip>
@@ -76,6 +86,36 @@ export const PreviewConfiguration = ({
 					<p>Section Header Text Color</p>
 				</TooltipContent>
 			</Tooltip>
+			<DropdownMenu>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant="outline"
+								size="icon"
+								className="size-6 w-auto px-1.5 h-6 text-[10px] font-medium uppercase tracking-wider"
+							>
+								<Layout className="size-3 mr-1" />
+								{layoutMode || "Default"}
+							</Button>
+						</DropdownMenuTrigger>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>Layout Mode</p>
+					</TooltipContent>
+				</Tooltip>
+				<DropdownMenuContent align="start" className="w-32">
+					{layoutModes.map((mode) => (
+						<DropdownMenuItem
+							key={mode}
+							onClick={() => onLayoutModeChange(mode)}
+							className={layoutMode === mode ? "bg-accent" : ""}
+						>
+							<span className="capitalize">{mode}</span>
+						</DropdownMenuItem>
+					))}
+				</DropdownMenuContent>
+			</DropdownMenu>
 			<DropdownMenu>
 				<Tooltip>
 					<TooltipTrigger asChild>
