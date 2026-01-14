@@ -3,18 +3,21 @@ import { BackgroundSection } from "./sections/BackgroundSection";
 import { ExperienceSection } from "./sections/ExperienceSection";
 import { PersonalSection } from "./sections/PersonalSection";
 import { SideProjectsSection } from "./sections/SideProjectsSection";
+import { VolunteeringSection } from "./sections/VolunteeringSection";
 import { SortableSection } from "./SortableSection";
 
 interface SectionListProps {
 	resumeData: ResumeData;
 	updateResumeData: (data: Partial<ResumeData>) => void;
-	sectionOrder: ("experience" | "background" | "sideProjects" | "personal")[];
+	sectionOrder: ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[];
 	isExperienceOpen: boolean;
 	setIsExperienceOpen: (open: boolean) => void;
 	isBackgroundOpen: boolean;
 	setIsBackgroundOpen: (open: boolean) => void;
 	isSideProjectsOpen: boolean;
 	setIsSideProjectsOpen: (open: boolean) => void;
+	isVolunteeringOpen: boolean;
+	setIsVolunteeringOpen: (open: boolean) => void;
 	isPersonalOpen: boolean;
 	setIsPersonalOpen: (open: boolean) => void;
 }
@@ -29,6 +32,8 @@ export const SectionList = ({
 	setIsBackgroundOpen,
 	isSideProjectsOpen,
 	setIsSideProjectsOpen,
+	isVolunteeringOpen,
+	setIsVolunteeringOpen,
 	isPersonalOpen,
 	setIsPersonalOpen,
 }: SectionListProps) => {
@@ -91,6 +96,27 @@ export const SectionList = ({
 									updateResumeData={updateResumeData}
 									isOpen={isSideProjectsOpen}
 									onOpenChange={setIsSideProjectsOpen}
+									attributes={attributes}
+									listeners={listeners}
+								/>
+							)}
+						</SortableSection>
+					);
+				}
+				if (sectionId === "volunteering") {
+					return (
+						<SortableSection
+							key={sectionId}
+							id={sectionId}
+							isOpen={isVolunteeringOpen}
+							onOpenChange={setIsVolunteeringOpen}
+						>
+							{({ attributes, listeners }) => (
+								<VolunteeringSection
+									resumeData={resumeData}
+									updateResumeData={updateResumeData}
+									isOpen={isVolunteeringOpen}
+									onOpenChange={setIsVolunteeringOpen}
 									attributes={attributes}
 									listeners={listeners}
 								/>

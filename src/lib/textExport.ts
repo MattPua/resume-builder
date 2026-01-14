@@ -1,4 +1,4 @@
-import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry } from "../types/resume";
+import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry, VolunteeringEntry } from "../types/resume";
 
 export const convertToPlainText = (data: ResumeData): string => {
   const lines: string[] = [];
@@ -78,6 +78,24 @@ export const convertToPlainText = (data: ResumeData): string => {
         lines.push("-".repeat(title.length));
         visibleItems.forEach((item: SideProjectEntry) => {
           lines.push(item.title);
+          lines.push(`${item.startDate} - ${item.endDate}`);
+          if (item.bulletPoints) {
+            lines.push("");
+            lines.push(item.bulletPoints);
+          }
+          lines.push("");
+        });
+      }
+    }
+
+    if (sectionId === "volunteering") {
+      const visibleItems = data.volunteering.filter(item => item.visible !== false);
+      if (visibleItems.length > 0) {
+        const title = data.sectionTitles?.volunteering || "VOLUNTEERING";
+        lines.push(title.toUpperCase());
+        lines.push("-".repeat(title.length));
+        visibleItems.forEach((item: VolunteeringEntry) => {
+          lines.push(`${item.role}${item.organization ? ` @ ${item.organization}` : ""}`);
           lines.push(`${item.startDate} - ${item.endDate}`);
           if (item.bulletPoints) {
             lines.push("");

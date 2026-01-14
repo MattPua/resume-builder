@@ -4,6 +4,7 @@ import {
 	FileText,
 	Folder,
 	GraduationCap,
+	HeartHandshake,
 	Menu,
 } from "lucide-react";
 import { Button } from "../ui/button";
@@ -29,6 +30,7 @@ const SECTION_ICONS = {
 	experience: Briefcase,
 	background: GraduationCap,
 	sideProjects: Folder,
+	volunteering: HeartHandshake,
 	personal: FileText,
 };
 
@@ -36,6 +38,7 @@ const SECTION_TITLES = {
 	experience: "Experience",
 	background: "Education & Skills",
 	sideProjects: "Side Projects",
+	volunteering: "Volunteering",
 	personal: "Personal",
 };
 

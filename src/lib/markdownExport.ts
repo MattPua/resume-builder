@@ -1,4 +1,4 @@
-import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry } from "../types/resume";
+import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry, VolunteeringEntry } from "../types/resume";
 
 export const convertToMarkdown = (data: ResumeData): string => {
   const lines: string[] = [];
@@ -83,6 +83,25 @@ export const convertToMarkdown = (data: ResumeData): string => {
             lines.push("");
             lines.push(item.description);
           }
+          if (item.bulletPoints) {
+            lines.push("");
+            lines.push(item.bulletPoints);
+          }
+          lines.push("");
+        });
+      }
+    }
+
+    if (sectionId === "volunteering") {
+      const visibleItems = data.volunteering.filter(item => item.visible !== false);
+      if (visibleItems.length > 0) {
+        lines.push(`## ${data.sectionTitles?.volunteering || "Volunteering"}`);
+        visibleItems.forEach((item: VolunteeringEntry) => {
+          const organizationDisplay = item.organizationUrl 
+            ? `[${item.organization}](${item.organizationUrl})` 
+            : item.organization;
+          lines.push(`### ${item.role}${organizationDisplay ? ` @ ${organizationDisplay}` : ""}`);
+          lines.push(`${item.startDate} — ${item.endDate}`);
           if (item.bulletPoints) {
             lines.push("");
             lines.push(item.bulletPoints);

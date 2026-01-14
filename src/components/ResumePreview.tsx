@@ -5,6 +5,7 @@ import { ExperiencePreview } from './preview/ExperiencePreview'
 import { HeaderPreview } from './preview/HeaderPreview'
 import { PersonalPreview } from './preview/PersonalPreview'
 import { SideProjectsPreview } from './preview/SideProjectsPreview'
+import { VolunteeringPreview } from './preview/VolunteeringPreview'
 
 interface ResumePreviewProps {
   data: ResumeData
@@ -16,6 +17,7 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
   const showExperience = data.sectionsVisible?.experience !== false
   const showEducation = data.sectionsVisible?.education !== false
   const showSideProjects = data.sectionsVisible?.sideProjects !== false
+  const showVolunteering = data.sectionsVisible?.volunteering !== false
   const showPersonal = data.sectionsVisible?.personal !== false
   const showSkills = data.sectionsVisible?.skills !== false
 
@@ -33,14 +35,19 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
   const visibleSideProjects = showSideProjects && data.sideProjects
     ? data.sideProjects.filter((e) => e.visible !== false)
     : []
+  
+  const visibleVolunteering = showVolunteering && data.volunteering
+    ? data.volunteering.filter((e) => e.visible !== false)
+    : []
 
-  const sectionOrder = data.sectionOrder || ["experience", "background", "sideProjects", "personal"]
+  const sectionOrder = data.sectionOrder || ["experience", "background", "sideProjects", "volunteering", "personal"]
 
   const hasContent =
     hasHeader ||
     visibleExperience.length > 0 ||
     visibleEducation.length > 0 ||
     visibleSideProjects.length > 0 ||
+    visibleVolunteering.length > 0 ||
     (showPersonal && data.personal?.bulletPoints && data.personal.bulletPoints.trim() !== "") ||
     (showSkills && data.skills && data.skills.trim() !== "")
 
@@ -59,6 +66,13 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
       return (
         <div key="sideProjects" data-pdf-section="sideProjects">
           <SideProjectsPreview entries={visibleSideProjects} title={data.sectionTitles?.sideProjects} backgroundColor={backgroundColor} textColor={textColor} />
+        </div>
+      )
+    }
+    if (sectionId === "volunteering") {
+      return (
+        <div key="volunteering" data-pdf-section="volunteering">
+          <VolunteeringPreview entries={visibleVolunteering} title={data.sectionTitles?.volunteering} backgroundColor={backgroundColor} textColor={textColor} />
         </div>
       )
     }

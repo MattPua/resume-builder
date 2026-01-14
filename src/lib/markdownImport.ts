@@ -1,4 +1,4 @@
-import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry } from "../types/resume";
+import type { ResumeData, ExperienceEntry, EducationEntry, SideProjectEntry, VolunteeringEntry } from "../types/resume";
 
 const parseMarkdownLink = (text: string): { text: string; url: string } => {
   const match = text.match(/\[([^\]]+)\]\(([^)]+)\)/);
@@ -14,6 +14,7 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
     experience: [],
     education: [],
     sideProjects: [],
+    volunteering: [],
     sectionsVisible: {},
     sectionTitles: {},
     name: "",
@@ -24,8 +25,8 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
     skills: "",
   };
 
-  let currentSection: "experience" | "background" | "sideProjects" | "personal" | null = null;
-  let currentItem: ExperienceEntry | EducationEntry | SideProjectEntry | null = null;
+  let currentSection: "experience" | "background" | "sideProjects" | "volunteering" | "personal" | null = null;
+  let currentItem: ExperienceEntry | EducationEntry | SideProjectEntry | VolunteeringEntry | null = null;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -70,6 +71,9 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
         currentItem = null;
       } else if (lowerTitle.includes("side projects") || lowerTitle.includes("projects")) {
         currentSection = "sideProjects";
+        currentItem = null;
+      } else if (lowerTitle.includes("volunteering") || lowerTitle.includes("volunteer")) {
+        currentSection = "volunteering";
         currentItem = null;
       } else if (lowerTitle.includes("personal") || lowerTitle.includes("about") || lowerTitle.includes("interests")) {
         currentSection = "personal";
@@ -128,6 +132,21 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
           visible: true
         };
         data.sideProjects.push(newItem);
+        currentItem = newItem;
+      } else if (currentSection === "volunteering" && data.volunteering) {
+        const [rawRole, rawOrganization] = titleLine.split("@").map(s => s.trim());
+        const { text: organization, url: organizationUrl } = parseMarkdownLink(rawOrganization || "");
+        
+        const newItem: VolunteeringEntry = { 
+          role: rawRole || "", 
+          organization: organization || "", 
+          organizationUrl,
+          startDate: "", 
+          endDate: "", 
+          bulletPoints: "",
+          visible: true
+        };
+        data.volunteering.push(newItem);
         currentItem = newItem;
       }
       continue;
@@ -189,6 +208,11 @@ export const parseMarkdownToResumeData = (markdown: string): Partial<ResumeData>
     for (const item of data.sideProjects) {
       item.bulletPoints = item.bulletPoints.trim();
       item.description = item.description.trim();
+    }
+  }
+  if (data.volunteering) {
+    for (const item of data.volunteering) {
+      item.bulletPoints = item.bulletPoints.trim();
     }
   }
   if (data.personal) {

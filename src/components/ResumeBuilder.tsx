@@ -34,8 +34,9 @@ const DEFAULT_SECTION_ORDER: (
 	| "experience"
 	| "background"
 	| "sideProjects"
+	| "volunteering"
 	| "personal"
-)[] = ["experience", "background", "sideProjects", "personal"];
+)[] = ["experience", "background", "sideProjects", "volunteering", "personal"];
 
 const FONTS = [
 	{
@@ -125,6 +126,7 @@ export const ResumeBuilder = () => {
 	const [isExperienceOpen, setIsExperienceOpen] = useState(true);
 	const [isBackgroundOpen, setIsBackgroundOpen] = useState(true);
 	const [isSideProjectsOpen, setIsSideProjectsOpen] = useState(true);
+	const [isVolunteeringOpen, setIsVolunteeringOpen] = useState(true);
 	const [isPersonalOpen, setIsPersonalOpen] = useState(true);
 	const [isImportMarkdownOpen, setIsImportMarkdownOpen] = useState(false);
 
@@ -135,6 +137,7 @@ export const ResumeBuilder = () => {
 		!isExperienceOpen &&
 		!isBackgroundOpen &&
 		!isSideProjectsOpen &&
+		!isVolunteeringOpen &&
 		!isPersonalOpen;
 
 	const handleToggleAllSections = () => {
@@ -143,6 +146,7 @@ export const ResumeBuilder = () => {
 		setIsExperienceOpen(!shouldCollapse);
 		setIsBackgroundOpen(!shouldCollapse);
 		setIsSideProjectsOpen(!shouldCollapse);
+		setIsVolunteeringOpen(!shouldCollapse);
 		setIsPersonalOpen(!shouldCollapse);
 	};
 
@@ -375,10 +379,12 @@ export const ResumeBuilder = () => {
 											setIsExperienceOpen={setIsExperienceOpen}
 											isBackgroundOpen={isBackgroundOpen}
 											setIsBackgroundOpen={setIsBackgroundOpen}
-											isSideProjectsOpen={isSideProjectsOpen}
-											setIsSideProjectsOpen={setIsSideProjectsOpen}
-											isPersonalOpen={isPersonalOpen}
-											setIsPersonalOpen={setIsPersonalOpen}
+										isSideProjectsOpen={isSideProjectsOpen}
+										setIsSideProjectsOpen={setIsSideProjectsOpen}
+										isVolunteeringOpen={isVolunteeringOpen}
+										setIsVolunteeringOpen={setIsVolunteeringOpen}
+										isPersonalOpen={isPersonalOpen}
+										setIsPersonalOpen={setIsPersonalOpen}
 										/>
 									</SortableContext>
 								</DndContext>

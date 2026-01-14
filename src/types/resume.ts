@@ -34,6 +34,18 @@ export interface SideProjectEntry {
 	visible?: boolean;
 }
 
+export interface VolunteeringEntry {
+	role: string;
+	organization: string;
+	organizationUrl?: string;
+	startDate: string;
+	endDate: string;
+	bulletPoints: string;
+	bulletPointsDraft?: string;
+	notes?: string;
+	visible?: boolean;
+}
+
 export interface ResumeData {
 	name: string;
 	email: string;
@@ -43,6 +55,7 @@ export interface ResumeData {
 	experience: ExperienceEntry[];
 	education: EducationEntry[];
 	sideProjects: SideProjectEntry[];
+	volunteering: VolunteeringEntry[];
 	personal?: {
 		bulletPoints: string;
 		bulletPointsDraft?: string;
@@ -55,6 +68,7 @@ export interface ResumeData {
 		experience?: boolean;
 		education?: boolean;
 		sideProjects?: boolean;
+		volunteering?: boolean;
 		personal?: boolean;
 		skills?: boolean;
 	};
@@ -63,11 +77,12 @@ export interface ResumeData {
 		experience?: string;
 		education?: string;
 		sideProjects?: string;
+		volunteering?: string;
 		personal?: string;
 		skills?: string;
 		background?: string;
 	};
-	sectionOrder?: ("experience" | "background" | "sideProjects" | "personal")[];
+	sectionOrder?: ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[];
 	sectionHeaderBackgroundColor?: string;
 	sectionHeaderTextColor?: string;
 	fontFamily?: string;

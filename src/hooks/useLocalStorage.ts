@@ -4,8 +4,8 @@ import type { ResumeData } from '../types/resume'
 const STORAGE_KEY = 'resume-builder-data'
 
 const migrateSectionOrder = (
-  order?: ("experience" | "education" | "sideProjects" | "skills" | "background" | "personal")[]
-): ("experience" | "background" | "sideProjects" | "personal")[] | undefined => {
+  order?: ("experience" | "education" | "sideProjects" | "skills" | "background" | "personal" | "volunteering")[]
+): ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[] | undefined => {
   if (!order) return undefined
   // Convert old format with education/skills to new format with background
   const hasEducation = order.includes("education")
@@ -15,9 +15,9 @@ const migrateSectionOrder = (
   if (hasBackground) {
     // Already migrated, just filter out education and skills
     return order.filter(
-      (id): id is "experience" | "background" | "sideProjects" | "personal" =>
+      (id): id is "experience" | "background" | "sideProjects" | "volunteering" | "personal" =>
         id !== "education" && id !== "skills"
-    ) as ("experience" | "background" | "sideProjects" | "personal")[]
+    ) as ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[]
   }
   
   if (hasEducation || hasSkills) {
@@ -30,18 +30,18 @@ const migrateSectionOrder = (
         return id
       })
       .filter(
-        (id): id is "experience" | "background" | "sideProjects" | "personal" =>
-          id === "experience" || id === "background" || id === "sideProjects" || id === "personal"
+        (id): id is "experience" | "background" | "sideProjects" | "volunteering" | "personal" =>
+          id === "experience" || id === "background" || id === "sideProjects" || id === "volunteering" || id === "personal"
       )
     // Remove duplicates (in case both education and skills were present)
-    return Array.from(new Set(migrated)) as ("experience" | "background" | "sideProjects" | "personal")[]
+    return Array.from(new Set(migrated)) as ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[]
   }
   
   // No migration needed, just filter
   return order.filter(
-    (id): id is "experience" | "background" | "sideProjects" | "personal" =>
-      id === "experience" || id === "background" || id === "sideProjects" || id === "personal"
-  ) as ("experience" | "background" | "sideProjects" | "personal")[]
+    (id): id is "experience" | "background" | "sideProjects" | "volunteering" | "personal" =>
+      id === "experience" || id === "background" || id === "sideProjects" || id === "volunteering" || id === "personal"
+  ) as ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[]
 }
 
 const defaultResumeData: ResumeData = {
@@ -53,6 +53,7 @@ const defaultResumeData: ResumeData = {
   experience: [],
   education: [],
   sideProjects: [],
+  volunteering: [],
   personal: {
     bulletPoints: '',
     visible: true,
@@ -63,10 +64,11 @@ const defaultResumeData: ResumeData = {
     experience: true,
     education: true,
     sideProjects: true,
+    volunteering: true,
     personal: true,
     skills: true,
   },
-  sectionOrder: ["experience", "background", "sideProjects", "personal"],
+  sectionOrder: ["experience", "background", "sideProjects", "volunteering", "personal"],
   sectionHeaderBackgroundColor: "#3b82f6",
   sectionHeaderTextColor: "#ffffff",
   fontFamily: "'Inter Variable', sans-serif",
@@ -120,6 +122,17 @@ const sampleResumeData: ResumeData = {
       visible: true,
     },
   ],
+  volunteering: [
+    {
+      role: 'Volunteer Developer',
+      organization: 'Code for Good',
+      organizationUrl: 'https://codeforgood.org',
+      startDate: '2019',
+      endDate: 'Present',
+      bulletPoints: '- Contributing to various non-profit projects\n- Helping build accessible web tools for local communities',
+      visible: true,
+    }
+  ],
   personal: {
     bulletPoints: '- Passionate about clean code and software architecture\n- Enjoys mentoring and sharing knowledge with the community\n- Avid traveler and landscape photographer',
     visible: true,
@@ -130,6 +143,7 @@ const sampleResumeData: ResumeData = {
     experience: true,
     education: true,
     sideProjects: true,
+    volunteering: true,
     personal: true,
     skills: true,
   },
@@ -137,10 +151,11 @@ const sampleResumeData: ResumeData = {
     experience: 'Professional Experience',
     education: 'Education',
     sideProjects: 'Projects',
+    volunteering: 'Volunteering',
     personal: 'About Me',
     background: 'Education & Skills',
   },
-  sectionOrder: ["experience", "background", "sideProjects", "personal"],
+  sectionOrder: ["experience", "background", "sideProjects", "volunteering", "personal"],
   sectionHeaderBackgroundColor: "#3b82f6",
   sectionHeaderTextColor: "#ffffff",
   fontFamily: "'Inter Variable', sans-serif",
@@ -204,6 +219,9 @@ export const useLocalStorage = () => {
               : typeof parsed.sideProjects === 'string'
                 ? []
                 : [],
+            volunteering: Array.isArray(parsed.volunteering)
+              ? parsed.volunteering.map((e) => ({ ...e, visible: e.visible ?? true }))
+              : [],
             personal: (() => {
               // Migrate from array to single object
               if (Array.isArray(parsed.personal)) {
@@ -233,12 +251,21 @@ export const useLocalStorage = () => {
             })(),
             sectionsVisible: parsed.sectionsVisible || defaultResumeData.sectionsVisible,
             sectionOrder: (() => {
-              const migratedOrder = migrateSectionOrder(parsed.sectionOrder) || ["experience", "background", "sideProjects", "personal"];
+              const migratedOrder = migrateSectionOrder(parsed.sectionOrder) || ["experience", "background", "sideProjects", "volunteering", "personal"];
               // Ensure "personal" is in the section order if it's missing
               if (!migratedOrder.includes("personal")) {
-                return [...migratedOrder, "personal"] as ("experience" | "background" | "sideProjects" | "personal")[];
+                migratedOrder.push("personal");
               }
-              return migratedOrder;
+              // Ensure "volunteering" is in the section order if it's missing
+              if (!migratedOrder.includes("volunteering")) {
+                const sideProjectsIndex = migratedOrder.indexOf("sideProjects");
+                if (sideProjectsIndex !== -1) {
+                  migratedOrder.splice(sideProjectsIndex + 1, 0, "volunteering");
+                } else {
+                  migratedOrder.push("volunteering");
+                }
+              }
+              return migratedOrder as ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[];
             })(),
           }
           setResumeData(migrated)
@@ -319,6 +346,9 @@ export const useLocalStorage = () => {
         : typeof data.sideProjects === 'string'
           ? []
           : [],
+      volunteering: Array.isArray(data.volunteering)
+        ? data.volunteering.map((e) => ({ ...e, visible: e.visible ?? true }))
+        : [],
       personal: (() => {
         // Migrate from array to single object
         if (Array.isArray(data.personal)) {
@@ -345,12 +375,21 @@ export const useLocalStorage = () => {
       })(),
       sectionsVisible: data.sectionsVisible || defaultResumeData.sectionsVisible,
       sectionOrder: (() => {
-        const migratedOrder = migrateSectionOrder(data.sectionOrder) || ["experience", "background", "sideProjects", "personal"];
+        const migratedOrder = migrateSectionOrder(data.sectionOrder) || ["experience", "background", "sideProjects", "volunteering", "personal"];
         // Ensure "personal" is in the section order if it's missing
         if (!migratedOrder.includes("personal")) {
-          return [...migratedOrder, "personal"] as ("experience" | "background" | "sideProjects" | "personal")[];
+          migratedOrder.push("personal");
         }
-        return migratedOrder;
+        // Ensure "volunteering" is in the section order if it's missing
+        if (!migratedOrder.includes("volunteering")) {
+          const sideProjectsIndex = migratedOrder.indexOf("sideProjects");
+          if (sideProjectsIndex !== -1) {
+            migratedOrder.splice(sideProjectsIndex + 1, 0, "volunteering");
+          } else {
+            migratedOrder.push("volunteering");
+          }
+        }
+        return migratedOrder as ("experience" | "background" | "sideProjects" | "volunteering" | "personal")[];
       })(),
     }
     setResumeData(migrated)
