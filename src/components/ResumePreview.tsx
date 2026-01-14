@@ -40,8 +40,8 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
     visibleExperience.length > 0 ||
     visibleEducation.length > 0 ||
     visibleSideProjects.length > 0 ||
-    (showPersonal && data.personal && data.personal.visible !== false && data.personal.bulletPoints) ||
-    (showSkills && data.skills)
+    (showPersonal && data.personal?.bulletPoints && data.personal.bulletPoints.trim() !== "") ||
+    (showSkills && data.skills && data.skills.trim() !== "")
 
   const backgroundColor = data.sectionHeaderBackgroundColor || "#1e40af"
 
@@ -61,6 +61,7 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
       )
     }
     if (sectionId === "personal") {
+      if (!showPersonal) return null
       return (
         <div key="personal" data-pdf-section="personal">
           <PersonalPreview personal={data.personal} title={data.sectionTitles?.personal} backgroundColor={backgroundColor} />
@@ -92,6 +93,7 @@ export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
         minHeight: '1123px',
         backgroundColor: '#ffffff',
         color: '#111827',
+        fontFamily: data.fontFamily || "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
       }}
     >
       {hasHeader && (

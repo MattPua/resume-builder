@@ -14,7 +14,7 @@ export const PersonalPreview = ({
 	title = "Personal",
 	backgroundColor,
 }: PersonalPreviewProps) => {
-	if (!personal || personal.visible === false) return null;
+	if (!personal) return null;
 	if (!personal.bulletPoints || personal.bulletPoints.trim() === "") return null;
 
 	return (

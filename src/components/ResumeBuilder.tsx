@@ -23,6 +23,7 @@ import {
 	GraduationCap,
 	Menu,
 	RotateCcw,
+	Type,
 	ZoomIn,
 	ZoomOut,
 } from "lucide-react";
@@ -48,6 +49,12 @@ const DEFAULT_SECTION_ORDER: (
 	| "sideProjects"
 	| "personal"
 )[] = ["experience", "background", "sideProjects", "personal"];
+
+const FONTS = [
+	{ name: "Sans Serif", value: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" },
+	{ name: "Serif", value: "ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif" },
+	{ name: "Mono", value: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" },
+];
 
 export const ResumeBuilder = () => {
 	const {
@@ -402,6 +409,26 @@ export const ResumeBuilder = () => {
 												className="size-6 cursor-pointer rounded-sm border border-gray-200 dark:border-gray-700 p-0 overflow-hidden"
 												title="Section Header Color"
 											/>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button variant="outline" size="icon" className="size-6 w-auto px-1.5 h-6 text-[10px] font-medium uppercase tracking-wider">
+														<Type className="size-3 mr-1" />
+														{FONTS.find(f => f.value === (resumeData.fontFamily || FONTS[0].value))?.name || "Font"}
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="start" className="w-48">
+													{FONTS.map((font) => (
+														<DropdownMenuItem
+															key={font.name}
+															onClick={() => updateResumeData({ fontFamily: font.value })}
+															className={resumeData.fontFamily === font.value ? "bg-accent" : ""}
+															style={{ fontFamily: font.value }}
+														>
+															{font.name}
+														</DropdownMenuItem>
+													))}
+												</DropdownMenuContent>
+											</DropdownMenu>
 										</div>
 									</div>
 									<div className="flex items-center -space-x-px">

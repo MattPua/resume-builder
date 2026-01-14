@@ -186,7 +186,9 @@ export const useLocalStorage = () => {
     setResumeData((prev) => {
       const updated = { ...prev, ...updates }
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+        }
       } catch (error) {
         console.error('Failed to save resume data to localStorage:', error)
       }
@@ -197,7 +199,9 @@ export const useLocalStorage = () => {
   const resetResumeData = () => {
     setResumeData(defaultResumeData)
     try {
-      localStorage.removeItem(STORAGE_KEY)
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem(STORAGE_KEY)
+      }
     } catch (error) {
       console.error('Failed to clear resume data from localStorage:', error)
     }
@@ -259,7 +263,9 @@ export const useLocalStorage = () => {
     }
     setResumeData(migrated)
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated))
+      }
     } catch (error) {
       console.error('Failed to save imported resume data to localStorage:', error)
     }
