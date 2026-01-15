@@ -285,9 +285,9 @@ function FaqsPage() {
 					</div>
 
 					{/* Call to Action */}
-					<div className="text-center pt-8">
+					<div className="text-center">
 						<Button asChild size="lg" className="px-8 py-6 text-lg">
-							<Link to="/">Start Building Your Resume</Link>
+							<Link to="/build">Start Building Your Resume</Link>
 						</Button>
 					</div>
 				</div>

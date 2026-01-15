@@ -47,7 +47,7 @@ export const EmptyState = ({
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
 					<div className="flex flex-col gap-2">
 						<Button
 							onClick={onStartFresh}
@@ -104,7 +104,7 @@ export const EmptyState = ({
 					</div>
 				</div>
 
-				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-8 border-y border-gray-100 dark:border-gray-800">
+				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-8">
 					<div className="flex flex-col items-center gap-2">
 						<div className="size-8 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">
 							<ShieldCheck className="size-5" />
