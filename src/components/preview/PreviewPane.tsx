@@ -86,20 +86,7 @@ export const PreviewPane = ({
 						onResetZoom={() => setZoomLevel(1)}
 					/>
 				</div>
-				<ErrorBoundary
-					fallback={
-						<div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900 flex-1 min-h-0 flex items-center justify-center">
-							<div className="text-center">
-								<p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-									Preview encountered an error
-								</p>
-								<p className="text-xs text-gray-500 dark:text-gray-500">
-									Please refresh the page or try again
-								</p>
-							</div>
-						</div>
-					}
-				>
+				<ErrorBoundary>
 					<div
 						ref={previewContainerRef}
 						className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900 overflow-auto flex-1 min-h-0 no-print-border no-print-background"

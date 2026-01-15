@@ -12,20 +12,17 @@ interface PersonalSectionProps {
 	resumeData: ResumeData;
 	updateResumeData: (data: Partial<ResumeData>) => void;
 	isOpen: boolean;
-	onOpenChange: (open: boolean) => void;
-	attributes: any;
-	listeners: any;
+	attributes: React.HTMLAttributes<HTMLButtonElement>;
+	listeners: React.HTMLAttributes<HTMLButtonElement>;
 }
 
 export const PersonalSection = ({
 	resumeData,
 	updateResumeData,
 	isOpen,
-	onOpenChange,
 	attributes,
 	listeners,
 }: PersonalSectionProps) => {
-	const isVisible = resumeData.sectionsVisible?.personal !== false;
 	const personal = resumeData.personal || { bulletPoints: "", visible: true };
 	const sectionTitle = resumeData.sectionTitles?.personal || "Personal";
 	const bulletPointsRef = useRef<HTMLTextAreaElement>(null);
@@ -44,35 +41,12 @@ export const PersonalSection = ({
 	};
 
 	return (
-		<ErrorBoundary
-			fallback={
-				<div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-					<h2 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight mb-2">
-						Personal
-					</h2>
-					<p className="text-sm text-gray-600 dark:text-gray-400">
-						This section encountered an error. Please refresh the page.
-					</p>
-				</div>
-			}
-		>
+		<ErrorBoundary>
 			<SectionHeader
 				title={sectionTitle}
 				isOpen={isOpen}
 				attributes={attributes}
 				listeners={listeners}
-				visibilityControl="eye"
-				visibilityProps={{
-					isVisible,
-					onToggle: () => {
-						updateResumeData({
-							sectionsVisible: {
-								...resumeData.sectionsVisible,
-								personal: !isVisible,
-							},
-						});
-					},
-				}}
 				onTitleChange={(newTitle) => {
 					updateResumeData({
 						sectionTitles: {

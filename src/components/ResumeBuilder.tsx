@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useResumeActions } from "../hooks/useResumeActions";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { ErrorPage } from "./ErrorPage";
 import { ImportMarkdownDialog } from "./ImportMarkdownDialog";
 import { AppControlsHeader } from "./layout/AppControlsHeader";
 import { AppNavigation } from "./layout/AppNavigation";
@@ -273,28 +274,7 @@ export const ResumeBuilder = () => {
 	}
 
 	return (
-		<ErrorBoundary
-			fallback={
-				<div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-					<div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center">
-						<h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-							Something went wrong
-						</h1>
-						<p className="text-gray-600 dark:text-gray-400 mb-4">
-							The resume builder encountered an unexpected error. Please refresh
-							the page to continue.
-						</p>
-						<button
-							type="button"
-							onClick={() => window.location.reload()}
-							className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
-						>
-							Refresh Page
-						</button>
-					</div>
-				</div>
-			}
-		>
+		<ErrorBoundary fallback={<ErrorPage />}>
 			<div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
 				<SiteHeader />
 
@@ -302,11 +282,14 @@ export const ResumeBuilder = () => {
 					<AppNavigation
 						activeSection={activeSection}
 						sectionOrder={sectionOrder}
+						sectionsVisible={resumeData.sectionsVisible}
 						onScrollToSection={scrollToSection}
 					/>
 
 					<main className="flex-1 lg:pl-20 px-4 pt-8 pb-16">
 						<AppControlsHeader
+							resumeData={resumeData}
+							updateResumeData={updateResumeData}
 							fileInputRef={fileInputRef}
 							allSectionsCollapsed={allSectionsCollapsed}
 							handleImportJSON={handleImportJSON}

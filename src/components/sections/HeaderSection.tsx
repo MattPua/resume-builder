@@ -17,48 +17,28 @@ export const HeaderSection = ({
 	isOpen,
 	onOpenChange,
 }: HeaderSectionProps) => {
-	const isVisible = resumeData.sectionsVisible?.header !== false;
 	const sectionTitle = resumeData.sectionTitles?.header || "Header & Contact";
 
 	return (
-		<ErrorBoundary
-			fallback={
-				<div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-					<h2 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight mb-2">
-						Header & Contact
-					</h2>
-					<p className="text-sm text-gray-600 dark:text-gray-400">
-						This section encountered an error. Please refresh the page.
-					</p>
-				</div>
-			}
-		>
+		<ErrorBoundary>
 			<Collapsible
 				open={isOpen}
 				onOpenChange={onOpenChange}
-				className={`rounded-lg border shadow-sm transition-all duration-200 ${
-					isVisible
-						? "bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700"
-						: "bg-gray-50/50 dark:bg-gray-900/30 border-primary/30 border-dashed opacity-75"
-				}`}
+				className="rounded-lg border shadow-sm transition-all duration-200 bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700"
 				id="section-header"
 			>
 				<div className="p-6">
 					<SectionHeader
 						title={sectionTitle}
 						isOpen={isOpen}
-						visibilityControl="eye"
-						visibilityProps={{
-							isVisible,
-							onToggle: () => {
-								updateResumeData({
-									sectionsVisible: {
-										...resumeData.sectionsVisible,
-										header: !isVisible,
-									},
-								});
-							},
-						}}
+						onTitleChange={(newTitle) =>
+							updateResumeData({
+								sectionTitles: {
+									...resumeData.sectionTitles,
+									header: newTitle,
+								},
+							})
+						}
 					/>
 					<CollapsibleContent>
 						<div className="flex flex-col gap-4">

@@ -13,7 +13,7 @@ interface ResumePreviewProps {
 }
 
 export const ResumePreview = ({ data, previewRef }: ResumePreviewProps) => {
-	const showHeader = data.sectionsVisible?.header !== false;
+	const showHeader = true;
 	const showExperience = data.sectionsVisible?.experience !== false;
 	const showEducation = data.sectionsVisible?.education !== false;
 	const showSideProjects = data.sectionsVisible?.sideProjects !== false;

@@ -6,7 +6,6 @@ import { Collapsible } from "./ui/collapsible";
 interface SortableSectionProps {
 	id: string;
 	isOpen: boolean;
-	isVisible?: boolean;
 	onOpenChange: (open: boolean) => void;
 	children: (props: {
 		attributes: React.HTMLAttributes<HTMLButtonElement>;
@@ -17,7 +16,6 @@ interface SortableSectionProps {
 export const SortableSection = ({
 	id,
 	isOpen,
-	isVisible = true,
 	onOpenChange,
 	children,
 }: SortableSectionProps) => {
@@ -41,11 +39,7 @@ export const SortableSection = ({
 			<Collapsible
 				open={isOpen}
 				onOpenChange={onOpenChange}
-				className={`rounded-lg border shadow-sm transition-all duration-200 ${
-					isVisible
-						? "bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700"
-						: "bg-gray-50/50 dark:bg-gray-900/30 border-primary/30 border-dashed opacity-75"
-				}`}
+				className="rounded-lg border shadow-sm transition-all duration-200 bg-white dark:bg-gray-800/50 border-gray-200 dark:border-gray-700"
 			>
 				<div className="p-6">{children({ attributes, listeners })}</div>
 			</Collapsible>

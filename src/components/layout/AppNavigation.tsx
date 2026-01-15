@@ -15,10 +15,12 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import type { ResumeData } from "../../types/resume";
 
 interface AppNavigationProps {
 	activeSection: string;
 	sectionOrder: string[];
+	sectionsVisible?: ResumeData["sectionsVisible"];
 	onScrollToSection: (sectionId: string) => void;
 }
 
@@ -41,8 +43,13 @@ const SECTION_TITLES = {
 export const AppNavigation = ({
 	activeSection,
 	sectionOrder,
+	sectionsVisible,
 	onScrollToSection,
 }: AppNavigationProps) => {
+	const visibleSectionOrder = sectionOrder.filter(
+		(sectionId) => sectionsVisible?.[sectionId as keyof typeof sectionsVisible] !== false,
+	);
+
 	return (
 		<>
 			{/* Desktop Section Navigation */}
@@ -63,7 +70,7 @@ export const AppNavigation = ({
 							<p>Header & Contact</p>
 						</TooltipContent>
 					</Tooltip>
-					{sectionOrder.map((sectionId) => {
+					{visibleSectionOrder.map((sectionId) => {
 						const Icon = SECTION_ICONS[sectionId as keyof typeof SECTION_ICONS];
 						const title =
 							SECTION_TITLES[sectionId as keyof typeof SECTION_TITLES];
@@ -109,7 +116,7 @@ export const AppNavigation = ({
 							<Contact className="size-4 mr-2" />
 							<span>Header & Contact</span>
 						</DropdownMenuItem>
-						{sectionOrder.map((sectionId) => {
+						{visibleSectionOrder.map((sectionId) => {
 							const Icon =
 								SECTION_ICONS[sectionId as keyof typeof SECTION_ICONS];
 							const title =

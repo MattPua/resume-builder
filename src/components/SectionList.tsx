@@ -48,12 +48,12 @@ export const SectionList = ({
 			{sectionOrder.map((sectionId) => {
 				if (sectionId === "experience") {
 					const isVisible = resumeData.sectionsVisible?.experience !== false;
+					if (!isVisible) return null;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isExperienceOpen}
-							isVisible={isVisible}
 							onOpenChange={setIsExperienceOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -73,12 +73,12 @@ export const SectionList = ({
 					const isVisible =
 						resumeData.sectionsVisible?.education !== false ||
 						resumeData.sectionsVisible?.skills !== false;
+					if (!isVisible) return null;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isBackgroundOpen}
-							isVisible={isVisible}
 							onOpenChange={setIsBackgroundOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -96,12 +96,12 @@ export const SectionList = ({
 				}
 				if (sectionId === "sideProjects") {
 					const isVisible = resumeData.sectionsVisible?.sideProjects !== false;
+					if (!isVisible) return null;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isSideProjectsOpen}
-							isVisible={isVisible}
 							onOpenChange={setIsSideProjectsOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -119,12 +119,12 @@ export const SectionList = ({
 				}
 				if (sectionId === "volunteering") {
 					const isVisible = resumeData.sectionsVisible?.volunteering !== false;
+					if (!isVisible) return null;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isVolunteeringOpen}
-							isVisible={isVisible}
 							onOpenChange={setIsVolunteeringOpen}
 						>
 							{({ attributes, listeners }) => (
@@ -142,12 +142,12 @@ export const SectionList = ({
 				}
 				if (sectionId === "personal") {
 					const isVisible = resumeData.sectionsVisible?.personal !== false;
+					if (!isVisible) return null;
 					return (
 						<SortableSection
 							key={sectionId}
 							id={sectionId}
 							isOpen={isPersonalOpen}
-							isVisible={isVisible}
 							onOpenChange={setIsPersonalOpen}
 						>
 							{({ attributes, listeners }) => (
