@@ -48,7 +48,9 @@ export const EmptyState = ({
 					</p>
 				</div>
 
-				<div className={`grid grid-cols-1 ${hasExistingData ? "" : "sm:grid-cols-2"} gap-4 pt-2`}>
+				<div
+					className={`grid grid-cols-1 ${hasExistingData ? "" : "sm:grid-cols-2"} gap-4 pt-2`}
+				>
 					<div className="flex flex-col gap-2">
 						<Button
 							onClick={onStartFresh}
@@ -121,49 +123,57 @@ export const EmptyState = ({
 					)}
 				</div>
 
-				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-8">
-					<div className="flex flex-col items-center gap-2">
-						<div className="size-8 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">
-							<ShieldCheck className="size-5" />
+				<div className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-12">
+					<div className="flex flex-col items-center gap-3 group animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
+						<div className="size-14 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-green-100 dark:group-hover:bg-green-900/30 group-hover:shadow-xl group-hover:shadow-green-500/20">
+							<ShieldCheck className="size-7" />
 						</div>
-						<div className="text-center">
-							<p className="text-xs font-bold text-gray-900 dark:text-white">
+						<div className="text-center space-y-1">
+							<p className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition-colors">
 								100% Free
 							</p>
-							<p className="text-[10px] text-gray-500">No hidden costs</p>
+							<p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+								No hidden costs or subscriptions
+							</p>
 						</div>
 					</div>
-					<div className="flex flex-col items-center gap-2">
-						<div className="size-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
-							<User className="size-5" />
+					<div className="flex flex-col items-center gap-3 group animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+						<div className="size-14 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 group-hover:shadow-xl group-hover:shadow-blue-500/20">
+							<User className="size-7" />
 						</div>
-						<div className="text-center">
-							<p className="text-xs font-bold text-gray-900 dark:text-white">
+						<div className="text-center space-y-1">
+							<p className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
 								No Account
 							</p>
-							<p className="text-[10px] text-gray-500">Start immediately</p>
+							<p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+								Start building immediately
+							</p>
 						</div>
 					</div>
-					<div className="flex flex-col items-center gap-2">
-						<div className="size-8 rounded-full bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600">
-							<Database className="size-5" />
+					<div className="flex flex-col items-center gap-3 group animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
+						<div className="size-14 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-purple-100 dark:group-hover:bg-purple-900/30 group-hover:shadow-xl group-hover:shadow-purple-500/20">
+							<Database className="size-7" />
 						</div>
-						<div className="text-center">
-							<p className="text-xs font-bold text-gray-900 dark:text-white">
+						<div className="text-center space-y-1">
+							<p className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-purple-600 transition-colors">
 								Privacy-First
 							</p>
-							<p className="text-[10px] text-gray-500">Data stays local</p>
+							<p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+								All data stays local in your browser
+							</p>
 						</div>
 					</div>
-					<div className="flex flex-col items-center gap-2">
-						<div className="size-8 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
-							<Zap className="size-5" />
+					<div className="flex flex-col items-center gap-3 group animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-both">
+						<div className="size-14 rounded-2xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 transition-all duration-300 group-hover:scale-110 group-hover:-rotate-3 group-hover:bg-amber-100 dark:group-hover:bg-amber-900/30 group-hover:shadow-xl group-hover:shadow-amber-500/20">
+							<Zap className="size-7" />
 						</div>
-						<div className="text-center">
-							<p className="text-xs font-bold text-gray-900 dark:text-white">
+						<div className="text-center space-y-1">
+							<p className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-amber-600 transition-colors">
 								ATS-Friendly
 							</p>
-							<p className="text-[10px] text-gray-500">Recruiter approved</p>
+							<p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">
+								Recruiter-approved templates
+							</p>
 						</div>
 					</div>
 				</div>
