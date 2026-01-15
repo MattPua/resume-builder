@@ -98,6 +98,14 @@ export const SideProjectsSection = ({
 		}
 	};
 
+	const handleCollapseAllEntries = () => {
+		const newStates: Record<number, boolean> = {};
+		resumeData.sideProjects.forEach((_, index) => {
+			newStates[index] = false;
+		});
+		setEntryOpenStates(newStates);
+	};
+
 	return (
 		<ErrorBoundary
 			fallback={
@@ -203,6 +211,7 @@ export const SideProjectsSection = ({
 						<DndContext
 							sensors={entrySensors}
 							collisionDetection={closestCenter}
+							onDragStart={handleCollapseAllEntries}
 							onDragEnd={handleEntryDragEnd}
 						>
 							<SortableContext

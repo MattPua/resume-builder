@@ -136,6 +136,15 @@ export const ResumeBuilder = () => {
 		!isVolunteeringOpen &&
 		!isPersonalOpen;
 
+	const handleCollapseAll = () => {
+		setIsHeaderOpen(false);
+		setIsExperienceOpen(false);
+		setIsBackgroundOpen(false);
+		setIsSideProjectsOpen(false);
+		setIsVolunteeringOpen(false);
+		setIsPersonalOpen(false);
+	};
+
 	const handleToggleAllSections = () => {
 		const shouldCollapse = !allSectionsCollapsed;
 		setIsHeaderOpen(!shouldCollapse);
@@ -328,6 +337,7 @@ export const ResumeBuilder = () => {
 								<DndContext
 									sensors={sensors}
 									collisionDetection={closestCenter}
+									onDragStart={handleCollapseAll}
 									onDragEnd={handleDragEnd}
 								>
 									<SortableContext

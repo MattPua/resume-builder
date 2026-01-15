@@ -97,6 +97,14 @@ export const VolunteeringSection = ({
 		}
 	};
 
+	const handleCollapseAllEntries = () => {
+		const newStates: Record<number, boolean> = {};
+		resumeData.volunteering.forEach((_, index) => {
+			newStates[index] = false;
+		});
+		setEntryOpenStates(newStates);
+	};
+
 	return (
 		<ErrorBoundary
 			fallback={
@@ -202,6 +210,7 @@ export const VolunteeringSection = ({
 						<DndContext
 							sensors={entrySensors}
 							collisionDetection={closestCenter}
+							onDragStart={handleCollapseAllEntries}
 							onDragEnd={handleEntryDragEnd}
 						>
 							<SortableContext
