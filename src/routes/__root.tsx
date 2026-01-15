@@ -18,15 +18,18 @@ export const Route = createRootRoute({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "Your Resume Builder | Open Source & Private | 100% Local & Secure",
+				title:
+					"Your Resume Builder | Open Source & Private | 100% Local & Secure",
 			},
 			{
 				name: "description",
-				content: "Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local tool where nothing is uploaded and all data stays in your browser. Free, fast, and secure with high-quality PDF export.",
+				content:
+					"Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local tool where nothing is uploaded and all data stays in your browser. Free, fast, and secure with high-quality PDF export.",
 			},
 			{
 				name: "keywords",
-				content: "Your Resume Builder, open source resume builder, private resume builder, local resume creator, secure CV maker, free resume builder, no upload resume, professional resume, PDF resume, markdown resume",
+				content:
+					"Your Resume Builder, open source resume builder, private resume builder, local resume creator, secure CV maker, free resume builder, no upload resume, professional resume, PDF resume, markdown resume",
 			},
 			{
 				property: "og:title",
@@ -34,7 +37,8 @@ export const Route = createRootRoute({
 			},
 			{
 				property: "og:description",
-				content: "Build a professional resume with total privacy using Your Resume Builder. 100% local, secure, and free. No data ever leaves your browser.",
+				content:
+					"Build a professional resume with total privacy using Your Resume Builder. 100% local, secure, and free. No data ever leaves your browser.",
 			},
 			{
 				property: "og:type",
@@ -54,7 +58,8 @@ export const Route = createRootRoute({
 			},
 			{
 				name: "twitter:description",
-				content: "100% local and private resume builder. Create a professional CV in minutes without uploading any personal data with Your Resume Builder.",
+				content:
+					"100% local and private resume builder. Create a professional CV in minutes without uploading any personal data with Your Resume Builder.",
 			},
 			{
 				name: "twitter:image",
@@ -89,24 +94,25 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	const jsonLd = {
 		"@context": "https://schema.org",
 		"@type": "WebApplication",
-		"name": "Your Resume Builder",
-		"description": "Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local, secure, and free tool. No data ever leaves your browser.",
-		"applicationCategory": "DesignApplication",
-		"operatingSystem": "All",
-		"offers": {
+		name: "Your Resume Builder",
+		description:
+			"Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local, secure, and free tool. No data ever leaves your browser.",
+		applicationCategory: "DesignApplication",
+		operatingSystem: "All",
+		offers: {
 			"@type": "Offer",
-			"price": "0",
-			"priceCurrency": "USD"
+			price: "0",
+			priceCurrency: "USD",
 		},
-		"featureList": [
+		featureList: [
 			"Open Source",
 			"100% Private & Local",
 			"High-quality PDF Export",
 			"Multi-page Support",
 			"Auto-saving in Browser",
 			"Backup & Transfer via JSON",
-			"No Account Required"
-		]
+			"No Account Required",
+		],
 	};
 
 	return (

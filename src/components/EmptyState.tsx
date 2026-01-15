@@ -31,10 +31,6 @@ export const EmptyState = ({
 					<h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
 						Build your professional resume in minutes.
 					</h1>
-					<p className="text-lg text-gray-600 dark:text-gray-400 max-w-lg">
-						Your Resume Builder is a privacy-first resume builder. Your data
-						never leaves your browser.
-					</p>
 				</div>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
