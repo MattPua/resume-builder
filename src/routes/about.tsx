@@ -107,22 +107,38 @@ function AboutPage() {
 					</div>
 
 					{/* Why Build This? */}
-					<div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 space-y-4">
+					<div className="bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 space-y-6">
 						<h3 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
 							<ShieldCheck className="size-6 text-green-600" />
 							Why Build This?
 						</h3>
-						<div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-4">
+						<div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-4 leading-relaxed">
 							<p>
 								Most online resume builders require an account, charge a
 								subscription, or track your data. We believe your professional
 								history is personal and shouldn't be a product.
 							</p>
 							<p>
-								Your Resume Builder is a completely free, open-source
-								alternative. It was built to solve the "MS Word formatting
-								nightmare" while maintaining absolute data sovereignty for the
-								user.
+								We grew tired of the "MS Word formatting nightmare"—wrestling
+								with custom table layouts and fragile positioning just to get
+								everything "just right," only for it to break when moving
+								between Google Docs and MS Word.
+							</p>
+							<p>
+								We built this because we just wanted to write our content and
+								have a professional resume ready to go. No bells and whistles,
+								no fighting with margins, and no broken layouts.
+							</p>
+							<p>
+								Privacy was also a major driver. We wanted a tool where our
+								sensitive professional data wouldn't be fed into an AI or LLM,
+								yet still allowed for full personal control over the content.
+							</p>
+							<p>
+								By using a local-first approach with JSON and Markdown support,
+								this builder works seamlessly across devices without ever
+								requiring an account, ensuring you maintain absolute data
+								sovereignty.
 							</p>
 						</div>
 						<div className="pt-4">
@@ -138,6 +154,19 @@ function AboutPage() {
 								</a>
 							</Button>
 						</div>
+					</div>
+
+					{/* Community Blurb */}
+					<div className="text-center space-y-4 max-w-2xl mx-auto">
+						<h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+							Did you use this to build your resume?
+						</h3>
+						<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+							We'd love to hear from you! If this tool helped you land a job or
+							simply made your life easier, let us know by sharing your story or
+							leaving a star on GitHub. Your feedback helps us keep improving
+							the builder for everyone.
+						</p>
 					</div>
 
 					{/* Call to Action */}
