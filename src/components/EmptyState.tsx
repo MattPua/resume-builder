@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import {
+	ArrowRight,
 	Database,
 	FileText,
 	HelpCircle,
@@ -26,13 +27,13 @@ export const EmptyState = ({
 }: EmptyStateProps) => {
 	return (
 		<div className="flex flex-col items-start justify-center min-h-[80vh] px-4">
-			<div className="mt-10 sm:mt-0 max-w-2xl w-full text-center space-y-10 sm:space-y-8 animate-in fade-in zoom-in duration-500">
+			<div className="mt-10 sm:mt-0 max-w-2xl w-full text-center space-y-6 sm:space-y-4 animate-in fade-in zoom-in duration-500">
 				<div className="flex items-center justify-center">
 					<div className="relative">
 						<img
 							src={logo}
 							alt="Your Resume Builder Logo"
-							className="size-24 object-contain relative z-10 dark:invert"
+							className="size-32 sm:size-40 object-contain relative z-10 dark:invert"
 						/>
 					</div>
 				</div>
@@ -47,61 +48,77 @@ export const EmptyState = ({
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+				<div className={`grid grid-cols-1 ${hasExistingData ? "" : "sm:grid-cols-2"} gap-4 pt-2`}>
 					<div className="flex flex-col gap-2">
 						<Button
 							onClick={onStartFresh}
 							size="lg"
-							className="h-auto py-6 flex flex-col items-center gap-3 text-lg"
+							className={`h-auto py-6 flex flex-col items-center gap-3 text-lg group transition-all duration-300 ${
+								hasExistingData
+									? "w-full max-w-md mx-auto bg-primary shadow-xl shadow-primary/20 -translate-y-1 hover:bg-primary/90 hover:shadow-primary/30 hover:-translate-y-1.5"
+									: ""
+							}`}
 							aria-label={
 								hasExistingData ? "Continue Building" : "Build Your Resume Free"
 							}
 						>
-							<div className="flex flex-col items-center">
-								<span>
+							<div className="flex flex-col items-center gap-1 relative">
+								<span className="flex items-center gap-2 font-bold">
 									{hasExistingData
 										? "Continue Building"
 										: "Build Your Resume Free"}
+									{hasExistingData && (
+										<ArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1 animate-mini-bounce" />
+									)}
 								</span>
 								<span className="text-xs font-normal opacity-80">
 									{hasExistingData
-										? "Pick up where you left off"
+										? "Pick up right where you left off"
 										: "100% Free • No Payment Required"}
 								</span>
+								{hasExistingData && (
+									<div className="absolute -top-8 -right-8 transition-opacity duration-500">
+										<Sparkles className="size-6 text-yellow-400 animate-pulse" />
+									</div>
+								)}
 							</div>
 						</Button>
 
-						<Button
-							variant="secondary"
-							onClick={onLoadSample}
-							className="h-auto py-4 flex items-center justify-center gap-2"
-							aria-label="Load sample data to see how it works"
-						>
-							<Sparkles className="size-4 text-amber-500" />
-							<span className="font-semibold text-sm">
-								Try with Sample Data
-							</span>
-						</Button>
+						{!hasExistingData && (
+							<Button
+								variant="secondary"
+								onClick={onLoadSample}
+								className="h-auto py-4 flex items-center justify-center gap-2"
+								aria-label="Load sample data to see how it works"
+							>
+								<Sparkles className="size-4 text-amber-500" />
+								<span className="font-semibold text-sm">
+									Try with Sample Data
+								</span>
+							</Button>
+						)}
 					</div>
 
-					<div className="grid grid-cols-1 gap-2">
-						<Button
-							variant="outline"
-							onClick={onImportMarkdownText}
-							className="h-full py-6 flex flex-col items-center justify-center gap-3 px-6"
-							aria-label="Start Without Signing Up"
-						>
-							<FileText className="size-6 text-blue-500" />
-							<div className="flex flex-col items-center">
-								<span className="font-semibold text-lg">
-									Start Without Signing Up
-								</span>
-								<span className="text-xs font-normal text-gray-500">
-									Paste Markdown
-								</span>
-							</div>
-						</Button>
-					</div>
+					{!hasExistingData && (
+						<div className="grid grid-cols-1 gap-2">
+							<Button
+								variant="outline"
+								onClick={onImportMarkdownText}
+								className="h-full py-6 flex flex-col items-center justify-center gap-3 px-6"
+								aria-label="Start Without Signing Up"
+							>
+								<FileText className="size-6 text-blue-500" />
+								<div className="flex flex-col items-center">
+									<span className="font-semibold text-lg">
+										Start Without Signing Up
+									</span>
+									<span className="text-xs font-normal text-gray-500">
+										Paste Markdown
+									</span>
+								</div>
+							</Button>
+						</div>
+					)}
 				</div>
 
 				<div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-8">

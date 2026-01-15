@@ -7,6 +7,7 @@ import {
 	HeartHandshake,
 	Menu,
 } from "lucide-react";
+import type { ResumeData } from "../../types/resume";
 import { Button } from "../ui/button";
 import {
 	DropdownMenu,
@@ -15,7 +16,6 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import type { ResumeData } from "../../types/resume";
 
 interface AppNavigationProps {
 	activeSection: string;
@@ -47,7 +47,8 @@ export const AppNavigation = ({
 	onScrollToSection,
 }: AppNavigationProps) => {
 	const visibleSectionOrder = sectionOrder.filter(
-		(sectionId) => sectionsVisible?.[sectionId as keyof typeof sectionsVisible] !== false,
+		(sectionId) =>
+			sectionsVisible?.[sectionId as keyof typeof sectionsVisible] !== false,
 	);
 
 	return (
@@ -61,9 +62,19 @@ export const AppNavigation = ({
 								variant={activeSection === "header" ? "default" : "ghost"}
 								size="icon"
 								onClick={() => onScrollToSection("header")}
-								className="rounded-full size-10 transition-all duration-200"
+								className={`rounded-full size-10 transition-all duration-300 group ${
+									activeSection === "header"
+										? "scale-110 shadow-md ring-2 ring-primary/20"
+										: "hover:scale-110 hover:bg-primary/10"
+								}`}
 							>
-								<Contact className="size-5" />
+								<Contact
+									className={`size-5 transition-transform duration-300 ${
+										activeSection === "header"
+											? "scale-110 animate-mini-bounce"
+											: "group-hover:scale-110"
+									}`}
+								/>
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent side="right">
@@ -83,9 +94,19 @@ export const AppNavigation = ({
 										variant={isActive ? "default" : "ghost"}
 										size="icon"
 										onClick={() => onScrollToSection(sectionId)}
-										className="rounded-full size-10 transition-all duration-200"
+										className={`rounded-full size-10 transition-all duration-300 group ${
+											isActive
+												? "scale-110 shadow-md ring-2 ring-primary/20"
+												: "hover:scale-110 hover:bg-primary/10"
+										}`}
 									>
-										<Icon className="size-5" />
+										<Icon
+											className={`size-5 transition-transform duration-300 ${
+												isActive
+													? "scale-110 animate-mini-bounce"
+													: "group-hover:scale-110"
+											}`}
+										/>
 									</Button>
 								</TooltipTrigger>
 								<TooltipContent side="right">

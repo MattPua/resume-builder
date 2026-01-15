@@ -388,9 +388,22 @@ code {
   .animate-accordion-down {
     animation: accordion-down 0.2s ease-out;
   }
-  .animate-accordion-up {
-    animation: accordion-up 0.2s ease-out;
-  }
-}
+   .animate-accordion-up {
+     animation: accordion-up 0.2s ease-out;
+   }
+
+   @keyframes mini-bounce {
+     0%, 100% {
+       transform: translateY(0) scale(1.1);
+     }
+     50% {
+       transform: translateY(-2px) scale(1.1);
+     }
+   }
+
+   .animate-mini-bounce {
+     animation: mini-bounce 1s ease-in-out infinite;
+   }
+ }
 
 
