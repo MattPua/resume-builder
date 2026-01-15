@@ -1,4 +1,3 @@
-import logo from "../ui/logo.jpeg";
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { Button } from "../ui/button";
@@ -8,6 +7,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import logo from "../ui/logo.webp";
 
 export const SiteHeader = () => {
 	return (

@@ -1,6 +1,7 @@
-import { FileText, Plus, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { FileText, HelpCircle, Plus, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
-import logo from "./ui/logo.jpeg";
+import logo from "./ui/logo.webp";
 
 interface EmptyStateProps {
 	onStartFresh: () => void;
@@ -15,10 +16,10 @@ export const EmptyState = ({
 }: EmptyStateProps) => {
 	return (
 		<div className="flex flex-col items-start justify-center min-h-[80vh] px-4">
-			<div className="mt-10 sm:mt-0 max-w-2xl w-full text-left space-y-10 sm:space-y-8 animate-in fade-in zoom-in duration-500">
-				<div className="flex justify-start">
+			<div className="mt-10 sm:mt-0 max-w-2xl w-full text-center space-y-10 sm:space-y-8 animate-in fade-in zoom-in duration-500">
+				<div className="flex items-center justify-center">
 					<div className="relative">
-						<div className="absolute inset-0 rounded-full bg-primary/10 animate-pulse scale-150" />
+						<div className="absolute inset-0 rounded-full bg-gray-50 bg-animate-pulse scale-150" />
 						<img
 							src={logo}
 							alt="Your Resume Builder Logo"
@@ -79,10 +80,22 @@ export const EmptyState = ({
 					</div>
 				</div>
 
-				<p className="text-xs text-gray-500 dark:text-gray-500 pt-2">
-					Already have a resume? Try the Markdown import to quickly bring your
-					data over.
-				</p>
+				<div className="pt-2 space-y-4">
+					<p className="text-xs text-gray-500 dark:text-gray-500">
+						Already have a resume? Try the Markdown import to quickly bring your
+						data over.
+					</p>
+					<p className="text-sm text-gray-600 dark:text-gray-400 flex items-center justify-center gap-1.5">
+						<HelpCircle className="size-4" />
+						<span>Have questions? Check out our</span>
+						<Link
+							to="/faqs"
+							className="text-primary hover:underline font-semibold"
+						>
+							Frequently Asked Questions
+						</Link>
+					</p>
+				</div>
 			</div>
 		</div>
 	);

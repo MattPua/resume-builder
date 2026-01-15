@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Github } from "lucide-react";
 import { ThemeToggle } from "../ThemeToggle";
 import { Button } from "../ui/button";
-import logo from "../ui/logo.jpeg";
+import logo from "../ui/logo.webp";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export const SiteFooter = () => {

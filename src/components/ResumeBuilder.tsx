@@ -28,7 +28,7 @@ import { SiteHeader } from "./layout/SiteHeader";
 import { PreviewPane } from "./preview/PreviewPane";
 import { SectionList } from "./SectionList";
 import { HeaderSection } from "./sections/HeaderSection";
-import logo from "./ui/logo.jpeg";
+import logo from "./ui/logo.webp";
 
 const DEFAULT_SECTION_ORDER: (
 	| "experience"
