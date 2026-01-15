@@ -1,8 +1,13 @@
 import logo from "../ui/logo.jpeg";
 import { Link } from "@tanstack/react-router";
-import { Info } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export const SiteHeader = () => {
 	return (
@@ -21,25 +26,61 @@ export const SiteHeader = () => {
 						<span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out group-hover:w-full" />
 					</div>
 				</Link>
-				<div className="flex items-center gap-2">
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button
-								variant="ghost"
-								size="icon"
-								className="rounded-full size-10"
-								asChild
-							>
-								<Link to="/about">
-									<Info className="size-5" />
-									<span className="sr-only">How it works & Privacy</span>
-								</Link>
+
+				{/* Desktop Navigation */}
+				<div className="hidden sm:flex items-center gap-6">
+					<Link
+						to="/about"
+						className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+						activeProps={{
+							className: "text-primary dark:text-primary font-semibold",
+						}}
+					>
+						About
+					</Link>
+					<Link
+						to="/faqs"
+						className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+						activeProps={{
+							className: "text-primary dark:text-primary font-semibold",
+						}}
+					>
+						FAQs
+					</Link>
+				</div>
+
+				{/* Mobile Navigation */}
+				<div className="flex sm:hidden items-center">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="icon" className="size-10">
+								<Menu className="size-5" />
+								<span className="sr-only">Toggle navigation menu</span>
 							</Button>
-						</TooltipTrigger>
-						<TooltipContent>
-							<p>How it works & Privacy</p>
-						</TooltipContent>
-					</Tooltip>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end" className="w-48">
+							<DropdownMenuItem asChild>
+								<Link
+									to="/about"
+									activeProps={{
+										className: "bg-accent text-accent-foreground",
+									}}
+								>
+									About
+								</Link>
+							</DropdownMenuItem>
+							<DropdownMenuItem asChild>
+								<Link
+									to="/faqs"
+									activeProps={{
+										className: "bg-accent text-accent-foreground",
+									}}
+								>
+									FAQs
+								</Link>
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</div>
 			</div>
 		</header>

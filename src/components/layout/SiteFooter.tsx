@@ -1,19 +1,15 @@
+import { Link } from "@tanstack/react-router";
 import { Github } from "lucide-react";
 import { ThemeToggle } from "../ThemeToggle";
 import { Button } from "../ui/button";
-import { Link } from "@tanstack/react-router";
 import logo from "../ui/logo.jpeg";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export const SiteFooter = () => {
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer className="w-full bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-12 px-4 lg:px-8 no-print mt-auto">
+		<footer className="w-full bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-4 px-4 lg:px-8 no-print mt-auto">
 			<div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-start justify-between gap-12">
 				<div className="flex flex-col gap-4">
 					<Link to="/" className="flex items-center gap-3 group cursor-pointer">
@@ -37,19 +33,40 @@ export const SiteFooter = () => {
 						</p>
 						<span className="text-gray-300 dark:text-gray-700">|</span>
 						<Link
+							to="/"
+							className="text-xs text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
+							activeProps={{
+								className: "text-primary dark:text-primary font-semibold",
+							}}
+							activeOptions={{ exact: true }}
+						>
+							Home
+						</Link>
+						<span className="text-gray-300 dark:text-gray-700">|</span>
+						<Link
 							to="/about"
 							className="text-xs text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
+							activeProps={{
+								className: "text-primary dark:text-primary font-semibold",
+							}}
 						>
 							About
+						</Link>
+						<span className="text-gray-300 dark:text-gray-700">|</span>
+						<Link
+							to="/faqs"
+							className="text-xs text-gray-400 dark:text-gray-500 hover:text-primary transition-colors"
+							activeProps={{
+								className: "text-primary dark:text-primary font-semibold",
+							}}
+						>
+							FAQs
 						</Link>
 					</div>
 				</div>
 
 				<div className="flex items-center gap-6">
 					<div className="flex items-center gap-3">
-						<span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
-							Theme
-						</span>
 						<ThemeToggle />
 					</div>
 

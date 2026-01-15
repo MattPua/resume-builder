@@ -11,8 +11,15 @@ import {
 import { SiteFooter } from "../components/layout/SiteFooter";
 import { SiteHeader } from "../components/layout/SiteHeader";
 import { Button } from "../components/ui/button";
+import { createSeo } from "../lib/seo";
 
 export const Route = createFileRoute("/about")({
+	head: () =>
+		createSeo({
+			title: "About",
+			description:
+				"Learn more about Your Resume Builder - a privacy-first, content-focused tool for building professional resumes.",
+		}),
 	component: AboutPage,
 });
 
