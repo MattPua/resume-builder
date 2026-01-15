@@ -20,14 +20,14 @@ export const createSeo = ({
 	const baseTitle = "Your Resume Builder";
 	const fullTitle = title
 		? `${title} | ${baseTitle}`
-		: `${baseTitle} | Open Source & Private | 100% Local & Secure`;
+		: `Free Resume Builder – ATS-Friendly, No Signup Required`;
 
 	const baseDescription =
-		"Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local tool where nothing is uploaded and all data stays in your browser. Free, fast, and secure with high-quality PDF export.";
+		"Build a professional, ATS-friendly resume online for free. No signup, no tracking. Your data stays on your device.";
 	const fullDescription = description || baseDescription;
 
 	const baseKeywords =
-		"Your Resume Builder, open source resume builder, private resume builder, local resume creator, secure CV maker, free resume builder, no upload resume, professional resume, PDF resume, markdown resume";
+		"free resume builder, resume builder free, online resume builder free, ATS friendly resume builder, resume builder no signup, resume builder no account required, build resume online without signing up, privacy focused resume builder, local resume builder browser based, resume builder for developers";
 	const fullKeywords = keywords ? `${keywords}, ${baseKeywords}` : baseKeywords;
 
 	const meta = [

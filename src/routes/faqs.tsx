@@ -142,9 +142,9 @@ export const Route = createFileRoute("/faqs")({
 	head: () => {
 		const allItems = FAQ_GROUPS.flatMap((group) => group.items);
 		return createSeo({
-			title: "FAQs",
+			title: "Free Resume Builder FAQs – Privacy, ATS, and More",
 			description:
-				"Frequently asked questions about Your Resume Builder - privacy, pricing, ATS compatibility, and more.",
+				"Frequently asked questions about the best free resume builder. Learn about ATS-friendly templates, privacy, and how to build a resume without an account.",
 			jsonLd: {
 				"@context": "https://schema.org",
 				"@type": "FAQPage",

@@ -16,9 +16,9 @@ export const Route = createRootRoute({
 				"@type": "WebApplication",
 				name: "Your Resume Builder",
 				description:
-					"Create a professional resume with total privacy using Your Resume Builder. An open source, 100% local, secure, and free tool. No data ever leaves your browser.",
-				applicationCategory: "DesignApplication",
-				operatingSystem: "All",
+					"Build a professional, ATS-friendly resume online for free. No signup, no tracking. Your data stays on your device.",
+				applicationCategory: "BusinessApplication",
+				operatingSystem: "Web",
 				offers: {
 					"@type": "Offer",
 					price: "0",

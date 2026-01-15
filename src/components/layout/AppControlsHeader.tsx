@@ -35,6 +35,9 @@ export const AppControlsHeader = ({
 	return (
 		<div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-8 no-print">
 			<div className="flex flex-col gap-1">
+				<h1 className="text-xl font-bold text-gray-900 dark:text-white">
+					Build Your Resume Online — Free and Private
+				</h1>
 				<p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
 					<ShieldCheck className="size-3.5 text-green-600 dark:text-green-500" />
 					<span>100% Private & Local • Open Source • Free</span>

@@ -16,9 +16,9 @@ import { createSeo } from "../lib/seo";
 export const Route = createFileRoute("/about")({
 	head: () =>
 		createSeo({
-			title: "About",
+			title: "Privacy-First Resume Builder (No Account Required)",
 			description:
-				"Learn more about Your Resume Builder - a privacy-first, content-focused tool for building professional resumes.",
+				"Learn more about Your Resume Builder - a privacy-first, ATS-friendly resume builder where your data never leaves your device.",
 		}),
 	component: AboutPage,
 });
@@ -39,9 +39,13 @@ function AboutPage() {
 							<ArrowLeft className="size-4" />
 							Back to Builder
 						</Link>
-						<h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-							About Your Resume Builder
+						<h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl leading-tight">
+							Your Resume Data Stays on Your Device
 						</h1>
+						<p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
+							A free, privacy-first resume builder that works entirely in your
+							browser — no signup, no subscriptions, no compromises.
+						</p>
 					</div>
 
 					{/* Features Grid */}
@@ -51,12 +55,12 @@ function AboutPage() {
 								<Lock className="size-6" />
 							</div>
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-								Total Privacy
+								No Account Required
 							</h3>
 							<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-								Nothing is ever uploaded to a server. We don't collect, see, or
-								store any of your personal information. Your data stays 100% in
-								your browser.
+								Start immediately. No email, no login, no tracking. We believe
+								you should be able to build a resume without giving away your
+								personal data.
 							</p>
 						</div>
 
@@ -65,11 +69,26 @@ function AboutPage() {
 								<Zap className="size-6" />
 							</div>
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-								Content First
+								100% Free Forever
 							</h3>
 							<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-								Focus on your achievements while we handle the layout. No more
-								fighting with MS Word formatting or rigid Canva templates.
+								Build, edit, and export your resume with no hidden costs,
+								subscriptions, or watermarks. This is an open-source tool for
+								everyone.
+							</p>
+						</div>
+
+						<div className="space-y-3">
+							<div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+								<ShieldCheck className="size-6" />
+							</div>
+							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+								ATS-Friendly Templates
+							</h3>
+							<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+								Our layouts are designed to pass applicant tracking systems
+								(ATS) used by major employers, ensuring your resume actually
+								gets read.
 							</p>
 						</div>
 
@@ -78,24 +97,11 @@ function AboutPage() {
 								<Database className="size-6" />
 							</div>
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-								Auto-Saving
+								Local-First Architecture
 							</h3>
 							<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-								Your changes are automatically saved to your browser's local
-								storage. You can close the tab and return later to continue
-								where you left off.
-							</p>
-						</div>
-
-						<div className="space-y-3">
-							<div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-								<FileText className="size-6" />
-							</div>
-							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-								PDF Export
-							</h3>
-							<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-								Download high-quality, multi-page PDFs.
+								Your resume data is stored in your browser's local storage. We
+								never upload your personal information to any server.
 							</p>
 						</div>
 					</div>
