@@ -26,9 +26,15 @@ import { ScrollToTopButton } from "./layout/ScrollToTopButton";
 import { SiteFooter } from "./layout/SiteFooter";
 import { SiteHeader } from "./layout/SiteHeader";
 import { PreviewPane } from "./preview/PreviewPane";
+import { QuickNav } from "./QuickNav";
 import { SectionList } from "./SectionList";
 import { HeaderSection } from "./sections/HeaderSection";
 import logo from "./ui/logo.webp";
+import type {
+	EducationEntry,
+	ExperienceEntry,
+	SideProjectEntry,
+} from "../types/resume";
 
 const DEFAULT_SECTION_ORDER: (
 	| "experience"
@@ -146,8 +152,8 @@ export const ResumeBuilder = () => {
 		setIsPersonalOpen(false);
 	};
 
-	const handleToggleAllSections = () => {
-		const shouldCollapse = !allSectionsCollapsed;
+	const handleToggleAllSections = (forceExpand?: boolean) => {
+		const shouldCollapse = forceExpand !== undefined ? !forceExpand : !allSectionsCollapsed;
 		setIsHeaderOpen(!shouldCollapse);
 		setIsExperienceOpen(!shouldCollapse);
 		setIsBackgroundOpen(!shouldCollapse);
@@ -245,6 +251,54 @@ export const ResumeBuilder = () => {
 		}
 	};
 
+	const handleAddExperience = () => {
+		const newEntry: ExperienceEntry = {
+			title: "",
+			company: "",
+			startDate: "",
+			endDate: "",
+			bulletPoints: "",
+			visible: true,
+		};
+		updateResumeData({
+			experience: [newEntry, ...resumeData.experience],
+		});
+		setIsExperienceOpen(true);
+		scrollToSection("experience");
+	};
+
+	const handleAddEducation = () => {
+		const newEntry: EducationEntry = {
+			degree: "",
+			institution: "",
+			startDate: "",
+			endDate: "",
+			bulletPoints: "",
+			visible: true,
+		};
+		updateResumeData({
+			education: [newEntry, ...resumeData.education],
+		});
+		setIsBackgroundOpen(true);
+		scrollToSection("background");
+	};
+
+	const handleAddProject = () => {
+		const newEntry: SideProjectEntry = {
+			title: "",
+			description: "",
+			startDate: "",
+			endDate: "",
+			bulletPoints: "",
+			visible: true,
+		};
+		updateResumeData({
+			sideProjects: [newEntry, ...resumeData.sideProjects],
+		});
+		setIsSideProjectsOpen(true);
+		scrollToSection("sideProjects");
+	};
+
 	if (isLoading) {
 		return (
 			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -287,6 +341,18 @@ export const ResumeBuilder = () => {
 					/>
 
 					<main className="flex-1 lg:pl-20 px-4 pt-8 pb-16 w-full max-w-[1800px] mx-auto">
+						<QuickNav
+							sectionOrder={sectionOrder}
+							sectionsVisible={resumeData.sectionsVisible}
+							onSelectSection={scrollToSection}
+							onAddExperience={handleAddExperience}
+							onAddEducation={handleAddEducation}
+							onAddProject={handleAddProject}
+							onCollapseAll={() => handleToggleAllSections(false)}
+							onExpandAll={() => handleToggleAllSections(true)}
+							onExportPDF={handleExportPDF}
+							onReset={handleClearAll}
+						/>
 						<AppControlsHeader
 							resumeData={resumeData}
 							updateResumeData={updateResumeData}

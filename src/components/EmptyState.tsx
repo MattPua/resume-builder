@@ -26,7 +26,7 @@ export const EmptyState = ({
 	hasExistingData = false,
 }: EmptyStateProps) => {
 	return (
-		<div className="flex flex-col items-start justify-center min-h-[80vh] px-4">
+		<div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
 			<div className="mt-10 sm:mt-0 max-w-2xl w-full text-center space-y-6 sm:space-y-4 animate-in fade-in zoom-in duration-500">
 				<div className="flex items-center justify-center">
 					<div className="relative">
