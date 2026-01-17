@@ -12,6 +12,9 @@ import {
 	Plus,
 	RotateCcw,
 	Search,
+	ChevronLeft,
+	Palette,
+	Type,
 } from "lucide-react";
 
 import {
@@ -55,6 +58,8 @@ interface QuickNavProps {
 	onExpandAll?: () => void;
 	onExportPDF?: () => void;
 	onReset?: () => void;
+	onUpdateData?: (data: Partial<ResumeData>) => void;
+	fonts?: { name: string; value: string }[];
 }
 
 export const QuickNav = ({
@@ -68,8 +73,12 @@ export const QuickNav = ({
 	onExpandAll,
 	onExportPDF,
 	onReset,
+	onUpdateData,
+	fonts = [],
 }: QuickNavProps) => {
 	const [open, setOpen] = React.useState(false);
+	const [search, setSearch] = React.useState("");
+	const [view, setView] = React.useState<"main" | "fonts" | "colors">("main");
 
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -77,11 +86,23 @@ export const QuickNav = ({
 				e.preventDefault();
 				setOpen((open) => !open);
 			}
+			if (e.key === "Backspace" && search === "" && view !== "main") {
+				e.preventDefault();
+				setView("main");
+			}
 		};
 
 		document.addEventListener("keydown", down);
 		return () => document.removeEventListener("keydown", down);
-	}, []);
+	}, [search, view]);
+
+	// Reset when dialog closes
+	React.useEffect(() => {
+		if (!open) {
+			setSearch("");
+			setView("main");
+		}
+	}, [open]);
 
 	const visibleSections = ["header", ...sectionOrder].filter(
 		(sectionId) =>
@@ -93,6 +114,16 @@ export const QuickNav = ({
 		onSelectSection(sectionId);
 		setOpen(false);
 	};
+
+	const COLORS = [
+		{ name: "Slate", value: "#475569" },
+		{ name: "Blue", value: "#2563eb" },
+		{ name: "Emerald", value: "#059669" },
+		{ name: "Rose", value: "#e11d48" },
+		{ name: "Amber", value: "#d97706" },
+		{ name: "Violet", value: "#7c3aed" },
+		{ name: "System", value: "" },
+	];
 
 	return (
 		<>
@@ -116,120 +147,243 @@ export const QuickNav = ({
 			</div>
 
 			<CommandDialog open={open} onOpenChange={setOpen}>
-				<CommandInput placeholder="Type a section name or action..." />
+				<CommandInput
+					placeholder={
+						view === "fonts"
+							? "Search fonts..."
+							: view === "colors"
+								? "Search colors..."
+								: "Type a section name or action..."
+					}
+					value={search}
+					onValueChange={setSearch}
+				/>
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup heading="Quick Add">
-						{onAddExperience && (
-							<CommandItem
-								onSelect={() => {
-									onAddExperience();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Work Experience</span>
-							</CommandItem>
-						)}
-						{onAddEducation && (
-							<CommandItem
-								onSelect={() => {
-									onAddEducation();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Education</span>
-							</CommandItem>
-						)}
-						{onAddProject && (
-							<CommandItem
-								onSelect={() => {
-									onAddProject();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Side Project</span>
-							</CommandItem>
-						)}
-					</CommandGroup>
-					<CommandSeparator />
-					<CommandGroup heading="View Actions">
-						{onExpandAll && (
-							<CommandItem
-								onSelect={() => {
-									onExpandAll();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<ChevronsDown className="size-4" />
-								<span>Expand All Sections</span>
-							</CommandItem>
-						)}
-						{onCollapseAll && (
-							<CommandItem
-								onSelect={() => {
-									onCollapseAll();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<ChevronsUp className="size-4" />
-								<span>Collapse All Sections</span>
-							</CommandItem>
-						)}
-					</CommandGroup>
-					<CommandSeparator />
-					<CommandGroup heading="Data & Export">
-						{onExportPDF && (
-							<CommandItem
-								onSelect={() => {
-									onExportPDF();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<FileDown className="size-4" />
-								<span>Export to PDF</span>
-							</CommandItem>
-						)}
-						{onReset && (
-							<CommandItem
-								onSelect={() => {
-									onReset();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
-							>
-								<RotateCcw className="size-4" />
-								<span>Reset Resume Data</span>
-							</CommandItem>
-						)}
-					</CommandGroup>
-					<CommandSeparator />
-					<CommandGroup heading="Navigate to Section">
-						{visibleSections.map((sectionId) => {
-							const Icon = SECTION_ICONS[sectionId as keyof typeof SECTION_ICONS];
-							const title =
-								SECTION_TITLES[sectionId as keyof typeof SECTION_TITLES];
 
-							return (
+					{view === "main" && (
+						<>
+							<CommandGroup heading="Quick Add">
+								{onAddExperience && (
+									<CommandItem
+										onSelect={() => {
+											onAddExperience();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Work Experience</span>
+									</CommandItem>
+								)}
+								{onAddEducation && (
+									<CommandItem
+										onSelect={() => {
+											onAddEducation();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Education</span>
+									</CommandItem>
+								)}
+								{onAddProject && (
+									<CommandItem
+										onSelect={() => {
+											onAddProject();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Side Project</span>
+									</CommandItem>
+								)}
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="Appearance">
 								<CommandItem
-									key={sectionId}
-									onSelect={() => handleSelect(sectionId)}
-									className="flex items-center gap-2 cursor-pointer"
+									onSelect={() => {
+										setView("fonts");
+										setSearch("");
+									}}
+									className="flex items-center gap-2 cursor-pointer justify-between"
 								>
-									<Icon className="size-4" />
-									<span>{title}</span>
+									<div className="flex items-center gap-2">
+										<Type className="size-4" />
+										<span>Change Font...</span>
+									</div>
+									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+										Enter
+									</Kbd>
 								</CommandItem>
-							);
-						})}
-					</CommandGroup>
+								<CommandItem
+									onSelect={() => {
+										setView("colors");
+										setSearch("");
+									}}
+									className="flex items-center gap-2 cursor-pointer justify-between"
+								>
+									<div className="flex items-center gap-2">
+										<Palette className="size-4" />
+										<span>Change Color...</span>
+									</div>
+									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+										Enter
+									</Kbd>
+								</CommandItem>
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="View Actions">
+								{onExpandAll && (
+									<CommandItem
+										onSelect={() => {
+											onExpandAll();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<ChevronsDown className="size-4" />
+										<span>Expand All Sections</span>
+									</CommandItem>
+								)}
+								{onCollapseAll && (
+									<CommandItem
+										onSelect={() => {
+											onCollapseAll();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<ChevronsUp className="size-4" />
+										<span>Collapse All Sections</span>
+									</CommandItem>
+								)}
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="Data & Export">
+								{onExportPDF && (
+									<CommandItem
+										onSelect={() => {
+											onExportPDF();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<FileDown className="size-4" />
+										<span>Export to PDF</span>
+									</CommandItem>
+								)}
+								{onReset && (
+									<CommandItem
+										onSelect={() => {
+											onReset();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
+									>
+										<RotateCcw className="size-4" />
+										<span>Reset Resume Data</span>
+									</CommandItem>
+								)}
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="Navigate to Section">
+								{visibleSections.map((sectionId) => {
+									const Icon =
+										SECTION_ICONS[sectionId as keyof typeof SECTION_ICONS];
+									const title =
+										SECTION_TITLES[sectionId as keyof typeof SECTION_TITLES];
+
+									return (
+										<CommandItem
+											key={sectionId}
+											onSelect={() => handleSelect(sectionId)}
+											className="flex items-center gap-2 cursor-pointer"
+										>
+											<Icon className="size-4" />
+											<span>{title}</span>
+										</CommandItem>
+									);
+								})}
+							</CommandGroup>
+						</>
+					)}
+
+					{view === "fonts" && (
+						<>
+							<CommandGroup heading="Select Font">
+								<CommandItem
+									onSelect={() => setView("main")}
+									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+								>
+									<ChevronLeft className="size-4" />
+									<span>Back to main menu</span>
+									<Kbd className="ml-auto bg-transparent border-none text-[10px] opacity-40">
+										Esc
+									</Kbd>
+								</CommandItem>
+								<CommandSeparator className="my-1" />
+								{fonts.map((font) => (
+									<CommandItem
+										key={font.value}
+										onSelect={() => {
+											onUpdateData?.({ fontFamily: font.value });
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Type className="size-4" />
+										<span style={{ fontFamily: font.value }}>{font.name}</span>
+									</CommandItem>
+								))}
+							</CommandGroup>
+						</>
+					)}
+
+					{view === "colors" && (
+						<>
+							<CommandGroup heading="Select Header Color">
+								<CommandItem
+									onSelect={() => setView("main")}
+									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+								>
+									<ChevronLeft className="size-4" />
+									<span>Back to main menu</span>
+									<Kbd className="ml-auto bg-transparent border-none text-[10px] opacity-40">
+										Esc
+									</Kbd>
+								</CommandItem>
+								<CommandSeparator className="my-1" />
+								{COLORS.map((color) => (
+									<CommandItem
+										key={color.name}
+										onSelect={() => {
+											onUpdateData?.({ sectionHeaderTextColor: color.value });
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Palette className="size-4" />
+										<div className="flex items-center gap-2 flex-1">
+											<span>{color.name}</span>
+											{color.value && (
+												<div
+													className="size-3 rounded-full border border-gray-200 ml-auto"
+													style={{ backgroundColor: color.value }}
+												/>
+											)}
+										</div>
+									</CommandItem>
+								))}
+							</CommandGroup>
+						</>
+					)}
 				</CommandList>
 			</CommandDialog>
 		</>

@@ -352,6 +352,8 @@ export const ResumeBuilder = () => {
 							onExpandAll={() => handleToggleAllSections(true)}
 							onExportPDF={handleExportPDF}
 							onReset={handleClearAll}
+							onUpdateData={updateResumeData}
+							fonts={FONTS}
 						/>
 						<AppControlsHeader
 							resumeData={resumeData}
