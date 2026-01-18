@@ -390,6 +390,7 @@ export const ResumeBuilder = () => {
 							onReset={handleClearAll}
 							onUpdateData={updateResumeData}
 							fonts={FONTS}
+							resumeData={resumeData}
 						/>
 						<AppControlsHeader
 							resumeData={resumeData}

@@ -62,6 +62,7 @@ interface QuickNavProps {
 	onReset?: () => void;
 	onUpdateData?: (data: Partial<ResumeData>) => void;
 	fonts?: { name: string; value: string }[];
+	resumeData?: ResumeData;
 }
 
 export const QuickNav = ({
@@ -78,10 +79,13 @@ export const QuickNav = ({
 	onReset,
 	onUpdateData,
 	fonts = [],
+	resumeData,
 }: QuickNavProps) => {
 	const [open, setOpen] = React.useState(false);
 	const [search, setSearch] = React.useState("");
-	const [view, setView] = React.useState<"main" | "fonts" | "colors" | "layout">("main");
+	const [view, setView] = React.useState<
+		"main" | "fonts" | "colors" | "layout" | "exp" | "edu" | "proj" | "vol"
+	>("main");
 
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -124,6 +128,42 @@ export const QuickNav = ({
 		setOpen(false);
 	};
 
+	const handleJumpToEntry = (sectionId: string, index: number) => {
+		onSelectSection(sectionId);
+		setOpen(false);
+
+		// Specific logic to focus the entry input
+		setTimeout(() => {
+			const section = document.getElementById(`section-${sectionId}`);
+			if (section) {
+				const entryPrefix =
+					sectionId === "experience"
+						? "experience"
+						: sectionId === "background"
+							? "education"
+							: sectionId === "sideProjects"
+								? "sideproject"
+								: sectionId === "volunteering"
+									? "volunteering"
+									: "";
+
+				if (entryPrefix) {
+					const entryElement = document.getElementById(
+						`${entryPrefix}-${index}`,
+					);
+					if (entryElement) {
+						const input = entryElement.querySelector("input, textarea") as
+							| HTMLInputElement
+							| HTMLTextAreaElement;
+						if (input) {
+							input.focus();
+						}
+					}
+				}
+			}
+		}, 200); // Slightly longer delay to allow section to expand and render entries
+	};
+
 	const COLORS = [
 		{ name: "Slate", value: "#475569" },
 		{ name: "Blue", value: "#2563eb" },
@@ -162,7 +202,17 @@ export const QuickNav = ({
 							? "Search fonts..."
 							: view === "colors"
 								? "Search colors..."
-								: "Type a section name or action..."
+								: view === "layout"
+									? "Search layouts..."
+									: view === "exp"
+										? "Search work experience..."
+										: view === "edu"
+											? "Search education..."
+											: view === "proj"
+												? "Search side projects..."
+												: view === "vol"
+													? "Search volunteering..."
+													: "Type a section name or action..."
 					}
 					value={search}
 					onValueChange={setSearch}
@@ -172,56 +222,56 @@ export const QuickNav = ({
 
 					{view === "main" && (
 						<>
-					<CommandGroup heading="Quick Add">
-						{onAddExperience && sectionsVisible?.experience !== false && (
-							<CommandItem
-								onSelect={() => {
-									onAddExperience();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Work Experience</span>
-							</CommandItem>
-						)}
-						{onAddEducation && sectionsVisible?.education !== false && (
-							<CommandItem
-								onSelect={() => {
-									onAddEducation();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Education</span>
-							</CommandItem>
-						)}
-						{onAddProject && sectionsVisible?.sideProjects !== false && (
-							<CommandItem
-								onSelect={() => {
-									onAddProject();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Side Project</span>
-							</CommandItem>
-						)}
-						{onAddVolunteering && sectionsVisible?.volunteering !== false && (
-							<CommandItem
-								onSelect={() => {
-									onAddVolunteering();
-									setOpen(false);
-								}}
-								className="flex items-center gap-2 cursor-pointer"
-							>
-								<Plus className="size-4" />
-								<span>Add Volunteering</span>
-							</CommandItem>
-						)}
-					</CommandGroup>
+							<CommandGroup heading="Quick Add">
+								{onAddExperience && sectionsVisible?.experience !== false && (
+									<CommandItem
+										onSelect={() => {
+											onAddExperience();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Work Experience</span>
+									</CommandItem>
+								)}
+								{onAddEducation && sectionsVisible?.education !== false && (
+									<CommandItem
+										onSelect={() => {
+											onAddEducation();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Education</span>
+									</CommandItem>
+								)}
+								{onAddProject && sectionsVisible?.sideProjects !== false && (
+									<CommandItem
+										onSelect={() => {
+											onAddProject();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Side Project</span>
+									</CommandItem>
+								)}
+								{onAddVolunteering && sectionsVisible?.volunteering !== false && (
+									<CommandItem
+										onSelect={() => {
+											onAddVolunteering();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<Plus className="size-4" />
+										<span>Add Volunteering</span>
+									</CommandItem>
+								)}
+							</CommandGroup>
 							<CommandSeparator />
 
 							<CommandGroup heading="Appearance">
@@ -337,14 +387,82 @@ export const QuickNav = ({
 										SECTION_TITLES[sectionId as keyof typeof SECTION_TITLES];
 
 									return (
-										<CommandItem
-											key={sectionId}
-											onSelect={() => handleSelect(sectionId)}
-											className="flex items-center gap-2 cursor-pointer"
-										>
-											<Icon className="size-4" />
-											<span>Jump to {title}</span>
-										</CommandItem>
+										<React.Fragment key={sectionId}>
+											<CommandItem
+												onSelect={() => handleSelect(sectionId)}
+												className="flex items-center gap-2 cursor-pointer"
+											>
+												<Icon className="size-4" />
+												<span>Jump to {title}</span>
+											</CommandItem>
+
+											{/* Specific entry sub-menus */}
+											{sectionId === "experience" &&
+												resumeData?.experience &&
+												resumeData.experience.length > 0 && (
+													<CommandItem
+														onSelect={() => {
+															setView("exp");
+															setSearch("");
+														}}
+														className="flex items-center gap-2 cursor-pointer ml-6 text-xs text-muted-foreground justify-between"
+													>
+														<span>Jump to specific experience...</span>
+														<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+															Enter
+														</Kbd>
+													</CommandItem>
+												)}
+											{sectionId === "background" &&
+												resumeData?.education &&
+												resumeData.education.length > 0 &&
+												sectionsVisible?.education !== false && (
+													<CommandItem
+														onSelect={() => {
+															setView("edu");
+															setSearch("");
+														}}
+														className="flex items-center gap-2 cursor-pointer ml-6 text-xs text-muted-foreground justify-between"
+													>
+														<span>Jump to specific education...</span>
+														<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+															Enter
+														</Kbd>
+													</CommandItem>
+												)}
+											{sectionId === "sideProjects" &&
+												resumeData?.sideProjects &&
+												resumeData.sideProjects.length > 0 && (
+													<CommandItem
+														onSelect={() => {
+															setView("proj");
+															setSearch("");
+														}}
+														className="flex items-center gap-2 cursor-pointer ml-6 text-xs text-muted-foreground justify-between"
+													>
+														<span>Jump to specific project...</span>
+														<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+															Enter
+														</Kbd>
+													</CommandItem>
+												)}
+											{sectionId === "volunteering" &&
+												resumeData?.volunteering &&
+												resumeData.volunteering.length > 0 && (
+													<CommandItem
+														onSelect={() => {
+															setView("vol");
+															setSearch("");
+														}}
+														className="flex items-center gap-2 cursor-pointer ml-6 text-xs text-muted-foreground justify-between"
+													>
+														<span>Jump to specific volunteering...</span>
+														<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+															Enter
+														</Kbd>
+													</CommandItem>
+												)}
+										</React.Fragment>
 									);
 								})}
 							</CommandGroup>
@@ -467,6 +585,108 @@ export const QuickNav = ({
 								</CommandItem>
 							</CommandGroup>
 						</>
+					)}
+
+					{view === "exp" && (
+						<CommandGroup heading="Jump to Experience">
+							<CommandItem
+								onSelect={() => setView("main")}
+								className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+							>
+								<ChevronLeft className="size-4" />
+								<span>Back to main menu</span>
+							</CommandItem>
+							<CommandSeparator className="my-1" />
+							{resumeData?.experience.map((entry, index) => (
+								<CommandItem
+									key={index}
+									onSelect={() => handleJumpToEntry("experience", index)}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<Briefcase className="size-4" />
+									<span>
+										{entry.company || entry.title || `Experience #${index + 1}`}
+									</span>
+								</CommandItem>
+							))}
+						</CommandGroup>
+					)}
+
+					{view === "edu" && (
+						<CommandGroup heading="Jump to Education">
+							<CommandItem
+								onSelect={() => setView("main")}
+								className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+							>
+								<ChevronLeft className="size-4" />
+								<span>Back to main menu</span>
+							</CommandItem>
+							<CommandSeparator className="my-1" />
+							{resumeData?.education.map((entry, index) => (
+								<CommandItem
+									key={index}
+									onSelect={() => handleJumpToEntry("background", index)}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<GraduationCap className="size-4" />
+									<span>
+										{entry.institution ||
+											entry.degree ||
+											`Education #${index + 1}`}
+									</span>
+								</CommandItem>
+							))}
+						</CommandGroup>
+					)}
+
+					{view === "proj" && (
+						<CommandGroup heading="Jump to Project">
+							<CommandItem
+								onSelect={() => setView("main")}
+								className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+							>
+								<ChevronLeft className="size-4" />
+								<span>Back to main menu</span>
+							</CommandItem>
+							<CommandSeparator className="my-1" />
+							{resumeData?.sideProjects.map((entry, index) => (
+								<CommandItem
+									key={index}
+									onSelect={() => handleJumpToEntry("sideProjects", index)}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<Folder className="size-4" />
+									<span>{entry.title || `Project #${index + 1}`}</span>
+								</CommandItem>
+							))}
+						</CommandGroup>
+					)}
+
+					{view === "vol" && (
+						<CommandGroup heading="Jump to Volunteering">
+							<CommandItem
+								onSelect={() => setView("main")}
+								className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+							>
+								<ChevronLeft className="size-4" />
+								<span>Back to main menu</span>
+							</CommandItem>
+							<CommandSeparator className="my-1" />
+							{resumeData?.volunteering.map((entry, index) => (
+								<CommandItem
+									key={index}
+									onSelect={() => handleJumpToEntry("volunteering", index)}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<HeartHandshake className="size-4" />
+									<span>
+										{entry.organization ||
+											entry.role ||
+											`Volunteering #${index + 1}`}
+									</span>
+								</CommandItem>
+							))}
+						</CommandGroup>
 					)}
 				</CommandList>
 			</CommandDialog>
