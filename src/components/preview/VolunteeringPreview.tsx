@@ -4,11 +4,12 @@ import type { VolunteeringEntry } from "../../types/resume";
 import { SectionPreview } from "./SectionPreview";
 
 interface VolunteeringPreviewProps {
-	entries: VolunteeringEntry[];
+	entries: (VolunteeringEntry & { originalIndex: number })[];
 	title?: string;
 	backgroundColor?: string;
 	textColor?: string;
 	layoutMode?: "compact" | "default" | "comfortable";
+	onFocusSection?: (index: number) => void;
 }
 
 export const VolunteeringPreview = ({
@@ -17,9 +18,9 @@ export const VolunteeringPreview = ({
 	backgroundColor,
 	textColor,
 	layoutMode = "default",
+	onFocusSection,
 }: VolunteeringPreviewProps) => {
-	const visibleEntries = entries.filter((e) => e.visible !== false);
-	if (visibleEntries.length === 0) return null;
+	if (entries.length === 0) return null;
 
 	const spacingMap = {
 		compact: "gap-1",
@@ -35,8 +36,12 @@ export const VolunteeringPreview = ({
 			layoutMode={layoutMode}
 		>
 			<div className={`flex flex-col ${spacingMap}`}>
-				{visibleEntries.map((entry, index) => (
-					<div key={`${entry.organization}-${entry.role}-${index}`}>
+				{entries.map((entry) => (
+					<div
+						key={`${entry.organization}-${entry.role}-${entry.originalIndex}`}
+						className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
+						onClick={() => onFocusSection?.(entry.originalIndex)}
+					>
 						<div className="mb-0">
 							<div className="flex items-baseline justify-between gap-4">
 								<h3

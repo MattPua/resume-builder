@@ -26,7 +26,7 @@ export const EmptyState = ({
 	hasExistingData = false,
 }: EmptyStateProps) => {
 	return (
-		<div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
+		<div className="flex flex-col items-center justify-center min-h-[80vh] px-8">
 			<div className="mt-10 sm:mt-0 max-w-2xl w-full text-center space-y-6 sm:space-y-4 animate-in fade-in zoom-in duration-500">
 				<div className="flex items-center justify-center">
 					<div className="relative">
@@ -87,39 +87,39 @@ export const EmptyState = ({
 						</Button>
 
 						{!hasExistingData && (
-							<Button
-								variant="secondary"
-								onClick={onLoadSample}
-								className="h-auto py-4 flex items-center justify-center gap-2"
-								aria-label="Load sample data to see how it works"
-							>
-								<Sparkles className="size-4 text-amber-500" />
-								<span className="font-semibold text-sm">
-									Try with Sample Data
-								</span>
-							</Button>
+						<Button
+							variant="secondary"
+							onClick={onLoadSample}
+							className="h-auto py-4 flex items-center justify-center gap-2"
+							aria-label="Load sample data to see how it works"
+						>
+							<Sparkles className="size-4 text-amber-500" />
+							<span className="font-semibold text-sm">
+								Try with Sample Data
+							</span>
+						</Button>
 						)}
 					</div>
 
 					{!hasExistingData && (
-						<div className="grid grid-cols-1 gap-2">
-							<Button
-								variant="outline"
-								onClick={onImportMarkdownText}
-								className="h-full py-6 flex flex-col items-center justify-center gap-3 px-6"
-								aria-label="Start Without Signing Up"
-							>
-								<FileText className="size-6 text-blue-500" />
-								<div className="flex flex-col items-center">
-									<span className="font-semibold text-lg">
-										Start Without Signing Up
-									</span>
-									<span className="text-xs font-normal text-gray-500">
-										Paste Markdown
-									</span>
-								</div>
-							</Button>
-						</div>
+					<div className="grid grid-cols-1 gap-2">
+						<Button
+							variant="outline"
+							onClick={onImportMarkdownText}
+							className="h-full py-6 flex flex-col items-center justify-center gap-3 px-6"
+							aria-label="Start Without Signing Up"
+						>
+							<FileText className="size-6 text-blue-500" />
+							<div className="flex flex-col items-center">
+								<span className="font-semibold text-lg">
+									Start Without Signing Up
+								</span>
+								<span className="text-xs font-normal text-gray-500">
+									Paste Markdown
+								</span>
+							</div>
+						</Button>
+					</div>
 					)}
 				</div>
 
@@ -179,16 +179,18 @@ export const EmptyState = ({
 				</div>
 
 				<div className="pt-2 space-y-4">
-					<p className="text-sm text-gray-600 dark:text-gray-400 flex items-center justify-center gap-1.5">
+					<div className="text-sm text-gray-600 dark:text-gray-400 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5">
+						<div className="flex items-center gap-1.5">
 						<HelpCircle className="size-4" />
 						<span>Have questions? Check out our</span>
+						</div>
 						<Link
 							to="/faqs"
 							className="text-primary hover:underline font-semibold"
 						>
 							Frequently Asked Questions
 						</Link>
-					</p>
+					</div>
 				</div>
 			</div>
 		</div>

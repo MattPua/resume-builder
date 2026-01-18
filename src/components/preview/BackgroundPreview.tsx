@@ -4,13 +4,14 @@ import type { EducationEntry } from "../../types/resume";
 import { SectionPreview } from "./SectionPreview";
 
 interface BackgroundPreviewProps {
-	education: EducationEntry[];
+	education: (EducationEntry & { originalIndex: number })[];
 	skills: string;
 	showSkills: boolean;
 	title?: string;
 	backgroundColor?: string;
 	textColor?: string;
 	layoutMode?: "compact" | "default" | "comfortable";
+	onFocusSection?: (index?: number | "skills") => void;
 }
 
 export const BackgroundPreview = ({
@@ -21,6 +22,7 @@ export const BackgroundPreview = ({
 	backgroundColor,
 	textColor,
 	layoutMode = "default",
+	onFocusSection,
 }: BackgroundPreviewProps) => {
 	const hasEducation = education.length > 0;
 	const hasSkills = showSkills && skills;
@@ -43,8 +45,12 @@ export const BackgroundPreview = ({
 			<div className={`flex flex-col ${spacingMap}`}>
 				{hasEducation && (
 					<div className="flex flex-col gap-1">
-						{education.map((entry, index) => (
-							<div key={`${entry.institution}-${entry.degree}-${index}`}>
+						{education.map((entry) => (
+							<div
+								key={`${entry.institution}-${entry.degree}-${entry.originalIndex}`}
+								className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
+								onClick={() => onFocusSection?.(entry.originalIndex)}
+							>
 								<div className="flex items-baseline justify-between gap-4">
 									<h3
 										className="text-base font-semibold text-gray-900"
@@ -63,6 +69,7 @@ export const BackgroundPreview = ({
 															color: "#111827",
 															textDecoration: "none",
 														}}
+														onClick={(e) => e.stopPropagation()}
 													>
 														{entry.institution}
 													</a>
@@ -94,7 +101,10 @@ export const BackgroundPreview = ({
 					</div>
 				)}
 				{hasSkills && (
-					<div>
+					<div
+						className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
+						onClick={() => onFocusSection?.("skills")}
+					>
 						<div className="flex items-start gap-2">
 							<span
 								className="text-sm font-semibold text-gray-900 whitespace-nowrap"

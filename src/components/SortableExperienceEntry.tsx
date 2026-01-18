@@ -36,7 +36,7 @@ export const SortableExperienceEntry = ({
 	};
 
 	return (
-		<div ref={setNodeRef} style={style}>
+		<div ref={setNodeRef} style={style} id={`experience-${index}`}>
 			<ExperienceEntryEditor
 				entry={entry}
 				index={index}

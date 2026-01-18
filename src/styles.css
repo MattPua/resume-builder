@@ -404,6 +404,14 @@ code {
    .animate-mini-bounce {
      animation: mini-bounce 1s ease-in-out infinite;
    }
+
+   /* Highlight parent container when input/textarea is focused */
+   [data-slot="collapsible"]:has(input:focus-visible, textarea:focus-visible),
+   section[id^="section-"]:has(input:focus-visible, textarea:focus-visible) {
+     @apply transition-all rounded-lg border-primary;
+     /* Use box-shadow for ring effect without affecting layout */
+     box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+   }
  }
 
 

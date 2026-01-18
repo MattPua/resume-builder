@@ -16,6 +16,9 @@ import {
 	Layout,
 	Palette,
 	Type,
+	Sun,
+	Moon,
+	Monitor,
 } from "lucide-react";
 
 import {
@@ -29,6 +32,7 @@ import {
 } from "@/components/ui/command";
 import { Kbd } from "@/components/ui/kbd";
 import type { ResumeData } from "@/types/resume";
+import { useTheme } from "./ThemeProvider";
 
 const SECTION_ICONS = {
 	header: Contact,
@@ -51,7 +55,7 @@ const SECTION_TITLES = {
 interface QuickNavProps {
 	sectionOrder: string[];
 	sectionsVisible?: ResumeData["sectionsVisible"];
-	onSelectSection: (sectionId: string) => void;
+	onSelectSection: (sectionId: string, index?: number | "skills") => void;
 	onAddExperience?: () => void;
 	onAddEducation?: () => void;
 	onAddProject?: () => void;
@@ -84,8 +88,9 @@ export const QuickNav = ({
 	const [open, setOpen] = React.useState(false);
 	const [search, setSearch] = React.useState("");
 	const [view, setView] = React.useState<
-		"main" | "fonts" | "colors" | "layout" | "exp" | "edu" | "proj" | "vol"
+		"main" | "fonts" | "colors" | "layout" | "exp" | "edu" | "proj" | "vol" | "theme"
 	>("main");
+	const { setTheme } = useTheme();
 
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -129,39 +134,8 @@ export const QuickNav = ({
 	};
 
 	const handleJumpToEntry = (sectionId: string, index: number) => {
-		onSelectSection(sectionId);
+		onSelectSection(sectionId, index);
 		setOpen(false);
-
-		// Specific logic to focus the entry input
-		setTimeout(() => {
-			const section = document.getElementById(`section-${sectionId}`);
-			if (section) {
-				const entryPrefix =
-					sectionId === "experience"
-						? "experience"
-						: sectionId === "background"
-							? "education"
-							: sectionId === "sideProjects"
-								? "sideproject"
-								: sectionId === "volunteering"
-									? "volunteering"
-									: "";
-
-				if (entryPrefix) {
-					const entryElement = document.getElementById(
-						`${entryPrefix}-${index}`,
-					);
-					if (entryElement) {
-						const input = entryElement.querySelector("input, textarea") as
-							| HTMLInputElement
-							| HTMLTextAreaElement;
-						if (input) {
-							input.focus();
-						}
-					}
-				}
-			}
-		}, 200); // Slightly longer delay to allow section to expand and render entries
 	};
 
 	const COLORS = [
@@ -179,7 +153,7 @@ export const QuickNav = ({
 			<div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 hidden md:block no-print">
 				<button
 					onClick={() => setOpen(true)}
-					className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all text-sm text-gray-500 dark:text-gray-400 group"
+					className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all text-sm text-gray-500 dark:text-gray-400 group cursor-pointer"
 					type="button"
 				>
 					<Search className="size-4 group-hover:text-primary transition-colors" />
@@ -204,8 +178,10 @@ export const QuickNav = ({
 								? "Search colors..."
 								: view === "layout"
 									? "Search layouts..."
-									: view === "exp"
-										? "Search work experience..."
+									: view === "theme"
+										? "Search themes..."
+										: view === "exp"
+											? "Search work experience..."
 										: view === "edu"
 											? "Search education..."
 											: view === "proj"
@@ -269,111 +245,6 @@ export const QuickNav = ({
 									>
 										<Plus className="size-4" />
 										<span>Add Volunteering</span>
-									</CommandItem>
-								)}
-							</CommandGroup>
-							<CommandSeparator />
-
-							<CommandGroup heading="Appearance">
-								<CommandItem
-									onSelect={() => {
-										setView("fonts");
-										setSearch("");
-									}}
-									className="flex items-center gap-2 cursor-pointer justify-between"
-								>
-									<div className="flex items-center gap-2">
-										<Type className="size-4" />
-										<span>Change Font...</span>
-									</div>
-									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
-										Enter
-									</Kbd>
-								</CommandItem>
-								<CommandItem
-									onSelect={() => {
-										setView("colors");
-										setSearch("");
-									}}
-									className="flex items-center gap-2 cursor-pointer justify-between"
-								>
-									<div className="flex items-center gap-2">
-										<Palette className="size-4" />
-										<span>Change Color...</span>
-									</div>
-									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
-										Enter
-									</Kbd>
-								</CommandItem>
-								<CommandItem
-									onSelect={() => {
-										setView("layout");
-										setSearch("");
-									}}
-									className="flex items-center gap-2 cursor-pointer justify-between"
-								>
-									<div className="flex items-center gap-2">
-										<Layout className="size-4" />
-										<span>Change Layout...</span>
-									</div>
-									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
-										Enter
-									</Kbd>
-								</CommandItem>
-							</CommandGroup>
-							<CommandSeparator />
-
-							<CommandGroup heading="View Actions">
-								{onExpandAll && (
-									<CommandItem
-										onSelect={() => {
-											onExpandAll();
-											setOpen(false);
-										}}
-										className="flex items-center gap-2 cursor-pointer"
-									>
-										<ChevronsDown className="size-4" />
-										<span>Expand All Sections</span>
-									</CommandItem>
-								)}
-								{onCollapseAll && (
-									<CommandItem
-										onSelect={() => {
-											onCollapseAll();
-											setOpen(false);
-										}}
-										className="flex items-center gap-2 cursor-pointer"
-									>
-										<ChevronsUp className="size-4" />
-										<span>Collapse All Sections</span>
-									</CommandItem>
-								)}
-							</CommandGroup>
-							<CommandSeparator />
-
-							<CommandGroup heading="Data & Export">
-								{onExportPDF && (
-									<CommandItem
-										onSelect={() => {
-											onExportPDF();
-											setOpen(false);
-										}}
-										className="flex items-center gap-2 cursor-pointer"
-									>
-										<FileDown className="size-4" />
-										<span>Export to PDF</span>
-									</CommandItem>
-								)}
-								{onReset && (
-									<CommandItem
-										onSelect={() => {
-											onReset();
-											setOpen(false);
-										}}
-										className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
-									>
-										<RotateCcw className="size-4" />
-										<span>Reset Resume Data</span>
 									</CommandItem>
 								)}
 							</CommandGroup>
@@ -465,6 +336,125 @@ export const QuickNav = ({
 										</React.Fragment>
 									);
 								})}
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="Appearance">
+								<CommandItem
+									onSelect={() => {
+										setView("fonts");
+										setSearch("");
+									}}
+									className="flex items-center gap-2 cursor-pointer justify-between"
+								>
+									<div className="flex items-center gap-2">
+										<Type className="size-4" />
+										<span>Change Font...</span>
+									</div>
+									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+										Enter
+									</Kbd>
+								</CommandItem>
+								<CommandItem
+									onSelect={() => {
+										setView("colors");
+										setSearch("");
+									}}
+									className="flex items-center gap-2 cursor-pointer justify-between"
+								>
+									<div className="flex items-center gap-2">
+										<Palette className="size-4" />
+										<span>Change Color...</span>
+									</div>
+									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+										Enter
+									</Kbd>
+								</CommandItem>
+								<CommandItem
+									onSelect={() => {
+										setView("layout");
+										setSearch("");
+									}}
+									className="flex items-center gap-2 cursor-pointer justify-between"
+								>
+									<div className="flex items-center gap-2">
+										<Layout className="size-4" />
+										<span>Change Layout...</span>
+									</div>
+									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+										Enter
+									</Kbd>
+								</CommandItem>
+								<CommandItem
+									onSelect={() => {
+										setView("theme");
+										setSearch("");
+									}}
+									className="flex items-center gap-2 cursor-pointer justify-between"
+								>
+									<div className="flex items-center gap-2">
+										<Sun className="size-4 dark:hidden" />
+										<Moon className="size-4 hidden dark:block" />
+										<span>Change Theme...</span>
+									</div>
+									<Kbd className="bg-transparent border-none text-[10px] opacity-40">
+										Enter
+									</Kbd>
+								</CommandItem>
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="View Actions">
+								<CommandItem
+									onSelect={() => {
+										onExpandAll?.();
+										setOpen(false);
+									}}
+									className="flex items-center gap-2 cursor-pointer"
+									value="expand all sections"
+								>
+									<ChevronsDown className="size-4" />
+									<span>Expand All Sections</span>
+								</CommandItem>
+								<CommandItem
+									onSelect={() => {
+										onCollapseAll?.();
+										setOpen(false);
+									}}
+									className="flex items-center gap-2 cursor-pointer"
+									value="collapse all sections"
+								>
+									<ChevronsUp className="size-4" />
+									<span>Collapse All Sections</span>
+								</CommandItem>
+							</CommandGroup>
+							<CommandSeparator />
+
+							<CommandGroup heading="Data & Export">
+								{onExportPDF && (
+									<CommandItem
+										onSelect={() => {
+											onExportPDF();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer"
+									>
+										<FileDown className="size-4" />
+										<span>Export to PDF</span>
+									</CommandItem>
+								)}
+								{onReset && (
+									<CommandItem
+										onSelect={() => {
+											onReset();
+											setOpen(false);
+										}}
+										className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
+									>
+										<RotateCcw className="size-4" />
+										<span>Reset Resume Data</span>
+									</CommandItem>
+								)}
 							</CommandGroup>
 						</>
 					)}
@@ -582,6 +572,54 @@ export const QuickNav = ({
 								>
 									<Layout className="size-4 scale-110" />
 									<span>Comfortable</span>
+								</CommandItem>
+							</CommandGroup>
+						</>
+					)}
+
+					{view === "theme" && (
+						<>
+							<CommandGroup heading="Select Theme">
+								<CommandItem
+									onSelect={() => setView("main")}
+									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
+								>
+									<ChevronLeft className="size-4" />
+									<span>Back to main menu</span>
+									<Kbd className="ml-auto bg-transparent border-none text-[10px] opacity-40">
+										Esc
+									</Kbd>
+								</CommandItem>
+								<CommandSeparator className="my-1" />
+								<CommandItem
+									onSelect={() => {
+										setTheme("light");
+										setOpen(false);
+									}}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<Sun className="size-4" />
+									<span>Light</span>
+								</CommandItem>
+								<CommandItem
+									onSelect={() => {
+										setTheme("dark");
+										setOpen(false);
+									}}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<Moon className="size-4" />
+									<span>Dark</span>
+								</CommandItem>
+								<CommandItem
+									onSelect={() => {
+										setTheme("system");
+										setOpen(false);
+									}}
+									className="flex items-center gap-2 cursor-pointer"
+								>
+									<Monitor className="size-4" />
+									<span>System</span>
 								</CommandItem>
 							</CommandGroup>
 						</>

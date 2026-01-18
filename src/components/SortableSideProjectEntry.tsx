@@ -36,7 +36,7 @@ export const SortableSideProjectEntry = ({
 	};
 
 	return (
-		<div ref={setNodeRef} style={style}>
+		<div ref={setNodeRef} style={style} id={`sideproject-${index}`}>
 			<SideProjectEntryEditor
 				entry={entry}
 				index={index}

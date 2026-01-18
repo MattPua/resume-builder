@@ -13,7 +13,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Briefcase, ChevronsUpDown, Plus } from "lucide-react";
+import { Briefcase, ChevronsDown, ChevronsUp, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ExperienceEntry, ResumeData } from "../../types/resume";
 import { EmptySectionState } from "../EmptySectionState";
@@ -153,9 +153,12 @@ export const ExperienceSection = ({
 								}}
 								size="sm"
 								variant="outline"
-								className="text-xs"
 							>
-								<ChevronsUpDown className="size-3 mr-1" />
+								{allExpanded ? (
+									<ChevronsUp className="size-4 mr-1" />
+								) : (
+									<ChevronsDown className="size-4 mr-1" />
+								)}
 								{allExpanded ? "Collapse All" : "Expand All"}
 							</Button>
 						</div>

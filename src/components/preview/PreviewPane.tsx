@@ -10,6 +10,7 @@ interface PreviewPaneProps {
 	updateResumeData: (data: Partial<ResumeData>) => void;
 	previewRef: React.RefObject<HTMLDivElement | null>;
 	fonts: { name: string; value: string }[];
+	onFocusSection?: (sectionId: string, index?: number | "skills") => void;
 }
 
 export const PreviewPane = ({
@@ -17,6 +18,7 @@ export const PreviewPane = ({
 	updateResumeData,
 	previewRef,
 	fonts,
+	onFocusSection,
 }: PreviewPaneProps) => {
 	const previewContainerRef = useRef<HTMLDivElement>(null);
 	const [scale, setScale] = useState(1);
@@ -116,6 +118,7 @@ export const PreviewPane = ({
 										fontFamily: previewFontFamily || resumeData.fontFamily,
 									}}
 									previewRef={previewRef}
+									onFocusSection={onFocusSection}
 								/>
 							</div>
 						</div>

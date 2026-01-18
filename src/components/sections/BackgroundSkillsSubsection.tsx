@@ -1,7 +1,9 @@
 import { ArrowDownUp, ArrowUpDown, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 import type { ResumeData } from "../../types/resume";
 import { SectionInput } from "../SectionInput";
 import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface BackgroundSkillsSubsectionProps {
 	resumeData: ResumeData;
@@ -13,6 +15,7 @@ export const BackgroundSkillsSubsection = ({
 	updateResumeData,
 }: BackgroundSkillsSubsectionProps) => {
 	const isVisible = resumeData.sectionsVisible?.skills !== false;
+	const [activeTab, setActiveTab] = useState<string>("live");
 
 	const handleSortSkills = () => {
 		const skillsText = resumeData.skills.trim();
@@ -71,8 +74,17 @@ export const BackgroundSkillsSubsection = ({
 		updateResumeData({ skills: sortedCommaSeparated });
 	};
 
+	const handleSwapDraft = () => {
+		const currentLive = resumeData.skills;
+		const currentDraft = resumeData.skillsDraft || "";
+		updateResumeData({
+			skills: currentDraft,
+			skillsDraft: currentLive,
+		});
+	};
+
 	return (
-		<div className="flex flex-col gap-3">
+		<div className="flex flex-col gap-3" id="section-skills">
 			<div className="flex items-center justify-between">
 				<h3 className="text-base font-semibold text-gray-900 dark:text-white">
 					Skills
@@ -82,10 +94,9 @@ export const BackgroundSkillsSubsection = ({
 						onClick={handleSortSkills}
 						size="sm"
 						variant="outline"
-						className="text-xs"
 						title="Sort skills alphabetically"
 					>
-						<ArrowDownUp className="size-3 mr-1" />
+						<ArrowDownUp className="size-4 mr-1" />
 						Sort
 					</Button>
 					<button
@@ -110,38 +121,54 @@ export const BackgroundSkillsSubsection = ({
 					</button>
 				</div>
 			</div>
-			<div className="flex flex-col gap-3">
-				<SectionInput
-					label="Skills"
-					value={resumeData.skills}
-					onChange={(value) => updateResumeData({ skills: value })}
-					placeholder="- Skill 1\n- Skill 2\n- Skill 3"
-				/>
-				<div className="flex items-center justify-center">
-					<Button
-						type="button"
-						variant="outline"
-						size="sm"
-						onClick={() => {
-							const currentSkills = resumeData.skills;
-							const currentDraft = resumeData.skillsDraft || "";
-							updateResumeData({
-								skills: currentDraft,
-								skillsDraft: currentSkills,
-							});
-						}}
-						title="Swap skills and draft"
+
+			<Tabs
+				value={activeTab}
+				onValueChange={setActiveTab}
+				className="w-full"
+			>
+				<TabsList className="grid w-full grid-cols-2">
+					<TabsTrigger value="live">Live</TabsTrigger>
+					<TabsTrigger
+						value="draft"
+						className="data-[state=active]:!bg-amber-50/50 dark:data-[state=active]:!bg-amber-950/30 data-[state=active]:!text-foreground data-[state=active]:border-amber-300 dark:data-[state=active]:border-amber-700 data-[state=active]:border-dashed data-[state=active]:border-2"
 					>
-						<ArrowUpDown className="size-4" />
-					</Button>
-				</div>
-				<SectionInput
-					label="Draft (not shown in preview)"
-					value={resumeData.skillsDraft || ""}
-					onChange={(value) => updateResumeData({ skillsDraft: value })}
-					placeholder="Draft skills..."
-				/>
-			</div>
+						Draft
+					</TabsTrigger>
+				</TabsList>
+				<TabsContent value="live" className="mt-2 space-y-4">
+					<SectionInput
+						label="Skills"
+						value={resumeData.skills}
+						onChange={(value) => updateResumeData({ skills: value })}
+						placeholder="- Skill 1\n- Skill 2\n- Skill 3"
+					/>
+				</TabsContent>
+				<TabsContent value="draft" className="mt-2 space-y-4">
+					<div className="flex flex-col gap-3">
+						<div className="flex items-center justify-between">
+							<p className="text-xs text-muted-foreground">
+								This draft is not shown in the preview.
+							</p>
+							<Button
+								type="button"
+								variant="outline"
+								size="sm"
+								onClick={handleSwapDraft}
+								className="h-8 gap-1.5"
+							>
+								<ArrowUpDown className="size-3.5" />
+								Swap with Live
+							</Button>
+						</div>
+						<SectionInput
+							value={resumeData.skillsDraft || ""}
+							onChange={(value) => updateResumeData({ skillsDraft: value })}
+							placeholder="Draft skills..."
+						/>
+					</div>
+				</TabsContent>
+			</Tabs>
 		</div>
 	);
 };

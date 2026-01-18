@@ -36,7 +36,7 @@ export const SortableVolunteeringEntry = ({
 	};
 
 	return (
-		<div ref={setNodeRef} style={style}>
+		<div ref={setNodeRef} style={style} id={`volunteering-${index}`}>
 			<VolunteeringEntryEditor
 				entry={entry}
 				index={index}

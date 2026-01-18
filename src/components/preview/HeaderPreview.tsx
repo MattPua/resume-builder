@@ -3,11 +3,13 @@ import type { ResumeData } from "../../types/resume";
 interface HeaderPreviewProps {
 	data: ResumeData;
 	layoutMode?: "compact" | "default" | "comfortable";
+	onFocusSection?: () => void;
 }
 
 export const HeaderPreview = ({
 	data,
 	layoutMode = "default",
+	onFocusSection,
 }: HeaderPreviewProps) => {
 	const spacingMap = {
 		compact: "mb-0 pb-0",
@@ -22,7 +24,10 @@ export const HeaderPreview = ({
 	}[layoutMode];
 
 	return (
-		<section className={`${spacingMap}`}>
+		<section
+			className={`${spacingMap} group cursor-pointer hover:bg-primary/5 transition-colors rounded-lg -m-2 p-2`}
+			onClick={onFocusSection}
+		>
 			<div className="flex flex-row items-center justify-between gap-6 pb-0">
 				<div className="shrink-0">
 					<h1

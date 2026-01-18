@@ -26,11 +26,11 @@ export const SiteHeader = () => {
 						className="size-12 object-contain dark:invert transition-transform duration-300 group-hover:scale-110"
 					/>
 					<div className="relative">
-						<h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-							Your Resume Builder
-						</h1>
+					<h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+						Your Resume Builder
+					</h1>
 						<span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out group-hover:w-full" />
-					</div>
+				</div>
 				</Link>
 
 				{/* Desktop Navigation */}

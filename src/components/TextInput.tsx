@@ -3,7 +3,7 @@ import { Field, FieldContent, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 
 interface TextInputProps {
-	label: string;
+	label?: string;
 	value: string;
 	onChange: (value: string) => void;
 	placeholder?: string;
@@ -20,7 +20,8 @@ export const TextInput = ({
 	id,
 }: TextInputProps) => {
 	const inputId =
-		id || `text-input-${label.toLowerCase().replace(/\s+/g, "-")}`;
+		id ||
+		`text-input-${(label || "field").toLowerCase().replace(/\s+/g, "-")}-${Math.random().toString(36).substring(2, 9)}`;
 	const inputRef = useRef<HTMLInputElement>(null);
 	const isUndoRedoRef = useRef(false);
 
@@ -69,12 +70,14 @@ export const TextInput = ({
 
 	return (
 		<Field orientation="vertical">
-			<FieldLabel
-				htmlFor={inputId}
-				className="text-sm font-semibold text-gray-700 dark:text-gray-300"
-			>
-				{label}
-			</FieldLabel>
+			{label && (
+				<FieldLabel
+					htmlFor={inputId}
+					className="text-sm font-semibold text-gray-700 dark:text-gray-300"
+				>
+					{label}
+				</FieldLabel>
+			)}
 			<FieldContent>
 				<Input
 					ref={inputRef}

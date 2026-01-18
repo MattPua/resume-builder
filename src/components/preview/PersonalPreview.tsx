@@ -9,6 +9,7 @@ interface PersonalPreviewProps {
 	backgroundColor?: string;
 	textColor?: string;
 	layoutMode?: "compact" | "default" | "comfortable";
+	onFocusSection?: () => void;
 }
 
 export const PersonalPreview = ({
@@ -17,6 +18,7 @@ export const PersonalPreview = ({
 	backgroundColor,
 	textColor,
 	layoutMode = "default",
+	onFocusSection,
 }: PersonalPreviewProps) => {
 	if (!personal) return null;
 	if (!personal.bulletPoints || personal.bulletPoints.trim() === "")
@@ -29,7 +31,10 @@ export const PersonalPreview = ({
 			textColor={textColor}
 			layoutMode={layoutMode}
 		>
-			<div className="prose prose-sm max-w-none">
+			<div
+				className="prose prose-sm max-w-none group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
+				onClick={onFocusSection}
+			>
 				<ReactMarkdown remarkPlugins={[remarkGfm]}>
 					{personal.bulletPoints}
 				</ReactMarkdown>

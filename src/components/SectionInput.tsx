@@ -3,7 +3,7 @@ import { Field, FieldContent, FieldLabel } from "./ui/field";
 import { Textarea } from "./ui/textarea";
 
 interface SectionInputProps {
-	label: string;
+	label?: string;
 	value: string;
 	onChange: (value: string) => void;
 	placeholder?: string;
@@ -13,7 +13,8 @@ interface SectionInputProps {
 export const SectionInput = forwardRef<HTMLTextAreaElement, SectionInputProps>(
 	({ label, value, onChange, placeholder = "Enter markdown...", id }, ref) => {
 		const textareaId =
-			id || `section-input-${label.toLowerCase().replace(/\s+/g, "-")}`;
+			id ||
+			`section-input-${(label || "field").toLowerCase().replace(/\s+/g, "-")}-${Math.random().toString(36).substring(2, 9)}`;
 		const textareaRef = useRef<HTMLTextAreaElement>(null);
 		const isUndoRedoRef = useRef(false);
 

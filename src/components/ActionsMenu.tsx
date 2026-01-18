@@ -1,5 +1,6 @@
 import {
-	ChevronsUpDown,
+	ChevronsDown,
+	ChevronsUp,
 	Download,
 	FileCode,
 	FileDown,
@@ -92,7 +93,11 @@ export const ActionsMenu = ({
 									: "Collapse all sections"
 							}
 						>
-							<ChevronsUpDown className="size-4" />
+							{allSectionsCollapsed ? (
+								<ChevronsDown className="size-4" />
+							) : (
+								<ChevronsUp className="size-4" />
+							)}
 							{allSectionsCollapsed ? "Expand All" : "Collapse All"}
 						</Button>
 					</TooltipTrigger>
@@ -149,9 +154,9 @@ export const ActionsMenu = ({
 								Import from Markdown text
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
-
+						
 						<DropdownMenuSeparator />
-
+						
 						<DropdownMenuGroup>
 							<DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">
 								Export
@@ -178,9 +183,9 @@ export const ActionsMenu = ({
 								Export to Text
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
-
+						
 						<DropdownMenuSeparator />
-
+						
 						<DropdownMenuItem
 							onClick={onClearAll}
 							className="cursor-pointer text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400"
@@ -189,7 +194,7 @@ export const ActionsMenu = ({
 							Reset resume
 						</DropdownMenuItem>
 					</DropdownMenuContent>
-				</DropdownMenu>
+			</DropdownMenu>
 			</div>
 		</div>
 	);

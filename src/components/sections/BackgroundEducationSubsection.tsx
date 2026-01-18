@@ -1,4 +1,4 @@
-import { ChevronsUpDown, Eye, EyeOff, GraduationCap, Plus } from "lucide-react";
+import { ChevronsDown, ChevronsUp, Eye, EyeOff, GraduationCap, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { EducationEntry, ResumeData } from "../../types/resume";
 import { EducationEntryEditor } from "../EducationEntryEditor";
@@ -104,9 +104,12 @@ export const BackgroundEducationSubsection = ({
 							}}
 							size="sm"
 							variant="outline"
-							className="text-xs"
 						>
-							<ChevronsUpDown className="size-3 mr-1" />
+							{allExpanded ? (
+								<ChevronsUp className="size-4 mr-1" />
+							) : (
+								<ChevronsDown className="size-4 mr-1" />
+							)}
 							{allExpanded ? "Collapse All" : "Expand All"}
 						</Button>
 					</div>
@@ -134,45 +137,46 @@ export const BackgroundEducationSubsection = ({
 				) : (
 					<div className="flex flex-col gap-3">
 						{resumeData.education.map((entry, index) => (
-							<EducationEntryEditor
-								key={index}
-								entry={entry}
-								index={index}
-								onChange={(idx, updatedEntry) => {
-									const updated = [...resumeData.education];
-									updated[idx] = updatedEntry;
-									updateResumeData({ education: updated });
-								}}
-								onDelete={(idx) => {
-									const entry = resumeData.education[idx];
-									const entryTitle =
-										entry.institution ||
-										entry.degree ||
-										`Education #${idx + 1}`;
-									if (
-										window.confirm(
-											`Are you sure you want to delete "${entryTitle}"?`,
-										)
-									) {
-										const updated = resumeData.education.filter(
-											(_, i) => i !== idx,
-										);
+							<div key={index} id={`education-${index}`}>
+								<EducationEntryEditor
+									entry={entry}
+									index={index}
+									onChange={(idx, updatedEntry) => {
+										const updated = [...resumeData.education];
+										updated[idx] = updatedEntry;
 										updateResumeData({ education: updated });
-										const newStates = { ...entryOpenStates };
-										delete newStates[idx];
-										Object.keys(newStates).forEach((key) => {
-											const numKey = Number(key);
-											if (numKey > idx) {
-												newStates[numKey - 1] = newStates[numKey];
-												delete newStates[numKey];
-											}
-										});
-										setEntryOpenStates(newStates);
-									}
-								}}
-								isOpen={entryOpenStates[index] !== false}
-								onOpenChange={(open) => handleEntryOpenChange(index, open)}
-							/>
+									}}
+									onDelete={(idx) => {
+										const entry = resumeData.education[idx];
+										const entryTitle =
+											entry.institution ||
+											entry.degree ||
+											`Education #${idx + 1}`;
+										if (
+											window.confirm(
+												`Are you sure you want to delete "${entryTitle}"?`,
+											)
+										) {
+											const updated = resumeData.education.filter(
+												(_, i) => i !== idx,
+											);
+											updateResumeData({ education: updated });
+											const newStates = { ...entryOpenStates };
+											delete newStates[idx];
+											Object.keys(newStates).forEach((key) => {
+												const numKey = Number(key);
+												if (numKey > idx) {
+													newStates[numKey - 1] = newStates[numKey];
+													delete newStates[numKey];
+												}
+											});
+											setEntryOpenStates(newStates);
+										}
+									}}
+									isOpen={entryOpenStates[index] !== false}
+									onOpenChange={(open) => handleEntryOpenChange(index, open)}
+								/>
+							</div>
 						))}
 					</div>
 				)}

@@ -13,7 +13,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { ChevronsUpDown, Folder, Plus } from "lucide-react";
+import { ChevronsDown, ChevronsUp, Folder, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ResumeData, SideProjectEntry } from "../../types/resume";
 import { EmptySectionState } from "../EmptySectionState";
@@ -154,9 +154,12 @@ export const SideProjectsSection = ({
 								}}
 								size="sm"
 								variant="outline"
-								className="text-xs"
 							>
-								<ChevronsUpDown className="size-3 mr-1" />
+								{allExpanded ? (
+									<ChevronsUp className="size-4 mr-1" />
+								) : (
+									<ChevronsDown className="size-4 mr-1" />
+								)}
 								{allExpanded ? "Collapse All" : "Expand All"}
 							</Button>
 						</div>

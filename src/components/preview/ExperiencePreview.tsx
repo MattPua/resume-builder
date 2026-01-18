@@ -4,11 +4,12 @@ import type { ExperienceEntry } from "../../types/resume";
 import { SectionPreview } from "./SectionPreview";
 
 interface ExperiencePreviewProps {
-	entries: ExperienceEntry[];
+	entries: (ExperienceEntry & { originalIndex: number })[];
 	title?: string;
 	backgroundColor?: string;
 	textColor?: string;
 	layoutMode?: "compact" | "default" | "comfortable";
+	onFocusSection?: (index: number) => void;
 }
 
 export const ExperiencePreview = ({
@@ -17,6 +18,7 @@ export const ExperiencePreview = ({
 	backgroundColor,
 	textColor,
 	layoutMode = "default",
+	onFocusSection,
 }: ExperiencePreviewProps) => {
 	if (entries.length === 0) return null;
 
@@ -34,8 +36,12 @@ export const ExperiencePreview = ({
 			layoutMode={layoutMode}
 		>
 			<div className={`flex flex-col ${spacingMap}`}>
-				{entries.map((entry, index) => (
-					<div key={`${entry.company}-${entry.title}-${index}`}>
+				{entries.map((entry) => (
+					<div
+						key={`${entry.company}-${entry.title}-${entry.originalIndex}`}
+						className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
+						onClick={() => onFocusSection?.(entry.originalIndex)}
+					>
 						<div className="mb-0">
 							<div className="flex items-baseline justify-between gap-4">
 								<h3

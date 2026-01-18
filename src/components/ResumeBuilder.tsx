@@ -136,13 +136,16 @@ export const ResumeBuilder = () => {
 
 	const sectionOrder = resumeData.sectionOrder || DEFAULT_SECTION_ORDER;
 
-	const allSectionsCollapsed =
-		!isHeaderOpen &&
-		!isExperienceOpen &&
-		!isBackgroundOpen &&
-		!isSideProjectsOpen &&
-		!isVolunteeringOpen &&
-		!isPersonalOpen;
+	const isAnySectionOpen = [
+		isHeaderOpen,
+		resumeData.sectionsVisible?.experience !== false && isExperienceOpen,
+		(resumeData.sectionsVisible?.education !== false ||
+			resumeData.sectionsVisible?.skills !== false) &&
+			isBackgroundOpen,
+		resumeData.sectionsVisible?.sideProjects !== false && isSideProjectsOpen,
+		resumeData.sectionsVisible?.volunteering !== false && isVolunteeringOpen,
+		resumeData.sectionsVisible?.personal !== false && isPersonalOpen,
+	].some(Boolean);
 
 	const handleCollapseAll = () => {
 		setIsHeaderOpen(false);
@@ -153,45 +156,97 @@ export const ResumeBuilder = () => {
 		setIsPersonalOpen(false);
 	};
 
-	const handleToggleAllSections = (forceExpand?: boolean) => {
-		const shouldCollapse = forceExpand !== undefined ? !forceExpand : !allSectionsCollapsed;
-		setIsHeaderOpen(!shouldCollapse);
-		setIsExperienceOpen(!shouldCollapse);
-		setIsBackgroundOpen(!shouldCollapse);
-		setIsSideProjectsOpen(!shouldCollapse);
-		setIsVolunteeringOpen(!shouldCollapse);
-		setIsPersonalOpen(!shouldCollapse);
+	const handleToggleAllSections = (forceExpand?: boolean | React.MouseEvent) => {
+		const isForce = typeof forceExpand === "boolean";
+		const targetState = isForce ? forceExpand : !isAnySectionOpen;
+
+		setIsHeaderOpen(targetState);
+		setIsExperienceOpen(targetState);
+		setIsBackgroundOpen(targetState);
+		setIsSideProjectsOpen(targetState);
+		setIsVolunteeringOpen(targetState);
+		setIsPersonalOpen(targetState);
 	};
 
 	const scrollToTop = () => {
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
-	const scrollToSection = (sectionId: string) => {
+	const scrollToSection = (sectionId: string, index?: number | "skills") => {
 		// Ensure the section is expanded before scrolling/focusing
 		if (sectionId === "header") setIsHeaderOpen(true);
 		else if (sectionId === "experience") setIsExperienceOpen(true);
-		else if (sectionId === "background") setIsBackgroundOpen(true);
+		else if (sectionId === "background" || sectionId === "skills")
+			setIsBackgroundOpen(true);
 		else if (sectionId === "sideProjects") setIsSideProjectsOpen(true);
 		else if (sectionId === "volunteering") setIsVolunteeringOpen(true);
 		else if (sectionId === "personal") setIsPersonalOpen(true);
 
-		const element = document.getElementById(`section-${sectionId}`);
-		if (element) {
-			const yOffset = -100;
+		// Handle skills sub-section
+		if (sectionId === "skills") {
+			const skillsElement = document.getElementById("section-skills");
+			if (skillsElement) {
+				const yOffset = -20;
+				setTimeout(() => {
+					const y =
+						skillsElement.getBoundingClientRect().top +
+						window.pageYOffset +
+						yOffset;
+					window.scrollTo({ top: y, behavior: "smooth" });
+
+					const firstInput = skillsElement.querySelector("input, textarea") as
+						| HTMLInputElement
+						| HTMLTextAreaElement;
+					if (firstInput) firstInput.focus();
+				}, 150);
+			}
+			return;
+		}
+
+		const sectionElement = document.getElementById(`section-${sectionId}`);
+		if (sectionElement) {
+			const yOffset = -20; // Reduced offset to bring element closer to the top
+
+			// Auto-focus logic
+			setTimeout(() => {
+				let targetElement: HTMLElement | null = sectionElement;
+
+				if (typeof index === "number") {
+					const entryPrefix =
+						sectionId === "experience"
+							? "experience"
+							: sectionId === "background"
+								? "education"
+								: sectionId === "sideProjects"
+									? "sideproject"
+									: sectionId === "volunteering"
+										? "volunteering"
+										: "";
+
+					if (entryPrefix) {
+						const entryElement = document.getElementById(
+							`${entryPrefix}-${index}`,
+						);
+						if (entryElement) {
+							targetElement = entryElement;
+						}
+					}
+				}
+
+				// Scroll to the target element (either section or specific entry)
 			const y =
-				element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+					targetElement.getBoundingClientRect().top +
+					window.pageYOffset +
+					yOffset;
 			window.scrollTo({ top: y, behavior: "smooth" });
 
-			// Auto-focus the first input or textarea in the section
-			setTimeout(() => {
-				const firstInput = element.querySelector("input, textarea") as
+				const firstInput = targetElement?.querySelector("input, textarea") as
 					| HTMLInputElement
 					| HTMLTextAreaElement;
 				if (firstInput) {
 					firstInput.focus();
 				}
-			}, 100);
+			}, 150);
 		}
 	};
 
@@ -396,7 +451,7 @@ export const ResumeBuilder = () => {
 							resumeData={resumeData}
 							updateResumeData={updateResumeData}
 							fileInputRef={fileInputRef}
-							allSectionsCollapsed={allSectionsCollapsed}
+							allSectionsCollapsed={!isAnySectionOpen}
 							handleImportJSON={handleImportJSON}
 							handleImportMarkdown={handleImportMarkdown}
 							handleImportMarkdownText={() => setIsImportMarkdownOpen(true)}
@@ -415,55 +470,56 @@ export const ResumeBuilder = () => {
 								className="space-y-6 no-print order-2 lg:order-1"
 								aria-label="Resume Editor"
 							>
-								<HeaderSection
-									resumeData={resumeData}
-									updateResumeData={updateResumeData}
-									isOpen={isHeaderOpen}
-									onOpenChange={setIsHeaderOpen}
-								/>
+							<HeaderSection
+								resumeData={resumeData}
+								updateResumeData={updateResumeData}
+								isOpen={isHeaderOpen}
+								onOpenChange={setIsHeaderOpen}
+							/>
 
-								<DndContext
-									sensors={sensors}
-									collisionDetection={closestCenter}
+							<DndContext
+								sensors={sensors}
+								collisionDetection={closestCenter}
 									onDragStart={handleCollapseAll}
-									onDragEnd={handleDragEnd}
+								onDragEnd={handleDragEnd}
+							>
+								<SortableContext
+									items={sectionOrder}
+									strategy={verticalListSortingStrategy}
 								>
-									<SortableContext
-										items={sectionOrder}
-										strategy={verticalListSortingStrategy}
-									>
-										<SectionList
-											resumeData={resumeData}
-											updateResumeData={updateResumeData}
-											sectionOrder={sectionOrder}
-											isExperienceOpen={isExperienceOpen}
-											setIsExperienceOpen={setIsExperienceOpen}
-											isBackgroundOpen={isBackgroundOpen}
-											setIsBackgroundOpen={setIsBackgroundOpen}
-											isSideProjectsOpen={isSideProjectsOpen}
-											setIsSideProjectsOpen={setIsSideProjectsOpen}
+									<SectionList
+										resumeData={resumeData}
+										updateResumeData={updateResumeData}
+										sectionOrder={sectionOrder}
+										isExperienceOpen={isExperienceOpen}
+										setIsExperienceOpen={setIsExperienceOpen}
+										isBackgroundOpen={isBackgroundOpen}
+										setIsBackgroundOpen={setIsBackgroundOpen}
+										isSideProjectsOpen={isSideProjectsOpen}
+										setIsSideProjectsOpen={setIsSideProjectsOpen}
 											isVolunteeringOpen={isVolunteeringOpen}
 											setIsVolunteeringOpen={setIsVolunteeringOpen}
-											isPersonalOpen={isPersonalOpen}
-											setIsPersonalOpen={setIsPersonalOpen}
-										/>
-									</SortableContext>
-								</DndContext>
-							</section>
+										isPersonalOpen={isPersonalOpen}
+										setIsPersonalOpen={setIsPersonalOpen}
+									/>
+								</SortableContext>
+							</DndContext>
+						</section>
 
 							<section
 								className="order-1 lg:order-2"
 								aria-label="Resume Preview"
 							>
-								<PreviewPane
-									resumeData={resumeData}
-									updateResumeData={updateResumeData}
-									previewRef={previewRef}
-									fonts={FONTS}
-								/>
-							</section>
-						</div>
-					</main>
+							<PreviewPane
+								resumeData={resumeData}
+								updateResumeData={updateResumeData}
+								previewRef={previewRef}
+								fonts={FONTS}
+									onFocusSection={scrollToSection}
+							/>
+						</section>
+					</div>
+				</main>
 				</div>
 
 				<SiteFooter />
