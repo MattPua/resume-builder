@@ -1,22 +1,32 @@
-import { RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { Button } from "../../ui/button";
+import { Slider } from "../../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 
 interface ZoomControlsProps {
 	zoomLevel: number;
-	onZoomIn: () => void;
-	onZoomOut: () => void;
+	onZoomChange: (value: number) => void;
 	onResetZoom: () => void;
 }
 
 export const ZoomControls = ({
 	zoomLevel,
-	onZoomIn,
-	onZoomOut,
+	onZoomChange,
 	onResetZoom,
 }: ZoomControlsProps) => {
 	return (
-		<div className="flex items-center -space-x-px">
+		<div className="flex items-center gap-3">
+			<Slider
+				value={[zoomLevel]}
+				onValueChange={(value) => onZoomChange(value[0])}
+				min={0.5}
+				max={2}
+				step={0.1}
+				className="w-32"
+			/>
+			<div className="flex items-center gap-1 text-xs text-muted-foreground min-w-[3rem] justify-end">
+				{Math.round(zoomLevel * 100)}%
+			</div>
 			<Tooltip>
 				<TooltipTrigger asChild>
 					<Button
@@ -24,45 +34,13 @@ export const ZoomControls = ({
 						size="icon"
 						onClick={onResetZoom}
 						disabled={zoomLevel === 1}
-						className="size-8 rounded-r-none z-10"
+						className="size-8"
 					>
 						<RotateCcw className="size-4" />
 					</Button>
 				</TooltipTrigger>
 				<TooltipContent>
 					<p>Reset zoom</p>
-				</TooltipContent>
-			</Tooltip>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						variant="outline"
-						size="icon"
-						onClick={onZoomOut}
-						disabled={zoomLevel <= 0.5}
-						className="size-8 rounded-none z-10"
-					>
-						<ZoomOut className="size-4" />
-					</Button>
-				</TooltipTrigger>
-				<TooltipContent>
-					<p>Zoom out</p>
-				</TooltipContent>
-			</Tooltip>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						variant="outline"
-						size="icon"
-						onClick={onZoomIn}
-						disabled={zoomLevel >= 2}
-						className="size-8 rounded-l-none z-10"
-					>
-						<ZoomIn className="size-4" />
-					</Button>
-				</TooltipTrigger>
-				<TooltipContent>
-					<p>Zoom in</p>
 				</TooltipContent>
 			</Tooltip>
 		</div>

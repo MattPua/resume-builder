@@ -83,8 +83,7 @@ export const PreviewPane = ({
 					</div>
 					<ZoomControls
 						zoomLevel={zoomLevel}
-						onZoomIn={() => setZoomLevel((prev) => Math.min(prev + 0.1, 2))}
-						onZoomOut={() => setZoomLevel((prev) => Math.max(prev - 0.1, 0.5))}
+						onZoomChange={setZoomLevel}
 						onResetZoom={() => setZoomLevel(1)}
 					/>
 				</div>
