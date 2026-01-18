@@ -19,10 +19,10 @@ export const ResumePreview = ({
 	onFocusSection,
 }: ResumePreviewProps) => {
 	const showHeader = true;
-	const showExperience = data.sectionsVisible?.experience !== false;
-	const showEducation = data.sectionsVisible?.education !== false;
-	const showSideProjects = data.sectionsVisible?.sideProjects !== false;
-	const showVolunteering = data.sectionsVisible?.volunteering !== false;
+	const _showExperience = data.sectionsVisible?.experience !== false;
+	const _showEducation = data.sectionsVisible?.education !== false;
+	const _showSideProjects = data.sectionsVisible?.sideProjects !== false;
+	const _showVolunteering = data.sectionsVisible?.volunteering !== false;
 	const showPersonal = data.sectionsVisible?.personal !== false;
 	const showSkills = data.sectionsVisible?.skills !== false;
 

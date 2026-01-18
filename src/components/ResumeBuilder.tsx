@@ -17,6 +17,12 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useResumeActions } from "../hooks/useResumeActions";
+import type {
+	EducationEntry,
+	ExperienceEntry,
+	SideProjectEntry,
+	VolunteeringEntry,
+} from "../types/resume";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { ErrorPage } from "./ErrorPage";
 import { ImportMarkdownDialog } from "./ImportMarkdownDialog";
@@ -30,12 +36,6 @@ import { QuickNav } from "./QuickNav";
 import { SectionList } from "./SectionList";
 import { HeaderSection } from "./sections/HeaderSection";
 import logo from "./ui/logo.webp";
-import type {
-	EducationEntry,
-	ExperienceEntry,
-	SideProjectEntry,
-	VolunteeringEntry,
-} from "../types/resume";
 
 const DEFAULT_SECTION_ORDER: (
 	| "experience"
@@ -156,7 +156,9 @@ export const ResumeBuilder = () => {
 		setIsPersonalOpen(false);
 	};
 
-	const handleToggleAllSections = (forceExpand?: boolean | React.MouseEvent) => {
+	const handleToggleAllSections = (
+		forceExpand?: boolean | React.MouseEvent,
+	) => {
 		const isForce = typeof forceExpand === "boolean";
 		const targetState = isForce ? forceExpand : !isAnySectionOpen;
 
@@ -234,11 +236,11 @@ export const ResumeBuilder = () => {
 				}
 
 				// Scroll to the target element (either section or specific entry)
-			const y =
+				const y =
 					targetElement.getBoundingClientRect().top +
 					window.pageYOffset +
 					yOffset;
-			window.scrollTo({ top: y, behavior: "smooth" });
+				window.scrollTo({ top: y, behavior: "smooth" });
 
 				const firstInput = targetElement?.querySelector("input, textarea") as
 					| HTMLInputElement
@@ -470,56 +472,56 @@ export const ResumeBuilder = () => {
 								className="space-y-6 no-print order-2 lg:order-1"
 								aria-label="Resume Editor"
 							>
-							<HeaderSection
-								resumeData={resumeData}
-								updateResumeData={updateResumeData}
-								isOpen={isHeaderOpen}
-								onOpenChange={setIsHeaderOpen}
-							/>
+								<HeaderSection
+									resumeData={resumeData}
+									updateResumeData={updateResumeData}
+									isOpen={isHeaderOpen}
+									onOpenChange={setIsHeaderOpen}
+								/>
 
-							<DndContext
-								sensors={sensors}
-								collisionDetection={closestCenter}
+								<DndContext
+									sensors={sensors}
+									collisionDetection={closestCenter}
 									onDragStart={handleCollapseAll}
-								onDragEnd={handleDragEnd}
-							>
-								<SortableContext
-									items={sectionOrder}
-									strategy={verticalListSortingStrategy}
+									onDragEnd={handleDragEnd}
 								>
-									<SectionList
-										resumeData={resumeData}
-										updateResumeData={updateResumeData}
-										sectionOrder={sectionOrder}
-										isExperienceOpen={isExperienceOpen}
-										setIsExperienceOpen={setIsExperienceOpen}
-										isBackgroundOpen={isBackgroundOpen}
-										setIsBackgroundOpen={setIsBackgroundOpen}
-										isSideProjectsOpen={isSideProjectsOpen}
-										setIsSideProjectsOpen={setIsSideProjectsOpen}
+									<SortableContext
+										items={sectionOrder}
+										strategy={verticalListSortingStrategy}
+									>
+										<SectionList
+											resumeData={resumeData}
+											updateResumeData={updateResumeData}
+											sectionOrder={sectionOrder}
+											isExperienceOpen={isExperienceOpen}
+											setIsExperienceOpen={setIsExperienceOpen}
+											isBackgroundOpen={isBackgroundOpen}
+											setIsBackgroundOpen={setIsBackgroundOpen}
+											isSideProjectsOpen={isSideProjectsOpen}
+											setIsSideProjectsOpen={setIsSideProjectsOpen}
 											isVolunteeringOpen={isVolunteeringOpen}
 											setIsVolunteeringOpen={setIsVolunteeringOpen}
-										isPersonalOpen={isPersonalOpen}
-										setIsPersonalOpen={setIsPersonalOpen}
-									/>
-								</SortableContext>
-							</DndContext>
-						</section>
+											isPersonalOpen={isPersonalOpen}
+											setIsPersonalOpen={setIsPersonalOpen}
+										/>
+									</SortableContext>
+								</DndContext>
+							</section>
 
 							<section
 								className="order-1 lg:order-2"
 								aria-label="Resume Preview"
 							>
-							<PreviewPane
-								resumeData={resumeData}
-								updateResumeData={updateResumeData}
-								previewRef={previewRef}
-								fonts={FONTS}
+								<PreviewPane
+									resumeData={resumeData}
+									updateResumeData={updateResumeData}
+									previewRef={previewRef}
+									fonts={FONTS}
 									onFocusSection={scrollToSection}
-							/>
-						</section>
-					</div>
-				</main>
+								/>
+							</section>
+						</div>
+					</main>
 				</div>
 
 				<SiteFooter />

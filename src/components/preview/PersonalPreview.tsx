@@ -32,8 +32,16 @@ export const PersonalPreview = ({
 			layoutMode={layoutMode}
 		>
 			<div
+				role="button"
+				tabIndex={0}
 				className="prose prose-sm max-w-none group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
 				onClick={onFocusSection}
+				onKeyDown={(e) => {
+					if (e.key === "Enter" || e.key === " ") {
+						e.preventDefault();
+						onFocusSection?.();
+					}
+				}}
 			>
 				<ReactMarkdown remarkPlugins={[remarkGfm]}>
 					{personal.bulletPoints}

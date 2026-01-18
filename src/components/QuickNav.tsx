@@ -460,8 +460,7 @@ export const QuickNav = ({
 					)}
 
 					{view === "fonts" && (
-						<>
-							<CommandGroup heading="Select Font">
+						<CommandGroup heading="Select Font">
 								<CommandItem
 									onSelect={() => setView("main")}
 									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
@@ -487,12 +486,10 @@ export const QuickNav = ({
 									</CommandItem>
 								))}
 							</CommandGroup>
-						</>
 					)}
 
 					{view === "colors" && (
-						<>
-							<CommandGroup heading="Select Header Color">
+						<CommandGroup heading="Select Header Color">
 								<CommandItem
 									onSelect={() => setView("main")}
 									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
@@ -526,12 +523,10 @@ export const QuickNav = ({
 									</CommandItem>
 								))}
 							</CommandGroup>
-						</>
 					)}
 
 					{view === "layout" && (
-						<>
-							<CommandGroup heading="Select Layout Mode">
+						<CommandGroup heading="Select Layout Mode">
 								<CommandItem
 									onSelect={() => setView("main")}
 									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
@@ -574,12 +569,10 @@ export const QuickNav = ({
 									<span>Comfortable</span>
 								</CommandItem>
 							</CommandGroup>
-						</>
 					)}
 
 					{view === "theme" && (
-						<>
-							<CommandGroup heading="Select Theme">
+						<CommandGroup heading="Select Theme">
 								<CommandItem
 									onSelect={() => setView("main")}
 									className="flex items-center gap-2 cursor-pointer text-muted-foreground"
@@ -622,7 +615,6 @@ export const QuickNav = ({
 									<span>System</span>
 								</CommandItem>
 							</CommandGroup>
-						</>
 					)}
 
 					{view === "exp" && (
@@ -637,7 +629,7 @@ export const QuickNav = ({
 							<CommandSeparator className="my-1" />
 							{resumeData?.experience.map((entry, index) => (
 								<CommandItem
-									key={index}
+									key={`exp-${entry.company}-${entry.title}-${index}`}
 									onSelect={() => handleJumpToEntry("experience", index)}
 									className="flex items-center gap-2 cursor-pointer"
 								>
@@ -662,7 +654,7 @@ export const QuickNav = ({
 							<CommandSeparator className="my-1" />
 							{resumeData?.education.map((entry, index) => (
 								<CommandItem
-									key={index}
+									key={`edu-${entry.institution}-${entry.degree}-${index}`}
 									onSelect={() => handleJumpToEntry("background", index)}
 									className="flex items-center gap-2 cursor-pointer"
 								>
@@ -689,7 +681,7 @@ export const QuickNav = ({
 							<CommandSeparator className="my-1" />
 							{resumeData?.sideProjects.map((entry, index) => (
 								<CommandItem
-									key={index}
+									key={`proj-${entry.title}-${index}`}
 									onSelect={() => handleJumpToEntry("sideProjects", index)}
 									className="flex items-center gap-2 cursor-pointer"
 								>
@@ -712,7 +704,7 @@ export const QuickNav = ({
 							<CommandSeparator className="my-1" />
 							{resumeData?.volunteering.map((entry, index) => (
 								<CommandItem
-									key={index}
+									key={`vol-${entry.organization}-${entry.role}-${index}`}
 									onSelect={() => handleJumpToEntry("volunteering", index)}
 									className="flex items-center gap-2 cursor-pointer"
 								>

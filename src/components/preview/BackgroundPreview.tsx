@@ -48,8 +48,16 @@ export const BackgroundPreview = ({
 						{education.map((entry) => (
 							<div
 								key={`${entry.institution}-${entry.degree}-${entry.originalIndex}`}
+								role="button"
+								tabIndex={0}
 								className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
 								onClick={() => onFocusSection?.(entry.originalIndex)}
+								onKeyDown={(e) => {
+									if (e.key === "Enter" || e.key === " ") {
+										e.preventDefault();
+										onFocusSection?.(entry.originalIndex);
+									}
+								}}
 							>
 								<div className="flex items-baseline justify-between gap-4">
 									<h3
@@ -102,8 +110,16 @@ export const BackgroundPreview = ({
 				)}
 				{hasSkills && (
 					<div
+						role="button"
+						tabIndex={0}
 						className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
 						onClick={() => onFocusSection?.("skills")}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								e.preventDefault();
+								onFocusSection?.("skills");
+							}
+						}}
 					>
 						<div className="flex items-start gap-2">
 							<span

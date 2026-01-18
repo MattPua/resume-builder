@@ -137,7 +137,7 @@ export const BackgroundEducationSubsection = ({
 				) : (
 					<div className="flex flex-col gap-3">
 						{resumeData.education.map((entry, index) => (
-							<div key={index} id={`education-${index}`}>
+							<div key={`edu-${entry.institution}-${entry.degree}-${index}`} id={`education-${index}`}>
 								<EducationEntryEditor
 									entry={entry}
 									index={index}

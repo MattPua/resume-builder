@@ -6,7 +6,6 @@ import { SectionInput } from "../SectionInput";
 import { Button } from "../ui/button";
 import { CollapsibleContent } from "../ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { SectionHeader } from "./SectionHeader";
 
 interface PersonalSectionProps {

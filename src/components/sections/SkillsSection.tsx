@@ -1,4 +1,5 @@
 import { useId } from "react";
+import type React from "react";
 import type { ResumeData } from "../../types/resume";
 import { SectionInput } from "../SectionInput";
 import { CollapsibleContent } from "../ui/collapsible";
@@ -9,15 +10,15 @@ interface SkillsSectionProps {
 	updateResumeData: (data: Partial<ResumeData>) => void;
 	isOpen: boolean;
 	onOpenChange: (open: boolean) => void;
-	attributes: any;
-	listeners: any;
+	attributes: React.HTMLAttributes<HTMLButtonElement>;
+	listeners: React.HTMLAttributes<HTMLButtonElement>;
 }
 
 export const SkillsSection = ({
 	resumeData,
 	updateResumeData,
 	isOpen,
-	onOpenChange,
+	onOpenChange: _onOpenChange,
 	attributes,
 	listeners,
 }: SkillsSectionProps) => {

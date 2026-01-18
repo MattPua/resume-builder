@@ -24,9 +24,17 @@ export const HeaderPreview = ({
 	}[layoutMode];
 
 	return (
-		<section
+		<div
+			role="button"
+			tabIndex={0}
 			className={`${spacingMap} group cursor-pointer hover:bg-primary/5 transition-colors rounded-lg -m-2 p-2`}
 			onClick={onFocusSection}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					onFocusSection?.();
+				}
+			}}
 		>
 			<div className="flex flex-row items-center justify-between gap-6 pb-0">
 				<div className="shrink-0">
@@ -94,6 +102,6 @@ export const HeaderPreview = ({
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
 	);
 };

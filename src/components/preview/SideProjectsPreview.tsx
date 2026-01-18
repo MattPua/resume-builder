@@ -39,8 +39,16 @@ export const SideProjectsPreview = ({
 				{entries.map((entry) => (
 					<div
 						key={`${entry.title}-${entry.originalIndex}`}
+						role="button"
+						tabIndex={0}
 						className="group cursor-pointer hover:bg-primary/5 transition-colors rounded-md -m-1 p-1"
 						onClick={() => onFocusSection?.(entry.originalIndex)}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								e.preventDefault();
+								onFocusSection?.(entry.originalIndex);
+							}
+						}}
 					>
 						<div className="mb-0">
 							<div className="flex items-baseline justify-between gap-4">

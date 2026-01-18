@@ -199,7 +199,7 @@ export const ExperienceSection = ({
 								<div className="flex flex-col gap-3">
 									{resumeData.experience.map((entry, index) => (
 										<SortableExperienceEntry
-											key={index}
+											key={`exp-${entry.company}-${entry.title}-${index}`}
 											entry={entry}
 											index={index}
 											onChange={(idx, updatedEntry) => {
