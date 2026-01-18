@@ -19,25 +19,21 @@ export const ResumePreview = ({
 	onFocusSection,
 }: ResumePreviewProps) => {
 	const showHeader = true;
-	const _showExperience = data.sectionsVisible?.experience !== false;
-	const _showEducation = data.sectionsVisible?.education !== false;
-	const _showSideProjects = data.sectionsVisible?.sideProjects !== false;
-	const _showVolunteering = data.sectionsVisible?.volunteering !== false;
 	const showPersonal = data.sectionsVisible?.personal !== false;
 	const showSkills = data.sectionsVisible?.skills !== false;
 
-  const hasHeader =
+	const hasHeader =
 		showHeader &&
 		(data.name || data.email || data.phone || data.website || data.github);
-  
+
 	const visibleExperience = (data.experience || [])
 		.map((entry, index) => ({ ...entry, originalIndex: index }))
 		.filter((e) => e.visible !== false);
-  
+
 	const visibleEducation = (data.education || [])
 		.map((entry, index) => ({ ...entry, originalIndex: index }))
 		.filter((e) => e.visible !== false);
-  
+
 	const visibleSideProjects = (data.sideProjects || [])
 		.map((entry, index) => ({ ...entry, originalIndex: index }))
 		.filter((e) => e.visible !== false);
@@ -54,11 +50,11 @@ export const ResumePreview = ({
 		"personal",
 	];
 
-  const hasContent =
-    hasHeader ||
-    visibleExperience.length > 0 ||
-    visibleEducation.length > 0 ||
-    visibleSideProjects.length > 0 ||
+	const hasContent =
+		hasHeader ||
+		visibleExperience.length > 0 ||
+		visibleEducation.length > 0 ||
+		visibleSideProjects.length > 0 ||
 		visibleVolunteering.length > 0 ||
 		(showPersonal &&
 			data.personal?.bulletPoints &&
@@ -90,9 +86,9 @@ export const ResumePreview = ({
 		},
 	}[layoutMode];
 
-  const renderSection = (sectionId: string) => {
-    if (sectionId === "experience") {
-      return (
+	const renderSection = (sectionId: string) => {
+		if (sectionId === "experience") {
+			return (
 				<div
 					key="experience"
 					data-pdf-section="experience"
@@ -106,11 +102,11 @@ export const ResumePreview = ({
 						layoutMode={layoutMode}
 						onFocusSection={(index) => onFocusSection?.("experience", index)}
 					/>
-        </div>
+				</div>
 			);
-    }
-    if (sectionId === "sideProjects") {
-      return (
+		}
+		if (sectionId === "sideProjects") {
+			return (
 				<div
 					key="sideProjects"
 					data-pdf-section="sideProjects"
@@ -142,12 +138,12 @@ export const ResumePreview = ({
 						layoutMode={layoutMode}
 						onFocusSection={(index) => onFocusSection?.("volunteering", index)}
 					/>
-        </div>
+				</div>
 			);
-    }
-    if (sectionId === "personal") {
+		}
+		if (sectionId === "personal") {
 			if (!showPersonal) return null;
-      return (
+			return (
 				<div
 					key="personal"
 					data-pdf-section="personal"
@@ -161,22 +157,22 @@ export const ResumePreview = ({
 						layoutMode={layoutMode}
 						onFocusSection={() => onFocusSection?.("personal")}
 					/>
-        </div>
+				</div>
 			);
-    }
-    if (sectionId === "background") {
-      return (
+		}
+		if (sectionId === "background") {
+			return (
 				<div
 					key="background"
 					data-pdf-section="background"
 					className={spacingMap.section}
 				>
-          <BackgroundPreview
-            education={visibleEducation}
-            skills={data.skills}
-            showSkills={showSkills}
-            title={data.sectionTitles?.background}
-            backgroundColor={backgroundColor}
+					<BackgroundPreview
+						education={visibleEducation}
+						skills={data.skills}
+						showSkills={showSkills}
+						title={data.sectionTitles?.background}
+						backgroundColor={backgroundColor}
 						textColor={textColor}
 						layoutMode={layoutMode}
 						onFocusSection={(index) => {
@@ -188,66 +184,66 @@ export const ResumePreview = ({
 								onFocusSection?.("background", index);
 							}
 						}}
-          />
-        </div>
+					/>
+				</div>
 			);
-    }
+		}
 		return null;
 	};
 
-  return (
-    <div
-      ref={previewRef}
+	return (
+		<div
+			ref={previewRef}
 			className={`resume-preview resume-preview-root bg-white text-gray-900 ${layoutMode === "compact" ? "p-6" : layoutMode === "comfortable" ? "p-10" : "p-8"}`}
-      style={{
+			style={{
 				width: "794px",
 				minHeight: "1123px",
 				backgroundColor: "#ffffff",
 				color: "#111827",
 				fontFamily: data.fontFamily || "'Inter Variable', sans-serif",
-      }}
-    >
-      {hasHeader && (
+			}}
+		>
+			{hasHeader && (
 				<div data-pdf-header className={spacingMap.header}>
 					<HeaderPreview
 						data={data}
 						layoutMode={layoutMode}
 						onFocusSection={() => onFocusSection?.("header")}
 					/>
-        </div>
-      )}
+				</div>
+			)}
 
 			<div
 				data-pdf-sections-container
 				className={`bg-white flex flex-col ${spacingMap.content}`}
 			>
-        {sectionOrder.map((sectionId) => renderSection(sectionId))}
-      </div>
+				{sectionOrder.map((sectionId) => renderSection(sectionId))}
+			</div>
 
-      {!hasContent && (
+			{!hasContent && (
 				<div className="flex flex-col items-start justify-center py-48 px-4 text-left animate-in fade-in zoom-in duration-500 h-full min-h-[700px]">
 					<div className="relative mb-10">
 						<div className="absolute -inset-8 rounded-full bg-primary/5 animate-pulse scale-110" />
 						<div className="relative bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
 							<FileText className="size-24 text-primary/20" />
-            </div>
+						</div>
 						<div className="absolute -top-3 -right-3 bg-yellow-100 p-3 rounded-full shadow-md">
 							<Sparkles className="size-8 text-yellow-600 animate-bounce" />
-            </div>
-          </div>
+						</div>
+					</div>
 					<h3 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
-            Your Resume Awaits
-          </h3>
+						Your Resume Awaits
+					</h3>
 					<p className="text-gray-500 max-w-md text-xl leading-relaxed">
 						Fill out the details in the editor to see your professional resume
 						take shape in real-time.
-          </p>
+					</p>
 					<div className="mt-16 flex items-center gap-3 text-sm font-bold text-primary/60 uppercase tracking-[0.3em]">
 						<div className="size-2 rounded-full bg-primary/60 animate-pulse" />
-            Live Preview Active
-          </div>
-        </div>
-      )}
-    </div>
+						Live Preview Active
+					</div>
+				</div>
+			)}
+		</div>
 	);
 };

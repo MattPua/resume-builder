@@ -14,7 +14,7 @@ A professional, open source, privacy-first resume builder that runs 100% in your
 
 ## 🚀 Getting Started for Developers
 
-This project is built with **React**, **Next.js (TanStack Start)**, **Tailwind CSS**, and **Shadcn UI**.
+This project is built with **React**, **TanStack Start**, **Tailwind CSS**, and **Shadcn UI**.
 
 ### Prerequisites
 

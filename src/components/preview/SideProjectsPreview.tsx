@@ -71,7 +71,7 @@ export const SideProjectsPreview = ({
 								</h3>
 								{(entry.startDate || entry.endDate) && (
 									<p
-										className="text-sm text-gray-600 italic whitespace-nowrap shrink-0"
+										className="text-sm text-gray-600 whitespace-nowrap shrink-0"
 										style={{ color: "#4b5563" }}
 									>
 										{entry.startDate}{" "}
